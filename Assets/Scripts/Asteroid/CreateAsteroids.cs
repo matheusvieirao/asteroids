@@ -9,6 +9,12 @@ public class CreateAsteroids : MonoBehaviour {
     public float maxSize = 0.75f;
     public float minSpeed = -5f;
     public float maxSpeed = 5f;
+
+	public static float minX = 50f;
+	public static float maxX = 600f;
+	public static float minY = -100f;
+	public static float maxY = 100f;
+
 	public bool isNormal;
 
 	public GameObject asteroidPrefab;
@@ -18,7 +24,7 @@ public class CreateAsteroids : MonoBehaviour {
 			AsteroidCount += DDAAply.instance.densityChange;
 		for (int i = 0; i < AsteroidCount; i++){			
 
-			GameObject asteroid = (GameObject)Instantiate(asteroidPrefab, AsteroidStartPosition.StartPosition (), Quaternion.Euler(0,0,0));
+			GameObject asteroid = (GameObject)Instantiate(asteroidPrefab, StartPosition (), Quaternion.Euler(0,0,0));
             
 			float scale = Random.Range(minSize, maxSize);
 			if (scale >= 5.0f && !asteroid.GetComponent<AsteroidType> ().explosive)
@@ -48,5 +54,11 @@ public class CreateAsteroids : MonoBehaviour {
 		
 		return new Vector3(mx, my, mz);
 	}
-				
+
+	static public Vector3 StartPosition(){
+		var x = Random.Range(minX, maxX);
+		var y = Random.Range(minY, maxY);
+		var z = 0f;
+		return new Vector3(x, y, z);
+	}	
 }
