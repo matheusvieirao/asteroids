@@ -7,7 +7,7 @@ public class CreateAsteroids : MonoBehaviour {
     
 	public float minSize = 0.75f;
     public float maxSize = 0.75f;
-    public float minSpeed = -5f;
+
     public float maxSpeed = 5f;
 
 	public static float minX = 50f;
@@ -39,18 +39,11 @@ public class CreateAsteroids : MonoBehaviour {
 		
 
 	private Vector3 AsteroidDirection(){
-		float mx = Random.Range(minSpeed, maxSpeed);
-		float my = Random.Range(minSpeed, maxSpeed);
+		float angle = Random.Range(0, 360);
+		float speed = Random.Range (0, maxSpeed*2);
+		float mx = speed * Mathf.Cos (Mathf.Deg2Rad * angle );
+		float my = speed * Mathf.Sin (Mathf.Deg2Rad * angle );
 		float mz = 0f;
-
-		float mmx = Random.Range(0, 2);
-		float mmy = Random.Range(0, 2);
-
-		if (mmx == 0)
-			mx *= -1;
-		
-		if (mmy == 0)
-			my *= -1;
 		
 		return new Vector3(mx, my, mz);
 	}

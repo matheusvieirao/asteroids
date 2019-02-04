@@ -27,7 +27,7 @@ public class TextEnable : MonoBehaviour {
 	}
 
 	static public void UpdateDistanceText(string newDistance){
-		distanceText.text = "Distancia: "+newDistance;
+		distanceText.text = newDistance;
 	}
 
 	static public void EnableTimeRemaining(){
