@@ -13,7 +13,6 @@ public class GetPlayerData: MonoBehaviour{
 		foreach (string line in tempFile)
 			lines.Add (line);
 		lines.RemoveAt (lines.Count-1);//erase the blank line
-		Debug.Log(lines.Count);
 	}
 
 	public PlayerState GetECGEmotion(){

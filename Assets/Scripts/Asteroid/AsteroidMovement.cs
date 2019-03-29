@@ -10,10 +10,10 @@ public class AsteroidMovement : MonoBehaviour {
 	public Vector3 Direction;
 
 	void Start(){
-		speed += DDAAply.instance.speedChange;
+		//speed += DDAAply.instance.speedChange;
 		if (speed < MINIMUNSPEED)
 			speed = 0.1f;
-		Debug.Log (speed);
+		Debug.Log ("Velocidade asteroid: "+speed);
 	}
 
 	void Update (){

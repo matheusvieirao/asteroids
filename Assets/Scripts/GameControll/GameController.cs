@@ -14,45 +14,24 @@ public class GameController : MonoBehaviour{
 
 	public string actualScene;
 
-    void Start (){
-		LoadResourcers ();
-	}
-
-	private void LoadResourcers(){
+	void Start (){
 		TextEnable.Init ();
 		player = GameObject.FindGameObjectWithTag("Player");
 		shipCollisionStatus = player.GetComponent<ShipCollision> ();
 	}
 
-
     void Update () {
-		if(HasPressedExitGame())
-			ExitGame();
-		if (shipCollisionStatus.isDead && HasPressedRestart ())
-			RestartLevel ();
+		//Quit Game
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Application.Quit ();
+		}
+		//Restart Level
+		if (shipCollisionStatus.isDead && Input.GetKeyDown (KeyCode.Space)) {
+			//DDAAply.instance.DensityBalanceCurrentLevel ();
+			//DDAAply.instance.SpeedBalanceCurrentLevel ();
+			SceneManager.LoadScene (actualScene);
+		}
     }
-
-	private bool HasPressedExitGame(){
-		if (Input.GetKeyDown (KeyCode.Escape))
-			return true;
-		return false;
-	}
-
-	private void RestartLevel(){
-		DDAAply.instance.DensityBalanceCurrentLevel ();
-		DDAAply.instance.SpeedBalanceCurrentLevel ();
-		SceneManager.LoadScene (actualScene);
-	}
-
-	private bool HasPressedRestart(){
-		if (Input.GetKeyDown (KeyCode.Space))
-			return true;
-		return false;
-	}
-
-	private void ExitGame(){
-		Application.Quit ();
-	}
 						
     public void SetGameWin(){
 		TextEnable.EnableFaseCompleta ();

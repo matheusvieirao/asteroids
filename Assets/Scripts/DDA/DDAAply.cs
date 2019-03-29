@@ -48,61 +48,83 @@ public class DDAAply : MonoBehaviour {
 		string playerData = File.ReadAllText("FisiologicalData.txt");
 		playerSignals.BreakIntoLines (playerData);
 
-		if (IsEDA)
+		if (IsEDA) {
+			Debug.Log ("balanceamento com EDA");
 			emotion = playerSignals.GetEDAEmotion ();
-		else if (IsECG)
+		} else if (IsECG) {
+			Debug.Log ("balanceamento com ECG");
 			emotion = playerSignals.GetECGEmotion ();
-		else
+		} else { //se o balanceamento é feito apenas com dados in-game
+			Debug.Log ("balanceamento com dados in-game");
 			emotion = PlayerState.NORMAL;
+		}
 	}
 				
 	public void SpeedBalanceNextLevel(){
-		if (LowDeathLevel () && emotion==PlayerState.BORED)
+		if (LowDeathLevel () && emotion == PlayerState.BORED) {
 			lastSpeedChange += 0.8f;
-		else if (LowDeathLevel () && emotion==PlayerState.NORMAL)
+		} else if (LowDeathLevel () && emotion == PlayerState.NORMAL) {
+			Debug.Log ("Poucas mortes (" + DataColector.instance.Deaths + ") lastSpeedChange: " + lastSpeedChange);
 			lastSpeedChange += 0.6f;
-		else if(LowDeathLevel () && emotion==PlayerState.STRESSED)
+			Debug.Log ("lastSpeedChange: " + lastSpeedChange);
+		} else if (LowDeathLevel () && emotion == PlayerState.STRESSED) {
 			lastSpeedChange -= 0.2f;
-		else if (MediumDeathLevel () && emotion==PlayerState.STRESSED)
-			lastSpeedChange += signalChange*GradualSpeedChange();
-		else if(MediumDeathLevel () && emotion==PlayerState.NORMAL)
-			lastSpeedChange += GradualSpeedChange();
-		else if(MediumDeathLevel () && emotion==PlayerState.BORED)
+		} else if (MediumDeathLevel () && emotion == PlayerState.STRESSED) {
+			lastSpeedChange += signalChange * GradualSpeedChange ();
+		} else if (MediumDeathLevel () && emotion == PlayerState.NORMAL) {
+			Debug.Log ("Medias mortes (" + DataColector.instance.Deaths + ") lastSpeedChange: " + lastSpeedChange);
+			lastSpeedChange += GradualSpeedChange ();
+			Debug.Log ("lastSpeedChange: " + lastSpeedChange);
+		} else if (MediumDeathLevel () && emotion == PlayerState.BORED) {
 			lastSpeedChange += 0.2f;
-		else if(emotion==PlayerState.STRESSED)
-			lastSpeedChange += signalChange*GradualSpeedChange() -0.2f;
-		else if(emotion==PlayerState.NORMAL)
-			lastSpeedChange += signalChange*GradualSpeedChange();
-		else if(emotion==PlayerState.BORED)
-			lastSpeedChange += GradualSpeedChange();
+		} else if (emotion == PlayerState.STRESSED) {
+			lastSpeedChange += signalChange * GradualSpeedChange () - 0.2f;
+		} else if (emotion == PlayerState.NORMAL) {
+			Debug.Log ("Muitas mortes (" + DataColector.instance.Deaths + ") lastSpeedChange: " + lastSpeedChange);
+			lastSpeedChange += signalChange * GradualSpeedChange ();
+			Debug.Log ("lastSpeedChange: " + lastSpeedChange);
+		} else if (emotion == PlayerState.BORED) {
+			lastSpeedChange += GradualSpeedChange ();
+		}
 		speedChange = lastSpeedChange;
 	}
 
 	public void DensityBalanceNextLevel(){
-		if (LowDeathLevel () && emotion==PlayerState.BORED)
+		if (LowDeathLevel () && emotion == PlayerState.BORED) {
 			lastDensityChange += 200;
-		else if (LowDeathLevel () && emotion==PlayerState.NORMAL)
+		} else if (LowDeathLevel () && emotion == PlayerState.NORMAL) {
+			Debug.Log ("Poucas mortes (" + DataColector.instance.Deaths + ") lastDensityChange: " + lastDensityChange);
 			lastDensityChange += 150;
-		else if (MediumDeathLevel () && emotion==PlayerState.STRESSED)
-			lastDensityChange += signalChange*GradualDensityChange();
-		else if(MediumDeathLevel () && emotion==PlayerState.NORMAL)
-			lastDensityChange += GradualDensityChange();
-		else if(MediumDeathLevel () && emotion==PlayerState.BORED)
+			Debug.Log ("lastDensityChange: " + lastDensityChange);
+		} else if (MediumDeathLevel () && emotion == PlayerState.STRESSED) {
+			lastDensityChange += signalChange * GradualDensityChange ();
+		} else if (MediumDeathLevel () && emotion == PlayerState.NORMAL) {
+			Debug.Log ("Medias mortes (" + DataColector.instance.Deaths + ") lastDensityChange: " + lastDensityChange);
+			lastDensityChange += GradualDensityChange ();
+			Debug.Log ("lastDensityChange: " + lastDensityChange);
+		} else if (MediumDeathLevel () && emotion == PlayerState.BORED) {
 			lastDensityChange += 50;
-		else if(emotion==PlayerState.STRESSED)
-			lastDensityChange += signalChange*GradualDensityChange() -50;
-		else if(emotion==PlayerState.NORMAL)
-			lastDensityChange += signalChange*GradualDensityChange();
+		} else if (emotion == PlayerState.STRESSED) {
+			lastDensityChange += signalChange * GradualDensityChange () - 50;
+		} else if (emotion == PlayerState.NORMAL) {
+			Debug.Log ("Muitas mortes (" + DataColector.instance.Deaths + ") lastDensityChange: " + lastDensityChange);
+			lastDensityChange += signalChange * GradualDensityChange ();
+			Debug.Log ("lastDensityChange: " + lastDensityChange);
+		}
 		densityChange = lastDensityChange;
 	}
 
 	public void SpeedBalanceCurrentLevel(){
+		Debug.Log ("speedChange antes: " + speedChange);
 		speedChange = lastSpeedChange+ signalChange*GradualSpeedChange();
+		Debug.Log ("speedChange depois: " + speedChange);
 
 	}
 
 	public void DensityBalanceCurrentLevel(){
+		Debug.Log ("densityChange antes: " + densityChange);
 		densityChange = lastDensityChange+signalChange*GradualDensityChange();
+		Debug.Log ("densityChange depois: " + densityChange);
 	}
 
 		
@@ -119,7 +141,7 @@ public class DDAAply : MonoBehaviour {
 	}
 
 	private bool MediumDeathLevel(){
-		return DataColector.instance.Deaths < 4;
+		return (DataColector.instance.Deaths < 4 && DataColector.instance.Deaths >= 2);
 	}
 
 }

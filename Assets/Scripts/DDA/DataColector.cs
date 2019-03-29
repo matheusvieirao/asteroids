@@ -45,8 +45,8 @@ public class DataColector : MonoBehaviour {
 	}
 
 	public void ResetData(){
-		numberOfLevelDeaths = 0;
 		DataFile.AddDeaths (numberOfLevelDeaths.ToString());
+		numberOfLevelDeaths = 0;
 		DataFile.AddTime (levelTimer.GetElapsedTime ().ToString ());
 		deathTimes.Clear ();
 		levelTimer.Reset ();

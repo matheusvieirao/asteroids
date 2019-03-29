@@ -1,0 +1,215 @@
+Asteroids
+
+obs: do level 1 ao 3 eu joguei consecutivamente, entao provavelmente rolou um ADD, e os outros nao, entao provavelmente nao teve ADD.
+
+level 1
+
+1:20 pra vencer
+podia ter uma indicação de que é pra ir pra frente
+a quilometragem restante poderia ser maior
+
+
+level 2
+
+1:30 pra vencer
+tive que ir desviar mais pros lados pra chegar ate o final
+nao usei o tiro nenhuma vez por ser muito dificil de acertar os meteoros pequenos
+
+
+level 3
+
+morri 6 vezes e cancei e pulei de nivel
+os asteroids pequenos e rapidos fazem o level ser impossivel!
+
+
+level 4
+
+demorou mais tempo do que os leveis 1 e 2 mas eu nao marquei.
+nao morri nenhuma vez mas foi mais dificil do que o level 2 e beeem mais facil do que o level 3.
+foi a primeira vez que usei a função de atirar por ter asteroids maiores (ver se é interessante ter essas duas jogabilidades ou nao, de só desviar ou de mais atirar e esperar passagem)
+
+
+level 5
+
+1:20 pra vencer
+muito mais facil do que o level 4.
+-As bolas vermelhas gigantes só tornam o jogo mais facil, por ocupar uma grande área que quando atiramos, podemos passar
+- Os asteroids nao destruiveis nao fazem sentido. Muda a dinamica do jogo e nem avisa ao jogador. Se for pra criar asteroids indistruiveis pelo menos fazer eles de outra cor.
+
+
+level 6
+
+foi um level tranquilo. um pouquinho mais dificil que o 5 mas quase a mesma coisa.
+
+
+
+Mudanças:
+1 - aumentar a visualização da kilometragem que falta
+1.2 - Mudança do pause de Q para Enter
+2 - na primeira fase indicar que é pra frente que se tem que seguir
+3 - diminuir a velocidade dos asteroids do nivel tres ou a densidade
+4 - tirar asteroids que explodem, tirar asteroids com escudo vermelho, e asteroids indestrutiveis.
+5 - aumentar um tico a area do míssil
+
+Justificativas
+1 - Ja que ta mostrando que mostre direito. No cantinho, com a fonte fina e de branco nao da pra perceber. Mostrar eu acho que é uma boa pros jogadores verem o progresso deles e tentarem mais uma vez
+2 - Nao é um jogo de exploração, até pq uma vez que se descobre o caminho principal o fator "descobrir para aonde ir" acaba. Então acho valido poupar o jogador do tempo para essa descoberta
+3 - O level está impossível
+4 - Isso muda muito a dinamica do jogo e o que a gente quer destar aqui é o ADD, não criar o máximo de elementos possívels para o jogador não enjoar do jogo ou para fazer com que o jogo pareça mais completo por ter mais elementos.
+
+
+modo de jogo. desviar ou atirar. aumentar area do missil? minimizar os tipos de jogos pra nao ficar mt dificil de analisar os dados. focar talvez em só desviar.
+
+
+Bugs:
+quando pausa o missel continua em movimento e a fumaça da nave também
+
+_____________________
+
+
+PARAMETROS DO JOGO
+
+Level 1 (500)
+
+
+Asteroid Count: 500
+Min Size: 0.75
+Max Size: 1
+Max Speed: 5
+Is Normal: Sim
+Asteroid Prefab: AsteroidNormal 
+
+
+
+Level 2 (600) (incrementou o segundo bloco, de asteroids maiores e nao normais)
+
+Asteroid Count: 500
+Min Size: 0.75
+Max Size: 1
+Max Speed: 5
+Is Normal: Sim
+Asteroid Prefab: AsteroidNormal 
+
+Asteroid Count: 100
+Min Size: 1
+Max Size: 3
+Max Speed: 5
+Is Normal: Nao
+Asteroid Prefab: AsteroidNormal 
+
+
+
+Level 3 (700) (aumentou os asteroids do segundo bloco e incrementou o terceiro, com asteroids maiores)
+
+Asteroid Count: 500
+Min Size: 0.75
+Max Size: 1
+Max Speed: 5
+Is Normal: Sim
+Asteroid Prefab: AsteroidNormal 
+
+Asteroid Count: 100
+Min Size: 1
+Max Size: 4
+Max Speed: 5
+Is Normal: Nao
+Asteroid Prefab: AsteroidNormal 
+
+Asteroid Count: 100
+Min Size: 4
+Max Size: 6
+Max Speed: 5
+Is Normal: Nao
+Asteroid Prefab: AsteroidNormal 
+
+
+
+Level 4 (1500) (dobrou o numero de asteroids e adicionou explosivos)
+
+Asteroid Count: 500
+Min Size: 0.75
+Max Size: 1.95 (aumentou)
+Max Speed: 5
+Is Normal: Sim
+Asteroid Prefab: AsteroidNormal 
+
+Asteroid Count: 500 (aumentou)
+Min Size: 0.75 (diminuiu)
+Max Size: 2 (diminuiu)
+Max Speed: 5
+Is Normal: Nao
+Asteroid Prefab: AsteroidExplosive (mudou)
+
+Asteroid Count: 500 (aumentou)
+Min Size: 2 (diminuiu)
+Max Size: 4 (diminuiu)
+Max Speed: 5
+Is Normal: Nao
+Asteroid Prefab: AsteroidNormal 
+
+
+
+Level 5 (800) (aumentou o tamanho dos asteroids, diminuiu a quantidade, adicionou os asteroids com escudo e tirou os explosivos)
+
+Asteroid Count: 500
+Min Size: 0.75
+Max Size: 1.95 
+Max Speed: 5
+Is Normal: Sim
+Asteroid Prefab: AsteroidNormal 
+
+Asteroid Count: 100 (diminuiu) 
+Min Size: 0.75 
+Max Size: 5 (aumentou) 
+Max Speed: 5
+Is Normal: Nao
+Asteroid Prefab: AsteroidShielded (mudou) 
+
+Asteroid Count: 100
+Min Size: 4.6 (aumentou) 
+Max Size: 6 (aumentou)
+Max Speed: 5
+Is Normal: Nao
+Asteroid Prefab: AsteroidNormal 
+
+Asteroid Count: 100
+Min Size: 2
+Max Size: 4.5
+Max Speed: 5
+Is Normal: nao
+Asteroid Prefab: Asteroid Normal
+
+
+
+Level 6 (800) (mesma coisa do 5)
+
+Asteroid Count: 500
+Min Size: 0.75
+Max Size: 1.95 
+Max Speed: 5
+Is Normal: Sim
+Asteroid Prefab: AsteroidNormal 
+
+Asteroid Count: 100  
+Min Size: 0.75 
+Max Size: 5  
+Max Speed: 5
+Is Normal: Nao
+Asteroid Prefab: AsteroidShielded 
+
+Asteroid Count: 100
+Min Size: 4.6  
+Max Size: 6 
+Max Speed: 5
+Is Normal: Nao
+Asteroid Prefab: AsteroidNormal 
+
+Asteroid Count: 100
+Min Size: 2
+Max Size: 4.5
+Max Speed: 5
+Is Normal: nao
+Asteroid Prefab: Asteroid Normal
+
+
+
