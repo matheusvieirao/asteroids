@@ -3719,7 +3719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64870980c83b154d9d7e27cb27b9294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: 1_PFluxo
+  nextScene: 7.3_Fluxo
 --- !u!4 &1964212389
 Transform:
   m_ObjectHideFlags: 0

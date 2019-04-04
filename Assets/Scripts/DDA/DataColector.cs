@@ -34,8 +34,8 @@ public class DataColector : MonoBehaviour {
 
 	void Update()
     {
-        Debug.Log("level: " + level);
-        Debug.Log("tempo: " + levelTimer.GetElapsedTime());
+        //Debug.Log("level: " + level);
+        //Debug.Log("tempo: " + levelTimer.GetElapsedTime());
         timer.Run ();
 		levelTimer.Run ();
 	}

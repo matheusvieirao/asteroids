@@ -16,11 +16,18 @@ public class GameController : MonoBehaviour{
 
 	void Start (){
 		TextEnable.Init ();
+
 		player = GameObject.FindGameObjectWithTag("Player");
 		shipCollisionStatus = player.GetComponent<ShipCollision> ();
-        GameObject levelControler = this.gameObject.transform.GetChild(1).gameObject;
+        
         DataColector.instance.addLevel();
         DataColector.instance.ResetData();
+
+        GameObject levelControler = GameObject.FindGameObjectWithTag("LevelController");
+        CreateAsteroids createAsteroids = levelControler.GetComponent<CreateAsteroids>();
+        createAsteroids.maxSpeed = 5 * DataColector.instance.level;
+        Debug.Log("level no game controler: " + DataColector.instance.level);
+        Debug.Log("maxspeed no game controler: " + createAsteroids.maxSpeed);
     }
 
     void Update () {

@@ -19,7 +19,7 @@ public class PassLevel : MonoBehaviour {
 	void Update(){
 		//if (ship.hasWon && Input.GetKeyDown (KeyCode.Space))
 		//	PassToNextLevel ();
-		if (DataColector.instance.levelTimer.GetElapsedTime () > 2)
+		if (DataColector.instance.levelTimer.GetElapsedTime () > 40 || Input.GetKeyDown(KeyCode.P))
 			PassToNextLevel ();
 	}
 

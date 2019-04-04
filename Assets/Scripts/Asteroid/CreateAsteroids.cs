@@ -34,7 +34,9 @@ public class CreateAsteroids : MonoBehaviour {
 
 			AsteroidMovement movement = GameObject.FindObjectOfType<AsteroidMovement>();
 			movement.Direction = AsteroidDirection();
+
         }
+        Debug.Log("vel asteroid: " + maxSpeed);
 	}
 		
 
