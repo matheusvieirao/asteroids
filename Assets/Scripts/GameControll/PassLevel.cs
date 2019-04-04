@@ -19,7 +19,7 @@ public class PassLevel : MonoBehaviour {
 	void Update(){
 		//if (ship.hasWon && Input.GetKeyDown (KeyCode.Space))
 		//	PassToNextLevel ();
-		if (DataColector.instance.levelTimer.GetElapsedTime () > 40)
+		if (DataColector.instance.levelTimer.GetElapsedTime () > 4)
 			PassToNextLevel ();
 	}
 
@@ -40,7 +40,7 @@ public class PassLevel : MonoBehaviour {
 	private void BalanceOnData(){
 //		DDAAply.instance.DensityBalanceNextLevel ();
 //		DDAAply.instance.SpeedBalanceNextLevel ();
-		DataColector.instance.ResetData ();
+		//DataColector.instance.ResetData (); ta dando erro agora
 		NextScene nextScene = GetComponentInChildren<NextScene> ();
 		nextScene.ChangeScene ();
 	}
