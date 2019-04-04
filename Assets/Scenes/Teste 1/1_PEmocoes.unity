@@ -940,7 +940,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1048263188836948, guid: 414f51d9cf3e8ad4dae4f6192c3df487, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4669167483769798, guid: 414f51d9cf3e8ad4dae4f6192c3df487, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1169,7 +1169,6 @@ GameObject:
   - component: {fileID: 616275653}
   - component: {fileID: 616275652}
   - component: {fileID: 616275651}
-  - component: {fileID: 616275654}
   m_Layer: 5
   m_Name: BotaoVoltar
   m_TagString: Untagged
@@ -1237,9 +1236,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1069217726405198, guid: c2e64756247069c46a2d28548fc6262f,
-          type: 3}
-        m_MethodName: 
+      - m_Target: {fileID: 1964212388}
+        m_MethodName: passLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1288,19 +1286,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616275649}
   m_CullTransparentMesh: 0
---- !u!114 &616275654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 616275649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91fdde9fc9092044986f64c7f95729f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextLevel: 
 --- !u!1 &629071790
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,7 +2968,6 @@ GameObject:
   - component: {fileID: 1682285424}
   - component: {fileID: 1682285423}
   - component: {fileID: 1682285422}
-  - component: {fileID: 1682285425}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3055,19 +3039,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1682285425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1682285421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e64870980c83b154d9d7e27cb27b9294, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextScene: 1_PFluxo
 --- !u!1 &1697153168
 GameObject:
   m_ObjectHideFlags: 0

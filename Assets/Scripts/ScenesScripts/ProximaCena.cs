@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ProximaPagina : MonoBehaviour
+public class ProximaCena : MonoBehaviour
 {
     public string nextScene;
 

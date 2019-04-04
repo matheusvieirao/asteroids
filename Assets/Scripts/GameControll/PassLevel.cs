@@ -14,12 +14,12 @@ public class PassLevel : MonoBehaviour {
 	void Start(){
 		player = GameObject.FindGameObjectWithTag("Player");
 		ship = player.GetComponent<Ship> ();
-	}
+    }
 
 	void Update(){
 		//if (ship.hasWon && Input.GetKeyDown (KeyCode.Space))
 		//	PassToNextLevel ();
-		if (DataColector.instance.levelTimer.GetElapsedTime () > 4)
+		if (DataColector.instance.levelTimer.GetElapsedTime () > 2)
 			PassToNextLevel ();
 	}
 
@@ -38,11 +38,10 @@ public class PassLevel : MonoBehaviour {
 //	}
 
 	private void BalanceOnData(){
-//		DDAAply.instance.DensityBalanceNextLevel ();
-//		DDAAply.instance.SpeedBalanceNextLevel ();
-		//DataColector.instance.ResetData (); ta dando erro agora
-		NextScene nextScene = GetComponentInChildren<NextScene> ();
-		nextScene.ChangeScene ();
+        //		DDAAply.instance.DensityBalanceNextLevel ();
+        //		DDAAply.instance.SpeedBalanceNextLevel ();
+        DataColector.instance.ResetData();
+        SceneManager.LoadScene (nextLevel);
 	}
 
 }

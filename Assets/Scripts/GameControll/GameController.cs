@@ -18,7 +18,10 @@ public class GameController : MonoBehaviour{
 		TextEnable.Init ();
 		player = GameObject.FindGameObjectWithTag("Player");
 		shipCollisionStatus = player.GetComponent<ShipCollision> ();
-	}
+        GameObject levelControler = this.gameObject.transform.GetChild(1).gameObject;
+        DataColector.instance.addLevel();
+        DataColector.instance.ResetData();
+    }
 
     void Update () {
 		//Quit Game

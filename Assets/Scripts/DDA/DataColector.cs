@@ -8,10 +8,12 @@ public class DataColector : MonoBehaviour {
 
 	static public DataColector instance = null; 
 
-	private TimerController timer = new TimerController();
+	private TimerController timer = new TimerController(); //tem de jogo sem morrer
 	public TimerController levelTimer =  new TimerController();
 
 	private int numberOfLevelDeaths;
+
+    public int level;
 
 	private List<double> deathTimes =  new List<double>();
 
@@ -30,10 +32,18 @@ public class DataColector : MonoBehaviour {
 	}
 
 
-	void Update(){
-		timer.Run ();
+	void Update()
+    {
+        Debug.Log("level: " + level);
+        Debug.Log("tempo: " + levelTimer.GetElapsedTime());
+        timer.Run ();
 		levelTimer.Run ();
 	}
+
+    public void addLevel()
+    {
+        level++;
+    }
 
 	public void AddDeath(){
 		numberOfLevelDeaths++;
