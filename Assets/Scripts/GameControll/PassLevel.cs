@@ -9,39 +9,44 @@ public class PassLevel : MonoBehaviour {
 
 	private GameObject player;
 	private Ship ship;
-	//public BitalinoOpen bitalino;
+	public BitalinoOpen bitalino;
 
 	void Start(){
 		player = GameObject.FindGameObjectWithTag("Player");
 		ship = player.GetComponent<Ship> ();
-    }
+	}
 
 	void Update(){
-		//if (ship.hasWon && Input.GetKeyDown (KeyCode.Space))
-		//	PassToNextLevel ();
-		if (DataColector.instance.levelTimer.GetElapsedTime () > 40 || Input.GetKeyDown(KeyCode.P))
+		if (ship.hasWon && HasPressedNext ())
 			PassToNextLevel ();
 	}
 
+	private bool HasPressedNext(){
+		if (Input.GetKeyDown (KeyCode.Space))
+			return true;
+		return false;
+	}
+
 	public void PassToNextLevel(){
-//		if (bitalino.IsRunning) {
-//			bitalino.Kill ();
-//			Invoke ("BalanceWithSignals", 2);
-//		} else
+		if (bitalino.IsRunning) {
+			bitalino.Kill ();
+			Invoke ("BalanceWithSignals", 2);
+		} else
 			BalanceOnData ();
 	}
 
 
-//	private void BalanceWithSignals(){
-//		DDAAply.instance.BalanceWithEmotion ();
-//		BalanceOnData ();
-//	}
+	private void BalanceWithSignals(){
+		DDAAply.instance.BalanceWithEmotion ();
+		BalanceOnData ();
+	}
 
 	private void BalanceOnData(){
-        //		DDAAply.instance.DensityBalanceNextLevel ();
-        //		DDAAply.instance.SpeedBalanceNextLevel ();
-        DataColector.instance.ResetData();
-        SceneManager.LoadScene (nextLevel);
+		DDAAply.instance.DensityBalanceNextLevel ();
+		DDAAply.instance.SpeedBalanceNextLevel ();
+		DataColector.instance.ResetData ();
+		NextScene nextScene = GetComponentInChildren<NextScene> ();
+		nextScene.ChangeScene ();
 	}
 
 }

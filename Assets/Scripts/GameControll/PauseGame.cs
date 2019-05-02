@@ -11,7 +11,7 @@ public class PauseGame : MonoBehaviour {
 	}
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.Return))
+		if (Input.GetKeyDown (KeyCode.Q))
 			isGamePaused = !isGamePaused;
 	}
 

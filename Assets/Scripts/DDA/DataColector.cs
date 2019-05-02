@@ -8,12 +8,10 @@ public class DataColector : MonoBehaviour {
 
 	static public DataColector instance = null; 
 
-	private TimerController timer = new TimerController(); //tem de jogo sem morrer
+	private TimerController deathTimer = new TimerController();
 	public TimerController levelTimer =  new TimerController();
 
 	private int numberOfLevelDeaths;
-
-    public int level;
 
 	private List<double> deathTimes =  new List<double>();
 
@@ -32,31 +30,23 @@ public class DataColector : MonoBehaviour {
 	}
 
 
-	void Update()
-    {
-        //Debug.Log("level: " + level);
-        //Debug.Log("tempo: " + levelTimer.GetElapsedTime());
-        timer.Run ();
+	void Update(){
+		deathTimer.Run ();
 		levelTimer.Run ();
 	}
-
-    public void addLevel()
-    {
-        level++;
-    }
 
 	public void AddDeath(){
 		numberOfLevelDeaths++;
 	}
 
 	public void AddDeathTime(){
-		deathTimes.Add (timer.GetElapsedTime());
-		timer.Reset ();
+		deathTimes.Add (deathTimer.GetElapsedTime());
+		deathTimer.Reset ();
 	}
 
 	public void ResetData(){
-		DataFile.AddDeaths (numberOfLevelDeaths.ToString());
 		numberOfLevelDeaths = 0;
+		DataFile.AddDeaths (numberOfLevelDeaths.ToString());
 		DataFile.AddTime (levelTimer.GetElapsedTime ().ToString ());
 		deathTimes.Clear ();
 		levelTimer.Reset ();

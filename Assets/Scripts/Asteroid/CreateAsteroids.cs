@@ -21,7 +21,7 @@ public class CreateAsteroids : MonoBehaviour {
 
 	void Start(){
 		if(isNormal)
-			//AsteroidCount += DDAAply.instance.densityChange;
+			//AsteroidCount += DDAAply.instance.densityChange; // TODO criar DDA
 		for (int i = 0; i < AsteroidCount; i++){			
 
 			GameObject asteroid = (GameObject)Instantiate(asteroidPrefab, StartPosition (), Quaternion.Euler(0,0,0));
@@ -34,9 +34,7 @@ public class CreateAsteroids : MonoBehaviour {
 
 			AsteroidMovement movement = GameObject.FindObjectOfType<AsteroidMovement>();
 			movement.Direction = AsteroidDirection();
-
         }
-        Debug.Log("vel asteroid: " + maxSpeed);
 	}
 		
 

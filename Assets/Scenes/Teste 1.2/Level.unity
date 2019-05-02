@@ -1759,7 +1759,7 @@ PrefabInstance:
     - target: {fileID: 114791687016793450, guid: 88f6581592814af40a5a5a67eb86dad2,
         type: 3}
       propertyPath: nextLevel
-      value: SecondLevel
+      value: Level
       objectReference: {fileID: 0}
     - target: {fileID: 1310895159688656, guid: 88f6581592814af40a5a5a67eb86dad2, type: 3}
       propertyPath: m_Icon
@@ -1774,6 +1774,11 @@ PrefabInstance:
     - target: {fileID: 4504167164250860, guid: 88f6581592814af40a5a5a67eb86dad2, type: 3}
       propertyPath: m_LocalPosition.y
       value: -14.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 114614143077176912, guid: 88f6581592814af40a5a5a67eb86dad2,
+        type: 3}
+      propertyPath: actualScene
+      value: Level
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88f6581592814af40a5a5a67eb86dad2, type: 3}

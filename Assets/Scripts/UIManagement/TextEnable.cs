@@ -22,8 +22,12 @@ public class TextEnable : MonoBehaviour {
 		DisableAll ();
 	}
 
+	static public void UpdateTimeRemaining(int time){
+		timeRemaining.text = "a sessao sera encerrada em: " +time + "s";
+	}
+
 	static public void UpdateDistanceText(string newDistance){
-		distanceText.text = newDistance;
+		distanceText.text = "Distancia: "+newDistance;
 	}
 
 	static public void EnableTimeRemaining(){
@@ -33,6 +37,7 @@ public class TextEnable : MonoBehaviour {
 	static public void SetHiperspaceText(string hiperspace){
 		distanceText.text = hiperspace;	
 	}
+
 
 	static public void EnableDistance(){
 		distanceText.enabled = true;
