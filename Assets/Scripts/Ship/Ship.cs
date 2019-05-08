@@ -27,7 +27,7 @@ public class Ship : MonoBehaviour {
 			if(!shipCollisionStatus.isDead)
 				TextEnable.UpdateDistanceText (distance.ToString ());
 		} else
-			TextEnable.SetHiperspaceText ("entre no hiper espaco");
+			TextEnable.SetHiperspaceText ("Pressione espaço");
 	}
 	private void ArrivedHiperspace(){
 		if (distance <= 0) {

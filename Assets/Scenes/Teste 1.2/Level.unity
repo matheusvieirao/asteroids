@@ -1759,7 +1759,7 @@ PrefabInstance:
     - target: {fileID: 114791687016793450, guid: 88f6581592814af40a5a5a67eb86dad2,
         type: 3}
       propertyPath: nextLevel
-      value: Level
+      value: Perguntas1
       objectReference: {fileID: 0}
     - target: {fileID: 1310895159688656, guid: 88f6581592814af40a5a5a67eb86dad2, type: 3}
       propertyPath: m_Icon

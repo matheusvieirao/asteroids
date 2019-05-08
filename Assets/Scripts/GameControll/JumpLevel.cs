@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class JumpLevel : MonoBehaviour {
 
-	public BitalinoOpen bitalino;
+	//public BitalinoOpen bitalino;
 
 	void Update () {
 		if(HasPressedJump())
@@ -18,10 +19,10 @@ public class JumpLevel : MonoBehaviour {
 	}
 
 	private void Jump(){
-		if (bitalino.IsRunning) {
+		/*if (bitalino.IsRunning) {
 			bitalino.Kill ();
 			Invoke ("BalanceWithSignals", 2);
-		} else
+		} else*/
 			BalanceOnData ();
 	}
 
@@ -35,8 +36,9 @@ public class JumpLevel : MonoBehaviour {
 		DDAAply.instance.DensityBalanceNextLevel ();
 		DDAAply.instance.SpeedBalanceNextLevel ();
 		DataColector.instance.ResetData ();
-		NextScene nextScene = GetComponentInChildren<NextScene> ();
-		nextScene.ChangeScene ();
+
+        string nextScene = gameObject.GetComponent<PassLevel>().nextLevel;
+        SceneManager.LoadScene(nextScene);
 	}
 
 
