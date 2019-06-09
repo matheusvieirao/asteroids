@@ -19,10 +19,15 @@ public class DataFile : MonoBehaviour {
 		fileName = file;
 	}
 
-	public static void AddToTxt(string deaths, string time){
-		text +=  "Level" + currentLevel.ToString() + "|" + deaths + "|" + time +"\n";
+	public static void AddToTxtLevel(string deaths, string time){
+		text +=  "Level " + currentLevel.ToString() + " - Mortes: " + deaths + " | Tempo: " + time +"\n";
 		currentLevel++;
 	}
+
+    public static void AddToTxtPerguntas2(string dificuldade, string tedio, string frustracao, string diversao)
+    {
+        text += "Perguntas 2 - Dificuldade: " + dificuldade + " | Tedio: " + tedio + " | Frustracao: " + frustracao + " | Diversao: " + diversao + "\n";
+    }
 
 	public static void WriteFile(){
 		File.WriteAllText (fileName+".txt",text);

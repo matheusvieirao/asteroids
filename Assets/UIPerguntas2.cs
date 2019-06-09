@@ -13,69 +13,119 @@ public class UIPerguntas2 : MonoBehaviour
     private string respostaTedio;
     private string respostaFrustracao;
     private string respostaDiversao;
+    private bool jaClicouSubmit = false;
 
     void Start()
     {
-        
+        grupoDificuldade.transform.Find("Seta").GetComponent<Image>().enabled = false;
+        grupoTedio.transform.Find("Seta").GetComponent<Image>().enabled = false;
+        grupoFrustracao.transform.Find("Seta").GetComponent<Image>().enabled = false;
+        grupoDiversao.transform.Find("Seta").GetComponent<Image>().enabled = false;
     }
     
     void Update()
     {
+        if (jaClicouSubmit)
+        {
+            Transform child;
+            // Checar as respostas clicadas
+            for (int i = 0; i < grupoDificuldade.transform.childCount; i++)
+            {
+                child = grupoDificuldade.transform.GetChild(i);
+                if (child.GetComponent<Toggle>() != null)
+                {
+                    if (child.GetComponent<Toggle>().isOn)
+                    {
+                        respostaDificuldade = child.Find("Label").GetComponent<Text>().text;
+                    }
+                }
+            }
+            for (int i = 0; i < grupoTedio.transform.childCount; i++)
+            {
+                child = grupoTedio.transform.GetChild(i);
+                if (child.GetComponent<Toggle>() != null)
+                {
+                    if (child.GetComponent<Toggle>().isOn)
+                    {
+                        respostaTedio = child.Find("Label").GetComponent<Text>().text;
+                    }
+                }
+            }
+            for (int i = 0; i < grupoFrustracao.transform.childCount; i++)
+            {
+                child = grupoFrustracao.transform.GetChild(i);
+                if (child.GetComponent<Toggle>() != null)
+                {
+                    if (child.GetComponent<Toggle>().isOn)
+                    {
+                        respostaFrustracao = child.Find("Label").GetComponent<Text>().text;
+                    }
+                }
+            }
+            for (int i = 0; i < grupoDiversao.transform.childCount; i++)
+            {
+                child = grupoDiversao.transform.GetChild(i);
+                if (child.GetComponent<Toggle>() != null)
+                {
+                    if (child.GetComponent<Toggle>().isOn)
+                    {
+                        respostaDiversao = child.Find("Label").GetComponent<Text>().text;
+                    }
+                }
+            }
+
+
+            //atualizar as setas que informam aonde ainda precisa ser clicado
+            if (respostaDificuldade == null)
+            {
+                grupoDificuldade.transform.Find("Seta").GetComponent<Image>().enabled = true;
+            }
+            else
+            {
+                grupoDificuldade.transform.Find("Seta").GetComponent<Image>().enabled = false;
+            }
+            if (respostaTedio == null)
+            {
+                grupoTedio.transform.Find("Seta").GetComponent<Image>().enabled = true;
+            }
+            else
+            {
+                grupoTedio.transform.Find("Seta").GetComponent<Image>().enabled = false;
+            }
+            if (respostaFrustracao == null)
+            {
+                grupoFrustracao.transform.Find("Seta").GetComponent<Image>().enabled = true;
+            }
+            else
+            {
+                grupoFrustracao.transform.Find("Seta").GetComponent<Image>().enabled = false;
+            }
+            if (respostaDiversao == null)
+            {
+                grupoDiversao.transform.Find("Seta").GetComponent<Image>().enabled = true;
+            }
+            else
+            {
+                grupoDiversao.transform.Find("Seta").GetComponent<Image>().enabled = false;
+            }
+        }
         
     }
 
+
+
     public void SubmitAnswer()
     {
-        Transform child;
+        jaClicouSubmit = true;
 
-        for (int i = 0; i < grupoDificuldade.transform.childCount; i++)
+        Update();
+
+        if (respostaDificuldade != null && respostaTedio != null && respostaFrustracao != null && respostaDiversao != null)
         {
-            child = grupoDificuldade.transform.GetChild(i);
-            if (child.GetComponent<Toggle> () != null)
-            {
-                if (child.GetComponent<Toggle>().isOn)
-                {
-                    respostaDificuldade = child.Find("Label").GetComponent<Text>().text;
-                }
-            }
+            DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao);
+            gameObject.GetComponent<ProximaCena>().passLevel();
         }
         
-        for (int i = 0; i < grupoTedio.transform.childCount; i++)
-        {
-            child = grupoTedio.transform.GetChild(i);
-            if (child.GetComponent<Toggle>() != null)
-            {
-                if (child.GetComponent<Toggle>().isOn)
-                {
-                    respostaTedio = child.Find("Label").GetComponent<Text>().text;
-                }
-            }
-        }
-        
-        for (int i = 0; i < grupoFrustracao.transform.childCount; i++)
-        {
-            child = grupoFrustracao.transform.GetChild(i);
-            if (child.GetComponent<Toggle>() != null)
-            {
-                if (child.GetComponent<Toggle>().isOn)
-                {
-                    respostaFrustracao = child.Find("Label").GetComponent<Text>().text;
-                }
-            }
-        }
-
-        for (int i = 0; i < grupoDiversao.transform.childCount; i++)
-        {
-            child = grupoDiversao.transform.GetChild(i);
-            if (child.GetComponent<Toggle>() != null)
-            {
-                if (child.GetComponent<Toggle>().isOn)
-                {
-                    respostaDiversao = child.Find("Label").GetComponent<Text>().text;
-                }
-            }
-        }
-
     }
 
 }
