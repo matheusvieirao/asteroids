@@ -6,6 +6,8 @@ public class DataColector : MonoBehaviour {
 
 	public GameObject prefab;
 
+    public string outputFileName;
+
 	static public DataColector instance = null; 
 
 	private TimerController deathTimer = new TimerController();
@@ -24,7 +26,11 @@ public class DataColector : MonoBehaviour {
 
 	void Start () {
 		if (instance == null)
+        {
 			instance = prefab.GetComponent<DataColector> ();
+            DataFile.SetFileName(outputFileName);
+            DataFile.Init ();
+        }
 
 		DontDestroyOnLoad (gameObject);
 	}
@@ -45,9 +51,8 @@ public class DataColector : MonoBehaviour {
 	}
 
 	public void ResetData(){
+		DataFile.AddToTxt (numberOfLevelDeaths.ToString(), levelTimer.GetElapsedTime().ToString());
 		numberOfLevelDeaths = 0;
-		DataFile.AddDeaths (numberOfLevelDeaths.ToString());
-		DataFile.AddTime (levelTimer.GetElapsedTime ().ToString ());
 		deathTimes.Clear ();
 		levelTimer.Reset ();
 	}
