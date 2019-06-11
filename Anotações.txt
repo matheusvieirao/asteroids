@@ -1,3 +1,53 @@
+11/06/19
+
+Balanceamente de nivel do teste
+
+
+Level 1 - Mortes: 0 | Tempo: 22,80166 | AsteroidCount: 500  | maxSpeed: 5f  | Dificuldade: 1  | Tedio: 3 | Frustracao: 3 | Diversao: 3
+Level 2 - Mortes: 3 | Tempo: 54,49542 | AsteroidCount: 700  | maxSpeed: 7f  | Dificuldade: 6  | Tedio: 1 | Frustracao: 1 | Diversao: 4
+Level 3 - Mortes: 1 | Tempo: 46,50654 | AsteroidCount: 900  | maxSpeed: 9f  | Dificuldade: 7  | Tedio: 1 | Frustracao: 1 | Diversao: 3
+Level 4 - Mortes: 6 | Tempo: 167,8108 | AsteroidCount: 1100 | maxSpeed: 11f | Dificuldade: 9  | Tedio: 1 | Frustracao: 4 | Diversao: 3
+Level 5 - Mortes: 3 | Tempo: 47,10741 | AsteroidCount: 1300 | maxSpeed: 13f | Dificuldade: 10 | Tedio: 1 | Frustracao: 5 | Diversao: 1 (impossivel)
+obs:
+O level 5 tava com uma velocidade já impossivel mas meio vazio ainda.
+A velocidade cresceu mt rapido e so deu pra ir atirando adoidado
+O level 4 teve mais mortes que o 5 mas o 5 foi mais chato. Pq o tempo entre as mortes foi mais curto (168/6=28,1 e 47/3=15,6)
+
+Level 1 - Nº Asteroids: 600  | Velocidade: 5 | Mortes: 0 | Tempo: 24,53173 | Tempo por vida: 24,53173 | Dificuldade: 1 | Tedio: 4 | Frustracao: 1 | Diversao: 1
+Level 2 - Nº Asteroids: 1200 | Velocidade: 6 | Mortes: 0 | Tempo: 57,29266 | Tempo por vida: 57,29266 | Dificuldade: 6 | Tedio: 1 | Frustracao: 1 | Diversao: 4
+Level 3 - Nº Asteroids: 1500 | Velocidade: 7 | Mortes: 0 | Tempo: 27,17616 | Tempo por vida: 27,17616 | Dificuldade: 8 | Tedio: 1 | Frustracao: 1 | Diversao: 3
+Level 4 - Nº Asteroids: 1800 | Velocidade: 8 | Mortes: 1 | Tempo: 60,42131 | Tempo por vida: 30,21066 | Dificuldade: 9 | Tedio: 1 | Frustracao: 4 | Diversao: 1
+obs:
+o 3 ficou mt mais dificil mt rapidamente! velocidade mt alta ja
+o 4 tava impossivel
+
+Level 1 - Nº Asteroids: 500 | Velocidade: 5 | Mortes: 0 | Tempo: 23,73458 | Tempo por vida: 23,73458 | Dificuldade: 1 | Tedio: 1 | Frustracao: 1 | Diversao: 1
+Level 2 - Nº Asteroids: 650 | Velocidade: 5,5 | Mortes: 1 | Tempo: 48,99342 | Tempo por vida: 24,49671 | Dificuldade: 5 | Tedio: 1 | Frustracao: 1 | Diversao: 2
+Level 3 - Nº Asteroids: 800 | Velocidade: 6 | Mortes: 0 | Tempo: 35,58673 | Tempo por vida: 35,58673 | Dificuldade: 6 | Tedio: 1 | Frustracao: 1 | Diversao: 3
+Level 4 - Nº Asteroids: 950 | Velocidade: 6,5
+obs:
+O level 4 ja estava bem difícil 
+
+
+
+fazer:
+- Deixar um campo de texto opcional nas perguntas 2
+- fazer os tiros mais espaçados em tempo
+- colocar tempo segurando o acelerador (ou todas as teclas)
+- parar o tempo enquanto no questionario (conferir)
+- colocar a pergunta do divertido em baixo da pergunta da dificuldade (acho que ela confunde a pergunta do nao fustrante com muito frustarante / tedio, que parece essa imagem https://st.depositphotos.com/1030387/1885/v/950/depositphotos_18854701-stock-illustration-3d-ramp-chart-set.jpg)
+- imprimir o nivel atual na tela
+
+
+
+
+
+
+
+________________________________
+
+
+
 Asteroids
 
 obs: do level 1 ao 3 eu joguei consecutivamente, entao provavelmente rolou um ADD, e os outros nao, entao provavelmente nao teve ADD.
@@ -45,16 +95,14 @@ foi um level tranquilo. um pouquinho mais dificil que o 5 mas quase a mesma cois
 
 Mudanças:
 1 - aumentar a visualização da kilometragem que falta
-1.2 - Mudança do pause de Q para Enter
-2 - na primeira fase indicar que é pra frente que se tem que seguir
-3 - diminuir a velocidade dos asteroids do nivel tres ou a densidade
+2 - Mudança do pause de Q para Enter
+3 - na primeira fase indicar que é pra frente que se tem que seguir
 4 - tirar asteroids que explodem, tirar asteroids com escudo vermelho, e asteroids indestrutiveis.
 5 - aumentar um tico a area do míssil
 
 Justificativas
 1 - Ja que ta mostrando que mostre direito. No cantinho, com a fonte fina e de branco nao da pra perceber. Mostrar eu acho que é uma boa pros jogadores verem o progresso deles e tentarem mais uma vez
-2 - Nao é um jogo de exploração, até pq uma vez que se descobre o caminho principal o fator "descobrir para aonde ir" acaba. Então acho valido poupar o jogador do tempo para essa descoberta
-3 - O level está impossível
+3 - Nao é um jogo de exploração, até pq uma vez que se descobre o caminho principal o fator "descobrir para aonde ir" acaba. Então acho valido poupar o jogador do tempo para essa descoberta
 4 - Isso muda muito a dinamica do jogo e o que a gente quer destar aqui é o ADD, não criar o máximo de elementos possívels para o jogador não enjoar do jogo ou para fazer com que o jogo pareça mais completo por ter mais elementos.
 
 
@@ -63,6 +111,8 @@ modo de jogo. desviar ou atirar. aumentar area do missil? minimizar os tipos de 
 
 Bugs:
 quando pausa o missel continua em movimento e a fumaça da nave também
+
+quando cheguei no level 3 tudo estava impossivel. e mesmo morrendo a dificuldade nao diminuiu
 
 _____________________
 
@@ -212,4 +262,10 @@ Is Normal: nao
 Asteroid Prefab: Asteroid Normal
 
 
+
+
+
+
+
+- o que uma pessoa 
 

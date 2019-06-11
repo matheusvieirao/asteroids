@@ -13,7 +13,6 @@ public class GetPlayerData: MonoBehaviour{
 		foreach (string line in tempFile)
 			lines.Add (line);
 		lines.RemoveAt (lines.Count-1);//erase the blank line
-		Debug.Log("Number of lines on FisiologicalData.txt: " + lines.Count);
 	}
 
 	public PlayerState GetECGEmotion(){

@@ -26,10 +26,17 @@ public class GameController : MonoBehaviour{
 
 
     void Update () {
+
+        Debug.Log(DataFile.GetCurrentLevel());
+
 		if(HasPressedExitGame())
 			ExitGame();
-		if (shipCollisionStatus.isDead && HasPressedRestart ())
-			RestartLevel ();
+		if (shipCollisionStatus.isDead) {
+            TextEnable.SetHiperspaceText("Pressione espaço");
+            if (HasPressedRestart()) {
+                RestartLevel ();
+            }
+        }
     }
 
 	private bool HasPressedExitGame(){

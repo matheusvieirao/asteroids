@@ -16,9 +16,10 @@ public class PassLevel : MonoBehaviour {
 		ship = player.GetComponent<Ship> ();
 	}
 
-	void Update(){
-		if (ship.hasWon && HasPressedNext ())
-			PassToNextLevel ();
+	void Update()
+    {
+        if (ship.hasWon)
+            PassToNextLevel ();
 	}
 
 	private bool HasPressedNext(){

@@ -9,7 +9,7 @@ public class Ship : MonoBehaviour {
 	private ShipFire shipFire;
 	private int distance;
 	private bool hasArrivedHiperspace = false;
-	private const int ENDGAMEPOINT = 700;
+	private const int ENDGAMEPOINT = 200;
 	public bool hasWon = false;
 
 	void Start () {		

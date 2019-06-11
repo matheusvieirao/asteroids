@@ -44,7 +44,6 @@ public class BitalinoOpen : MonoBehaviour
     public void Kill()
     {
         bitalino.Kill();/*end bitalino process*/
-        UnityEngine.Debug.Log("Closing");
     }
 
     public void IsOpen()
@@ -52,11 +51,9 @@ public class BitalinoOpen : MonoBehaviour
         Invoke("IsOpen", 5);
         if (!bitalino.HasExited)
         {
-            UnityEngine.Debug.Log("running");
         }
         else
         {
-            UnityEngine.Debug.Log("Ended");
             IsRunning = false;
         }
 

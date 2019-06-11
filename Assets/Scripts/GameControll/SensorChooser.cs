@@ -14,7 +14,6 @@ public class SensorChooser : MonoBehaviour {
 	}
 
 	public void SaveSensor(){
-		Debug.Log (sensor.options[sensor.value].text);
 		PlayerPrefs.SetString ("Sensor",sensor.options[sensor.value].text);
 	}
 	

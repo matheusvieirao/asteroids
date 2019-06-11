@@ -50,8 +50,10 @@ public class DataColector : MonoBehaviour {
 		deathTimer.Reset ();
 	}
 
-	public void ResetData(){
-		DataFile.AddToTxtLevel (numberOfLevelDeaths.ToString(), levelTimer.GetElapsedTime().ToString());
+	public void ResetData() {
+        int AsteroidCount = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetAsteroidCount();
+        float maxSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMaxSpeed();
+        DataFile.AddToTxtLevel (AsteroidCount, maxSpeed, numberOfLevelDeaths.ToString(), levelTimer.GetElapsedTime().ToString());
 		numberOfLevelDeaths = 0;
 		deathTimes.Clear ();
 		levelTimer.Reset ();

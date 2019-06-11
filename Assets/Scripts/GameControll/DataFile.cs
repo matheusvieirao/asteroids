@@ -19,19 +19,24 @@ public class DataFile : MonoBehaviour {
 		fileName = file;
 	}
 
-	public static void AddToTxtLevel(string deaths, string time){
-		text +=  "Level " + currentLevel.ToString() + " - Mortes: " + deaths + " | Tempo: " + time +"\n";
-		currentLevel++;
-	}
+	public static void AddToTxtLevel(int asteroidsCount, float maxSpeed, string deaths, string time){
+        float tm = float.Parse(time) / ((float)int.Parse(deaths)+1); //tempo medio por vida
+        text +=  "Level " + currentLevel.ToString() +  " - Nº Asteroids: " + asteroidsCount + " | Velocidade: " + maxSpeed + " | Mortes: " + deaths + " | Tempo: " + time +" | Tempo por vida: " + tm;
+    }
 
     public static void AddToTxtPerguntas2(string dificuldade, string tedio, string frustracao, string diversao)
     {
-        text += "Perguntas 2 - Dificuldade: " + dificuldade + " | Tedio: " + tedio + " | Frustracao: " + frustracao + " | Diversao: " + diversao + "\n";
+        text += " | Dificuldade: " + dificuldade + " | Tedio: " + tedio + " | Frustracao: " + frustracao + " | Diversao: " + diversao + "\n";
+        currentLevel++;
     }
 
 	public static void WriteFile(){
 		File.WriteAllText (fileName+".txt",text);
     }
 
+    public static int GetCurrentLevel ()
+    {
+        return currentLevel;
+    }
 
 }
