@@ -45,7 +45,7 @@ public class PassLevel : MonoBehaviour {
 	private void BalanceOnData(){
 		DDAAply.instance.DensityBalanceNextLevel ();
 		DDAAply.instance.SpeedBalanceNextLevel ();
-		DataColector.instance.ResetData ();
+		DataColector.instance.ResetData (true);
         SceneManager.LoadScene(nextLevel);
     }
 

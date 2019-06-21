@@ -26,9 +26,6 @@ public class GameController : MonoBehaviour{
 
 
     void Update () {
-
-        Debug.Log(DataFile.GetCurrentLevel());
-
 		if(HasPressedExitGame())
 			ExitGame();
 		if (shipCollisionStatus.isDead) {

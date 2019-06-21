@@ -22,59 +22,13 @@ public class CreateAsteroids : MonoBehaviour {
     void Start() {
 
         int level = DataFile.GetCurrentLevel();
-        switch (level)
-        {
-            case 1:
-                AsteroidCount = 500;
-                maxSpeed = 5f;
-                break;
-
-            case 2:
-                AsteroidCount = 650;
-                maxSpeed = 5.5f;
-                break;
-
-            case 3:
-                AsteroidCount = 800;
-                maxSpeed = 6f;
-                break;
-
-            case 4:
-                AsteroidCount = 950;
-                maxSpeed = 6.5f;
-                break;
-
-            case 5:
-                AsteroidCount = 1100;
-                maxSpeed = 7f;
-                break;
-
-            case 6:
-                AsteroidCount = 1250;
-                maxSpeed = 7.5f;
-                break;
-
-            case 7:
-                AsteroidCount = 1400;
-                maxSpeed = 8f;
-                break;
-
-            case 8:
-                AsteroidCount = 1550;
-                maxSpeed = 8.5f;
-                break;
-
-            case 9:
-                AsteroidCount = 1700;
-                maxSpeed = 9f;
-                break;
-
-            case 10:
-                AsteroidCount = 1850;
-                maxSpeed = 9.5f;
-                break;
-
-        }
+        int inicial_densidade = 350;
+        float inicial_velocidade = 4.5f;
+        int razao_densidade = 280;
+        float razao_velocidade = 0.1f;
+        AsteroidCount = inicial_densidade + level * razao_densidade;
+        maxSpeed = inicial_velocidade + level * razao_velocidade;
+        
 
         //if(isNormal)
         //AsteroidCount += DDAAply.instance.densityChange; // TODO criar DDA

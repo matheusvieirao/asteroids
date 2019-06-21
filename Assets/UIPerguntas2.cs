@@ -128,4 +128,9 @@ public class UIPerguntas2 : MonoBehaviour
         
     }
 
+    void OnApplicationQuit() {
+        DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao);
+        DataFile.WriteFile();
+    }
+
 }

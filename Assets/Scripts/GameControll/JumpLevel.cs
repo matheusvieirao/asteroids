@@ -35,7 +35,7 @@ public class JumpLevel : MonoBehaviour {
 	private void BalanceOnData(){
 		DDAAply.instance.DensityBalanceNextLevel ();
 		DDAAply.instance.SpeedBalanceNextLevel ();
-		DataColector.instance.ResetData ();
+		DataColector.instance.ResetData (false);
 
         string nextScene = gameObject.GetComponent<PassLevel>().nextLevel;
         SceneManager.LoadScene(nextScene);

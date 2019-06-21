@@ -107,19 +107,19 @@ public class DDAAply : MonoBehaviour {
 
 		
 	private float GradualSpeedChange(){
-		return (float)DataColector.instance.Deaths/20;
+		return (float)DataColector.instance.numberOfLevelDeaths/20;
 	}
 
 	private int GradualDensityChange(){
-		return DataColector.instance.Deaths*20;
+		return DataColector.instance.numberOfLevelDeaths * 20;
 	}
 
 	private bool LowDeathLevel(){
-		return DataColector.instance.Deaths < 2;
+		return DataColector.instance.numberOfLevelDeaths < 2;
 	}
 
 	private bool MediumDeathLevel(){
-		return DataColector.instance.Deaths < 4;
+		return DataColector.instance.numberOfLevelDeaths < 4;
 	}
 
 }
