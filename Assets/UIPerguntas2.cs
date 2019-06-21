@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIPerguntas2 : MonoBehaviour
@@ -129,7 +130,10 @@ public class UIPerguntas2 : MonoBehaviour
     }
 
     void OnApplicationQuit() {
-        DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao);
+        if (SceneManager.GetActiveScene().name.Equals("Perguntas2")) {
+            SubmitAnswer();
+            DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao);
+        }
         DataFile.WriteFile();
     }
 

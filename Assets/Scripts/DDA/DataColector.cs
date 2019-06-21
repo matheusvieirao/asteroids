@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class DataColector : MonoBehaviour {
@@ -74,9 +75,11 @@ public class DataColector : MonoBehaviour {
 		numberOfLevelDeaths = 0;
 	}
 
-	void OnApplicationQuit(){
-        ResetData(false);
-		DataFile.WriteFile ();
-	}
+	void OnApplicationQuit() {
+        if (SceneManager.GetActiveScene().name.Equals("Level")) {
+            ResetData(false);
+        }
+        DataFile.WriteFile();
+    }
 
 }
