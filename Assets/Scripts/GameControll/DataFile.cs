@@ -25,6 +25,7 @@ public class DataFile : MonoBehaviour {
     public static List<long> soltouRight = new List<long>();
     public static List<long> tiros = new List<long>();
     public static List<long> mortes = new List<long>();
+    private static string nomeCompleto;
     private static float percentualUp;
     private static float percentualDown;
     private static float percentualLeft;
@@ -33,16 +34,21 @@ public class DataFile : MonoBehaviour {
     public static void Init(){
         System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para imprimir separar os floats com '.' e nao ','
         text = "{\n";
-        // TODO nome e sobrenome
-		currentLevel = 1;
+        text += "\t\"nome\": \"" + nomeCompleto + "\",\n";
+        currentLevel = 1;
 	}
 
-	public static void SetFileName(string file){
-		fileName = file;
-	}
+	public static void SetFileName(string fName){
+		fileName = fName + " " + nomeCompleto;
+    }
 
     public static void addTempoFinal(long tempo) {
         tempoFinal = tempo;
+    }
+
+    public static void setNomeCompleto(string nome, string sobrenome) {
+        nomeCompleto = nome + " " + sobrenome;
+        Debug.Log(nomeCompleto);
     }
     
     public static void addFlagEmpatica(long tempo) {

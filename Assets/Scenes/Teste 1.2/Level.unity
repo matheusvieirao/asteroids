@@ -2244,7 +2244,7 @@ PrefabInstance:
     - target: {fileID: 114709805500413928, guid: 5df5e000081873b4dbab8e2450f76fe5,
         type: 3}
       propertyPath: outputFileName
-      value: AsteroidsOutput
+      value: Output
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5df5e000081873b4dbab8e2450f76fe5, type: 3}
