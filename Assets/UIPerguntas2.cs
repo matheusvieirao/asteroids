@@ -10,10 +10,12 @@ public class UIPerguntas2 : MonoBehaviour
     public GameObject grupoTedio;
     public GameObject grupoFrustracao;
     public GameObject grupoDiversao;
+    public GameObject inputText;
     private string respostaDificuldade;
     private string respostaTedio;
     private string respostaFrustracao;
     private string respostaDiversao;
+    private string respostaInputText;
     private bool jaClicouSubmit = false;
 
     void Start()
@@ -74,8 +76,8 @@ public class UIPerguntas2 : MonoBehaviour
                     }
                 }
             }
-
-
+            respostaInputText = inputText.GetComponent<Text>().text;
+            
             //atualizar as setas que informam aonde ainda precisa ser clicado
             if (respostaDificuldade == null)
             {
@@ -123,7 +125,7 @@ public class UIPerguntas2 : MonoBehaviour
 
         if (respostaDificuldade != null && respostaTedio != null && respostaFrustracao != null && respostaDiversao != null)
         {
-            DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao);
+            DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
             gameObject.GetComponent<ProximaCena>().passLevel();
         }
         
@@ -131,8 +133,9 @@ public class UIPerguntas2 : MonoBehaviour
 
     void OnApplicationQuit() {
         if (SceneManager.GetActiveScene().name.Equals("Perguntas2")) {
-            SubmitAnswer();
-            DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao);
+            jaClicouSubmit = true;
+            Update();
+            DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
             DataFile.WriteFile();
         }
     }

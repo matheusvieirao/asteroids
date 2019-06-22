@@ -72,7 +72,6 @@ public class DataFile : MonoBehaviour {
 
 
     public static void AddToTxtLevel(int asteroidsCount, float maxSpeed, bool venceu) {
-        Debug.Log("escrevendo level");
         if (apertouUp.Count() != 0)
             tempoInicial = apertouUp[0];
         tempoDuracao = ((float)(tempoFinal - tempoInicial)) / 10000000f;
@@ -135,8 +134,13 @@ public class DataFile : MonoBehaviour {
         float ticksApertando = 0;
         
         for (int j = 0; j < soltouX.Count(); j++) {
-            ticksApertando += soltouX[j] - apertouX[i];
-            i++;
+            if(i<apertouX.Count()) {
+                ticksApertando += soltouX[j] - apertouX[i];
+                i++;
+            }
+            else {
+                Debug.Log("Conferir essa linha de codigo pq o soltouX[" + j + "]: " + soltouX[j] + " não foi adicionado");
+            }
         }
         //terminou o jogo segurando a tecla
         if (apertouX.Count() > soltouX.Count()) {
@@ -158,13 +162,12 @@ public class DataFile : MonoBehaviour {
 
     }
 
-    public static void AddToTxtPerguntas2(string dificuldade, string tedio, string frustracao, string diversao) {
-        Debug.Log("escrevendo perguntas");
-
+    public static void AddToTxtPerguntas2(string dificuldade, string tedio, string frustracao, string diversao, string opiniao) {
         text += "\t\t\"dificuldade\": " + dificuldade + ",\n";
         text += "\t\t\"tedio\": " + tedio + ",\n";
         text += "\t\t\"frustracao\": " + frustracao + ",\n";
         text += "\t\t\"diversao\": " + diversao + "\n";
+        text += "\t\t\"opiniao\": " + opiniao + "\n";
         text += "\t}\n";
         currentLevel++;
     }
