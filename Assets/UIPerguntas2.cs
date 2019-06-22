@@ -133,8 +133,8 @@ public class UIPerguntas2 : MonoBehaviour
         if (SceneManager.GetActiveScene().name.Equals("Perguntas2")) {
             SubmitAnswer();
             DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao);
+            DataFile.WriteFile();
         }
-        DataFile.WriteFile();
     }
 
 }

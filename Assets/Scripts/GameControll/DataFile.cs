@@ -11,7 +11,7 @@ public class DataFile : MonoBehaviour {
 	public static string text;
 
 	public static int currentLevel;
-    public static long tempoInicial; //em ticks
+    public static long tempoInicial=0; //em ticks
     public static long tempoFinal; //em ticks
     public static float tempoDuracao; //em segundos
     public static List<long> botaoFlagEmpatica = new List<long>();
@@ -42,10 +42,6 @@ public class DataFile : MonoBehaviour {
 		fileName = fName + " " + nomeCompleto;
     }
 
-    public static void addTempoFinal(long tempo) {
-        tempoFinal = tempo;
-    }
-
     public static void setNomeCompleto(string nome, string sobrenome) {
         nomeCompleto = nome + " " + sobrenome;
         Debug.Log(nomeCompleto);
@@ -54,6 +50,13 @@ public class DataFile : MonoBehaviour {
     public static void addFlagEmpatica(long tempo) {
         botaoFlagEmpatica.Add(tempo);
         Debug.Log((new System.DateTime(tempo)).ToString());
+    }
+
+    public static void addTempoFinal(long tempo) {
+        tempoFinal = tempo;
+        if(tempoInicial == 0) {
+            tempoInicial = tempoFinal;
+        }
     }
 
     public static void addApertouUp(long tempo) { apertouUp.Add(tempo); }
@@ -69,6 +72,7 @@ public class DataFile : MonoBehaviour {
 
 
     public static void AddToTxtLevel(int asteroidsCount, float maxSpeed, bool venceu) {
+        Debug.Log("escrevendo level");
         if (apertouUp.Count() != 0)
             tempoInicial = apertouUp[0];
         tempoDuracao = ((float)(tempoFinal - tempoInicial)) / 10000000f;
@@ -104,9 +108,9 @@ public class DataFile : MonoBehaviour {
 
     private static void AddToTxtListLong(List<long> array, string arrayName) {
         text += "\t\t\"" + arrayName + "\": [\n";
-        foreach (long element in array) {
-            text += "\t\t\t" + element;
-            if (element.Equals(array.Last<long>())) {
+        for(int i = 0; i < array.Count(); i++) {
+            text += "\t\t\t" + array[i];
+            if (i == array.Count()-1) {
                 text += "\n\t\t],\n";
             }
             else {
@@ -155,6 +159,7 @@ public class DataFile : MonoBehaviour {
     }
 
     public static void AddToTxtPerguntas2(string dificuldade, string tedio, string frustracao, string diversao) {
+        Debug.Log("escrevendo perguntas");
 
         text += "\t\t\"dificuldade\": " + dificuldade + ",\n";
         text += "\t\t\"tedio\": " + tedio + ",\n";

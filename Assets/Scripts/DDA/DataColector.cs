@@ -77,9 +77,10 @@ public class DataColector : MonoBehaviour {
 
 	void OnApplicationQuit() {
         if (SceneManager.GetActiveScene().name.Equals("Level")) {
+            Debug.Log("On app quit LEVEL");
             ResetData(false);
+            DataFile.WriteFile();
         }
-        DataFile.WriteFile();
     }
 
 }
