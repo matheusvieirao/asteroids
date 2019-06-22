@@ -71,7 +71,7 @@ public class DataFile : MonoBehaviour {
     public static void addMorte(long tempo) { mortes.Add(tempo); }
 
 
-    public static void AddToTxtLevel(int asteroidsCount, float maxSpeed, bool venceu) {
+    public static void AddToTxtLevel(int asteroidsCount, float minSpeed, float maxSpeed, bool venceu) {
         if (apertouUp.Count() != 0)
             tempoInicial = apertouUp[0];
         tempoDuracao = ((float)(tempoFinal - tempoInicial)) / 10000000f;
@@ -79,7 +79,8 @@ public class DataFile : MonoBehaviour {
 
         text += "\t\"Level " + currentLevel.ToString() + "\": {\n"
         + "\t\t\"numero de asteroids\": " + asteroidsCount + ",\n"
-        + "\t\t\"velocidade dos asteroids\": " + maxSpeed + ",\n"
+        + "\t\t\"velocidade minima dos asteroids\": " + minSpeed + ",\n"
+        + "\t\t\"velocidade maxima dos asteroids\": " + maxSpeed + ",\n"
         + "\t\t\"tempo inicial\": " + tempoInicial + ",\n"
         + "\t\t\"tempo final\": " + tempoFinal + ",\n"
         + "\t\t\"tempo total\": " + tempoDuracao + ",\n"

@@ -71,10 +71,11 @@ public class DataColector : MonoBehaviour {
 
 	public void ResetData(bool venceu) {
         int AsteroidCount = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetAsteroidCount();
+        float minSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMinSpeed();
         float maxSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMaxSpeed();
         long tempoFinal = System.DateTime.Now.Ticks;
         DataFile.addTempoFinal(tempoFinal);
-        DataFile.AddToTxtLevel (AsteroidCount, maxSpeed, venceu);
+        DataFile.AddToTxtLevel (AsteroidCount, minSpeed, maxSpeed, venceu);
 		numberOfLevelDeaths = 0;
 	}
 
