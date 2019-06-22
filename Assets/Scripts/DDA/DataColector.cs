@@ -20,6 +20,9 @@ public class DataColector : MonoBehaviour {
             DataFile.SetFileName(outputFileName);
             DataFile.Init();
         }
+        else if (instance != this) {
+            Destroy(gameObject);
+        }
         DontDestroyOnLoad(gameObject);
     }
 

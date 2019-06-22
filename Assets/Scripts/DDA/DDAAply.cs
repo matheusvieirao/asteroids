@@ -31,7 +31,10 @@ public class DDAAply : MonoBehaviour {
 			instance = prefab.GetComponent<DDAAply> ();
 			instance.emotion = PlayerState.NORMAL;
 		}
-		DontDestroyOnLoad (gameObject);
+        else if (instance != this) {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad (gameObject);
 		string sensor = PlayerPrefs.GetString ("Sensor");
 		if (sensor == "EDA")
 			IsEDA = true;
