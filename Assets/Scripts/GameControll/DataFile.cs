@@ -173,7 +173,6 @@ public class DataFile : MonoBehaviour {
         + "\t\t\t\"opiniao\": " + opiniao + "\n"
         + "\t\t}\n"
         +"\t}\n";
-        currentLevel++;
     }
 
 	public static void WriteFile() {
@@ -183,6 +182,10 @@ public class DataFile : MonoBehaviour {
 
     public static int GetCurrentLevel () {
         return currentLevel;
+    }
+
+    public static void AddLevel() {
+        currentLevel++;
     }
 
 }

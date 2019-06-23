@@ -126,6 +126,10 @@ public class UIPerguntas2 : MonoBehaviour
         if (respostaDificuldade != null && respostaTedio != null && respostaFrustracao != null && respostaDiversao != null)
         {
             DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+            if(DataFile.GetCurrentLevel() == 10) {
+                gameObject.GetComponent<ProximaCena>().nextScene = "Fim do Jogo";
+            }
+            DataFile.AddLevel();
             gameObject.GetComponent<ProximaCena>().passLevel();
         }
         
