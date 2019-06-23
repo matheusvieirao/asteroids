@@ -3,12 +3,13 @@ using System.Collections;
 
 public class CreateAsteroids : MonoBehaviour {
 
-    public int AsteroidCount = 500;
+    private int AsteroidCount = 1000;
 
     private float minSize = 1.75f;
     private float maxSize = 2.00f;
 
-    public float maxSpeed = 5f;
+    private float maxSpeed = 1f;
+    private float minSpeed = 0f;
 
     public static float minX = 20f;
     public static float maxX = 600f;
@@ -22,12 +23,18 @@ public class CreateAsteroids : MonoBehaviour {
     void Start() {
 
         int level = DataFile.GetCurrentLevel();
-        int inicial_densidade = 350;
-        float inicial_velocidade = 4.5f;
-        int razao_densidade = 280;
-        float razao_velocidade = 0.1f;
-        AsteroidCount = inicial_densidade + level * razao_densidade;
-        maxSpeed = inicial_velocidade + level * razao_velocidade;
+        int inicial_densidade = 1000;
+        int razao_densidade = 500;
+        float inicial_velocidade_min = 0f;
+        float inicial_velocidade_max = 1.0f;
+        float razao_velocidade = 1f;
+        //AsteroidCount = inicial_densidade + level * razao_densidade;
+        AsteroidCount = 1000;
+        minSpeed = inicial_velocidade_min + level * razao_velocidade;
+        maxSpeed = inicial_velocidade_max + level * razao_velocidade;
+        if(minSpeed < 0) {
+            minSpeed = 0;
+        }
         
 
         //if(isNormal)
@@ -44,15 +51,15 @@ public class CreateAsteroids : MonoBehaviour {
 
             AsteroidMovement movement = GameObject.FindObjectOfType<AsteroidMovement>();
             movement.Direction = AsteroidDirection();
+            movement.setSpeed(Random.Range(minSpeed, maxSpeed));
         }
     }
 
 
     private Vector3 AsteroidDirection() {
         float angle = Random.Range(0, 360);
-        float speed = Random.Range(0, maxSpeed * 2);
-        float mx = speed * Mathf.Cos(Mathf.Deg2Rad * angle);
-        float my = speed * Mathf.Sin(Mathf.Deg2Rad * angle);
+        float mx = Mathf.Cos(Mathf.Deg2Rad * angle);
+        float my = Mathf.Sin(Mathf.Deg2Rad * angle);
         float mz = 0f;
 
         return new Vector3(mx, my, mz);
@@ -72,5 +79,9 @@ public class CreateAsteroids : MonoBehaviour {
     public float GetMaxSpeed() {
         return maxSpeed;
     }
-    
+
+    public float GetMinSpeed() {
+        return minSpeed;
+    }
+
 }

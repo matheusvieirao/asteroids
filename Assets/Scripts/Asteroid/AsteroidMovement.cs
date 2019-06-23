@@ -10,9 +10,9 @@ public class AsteroidMovement : MonoBehaviour {
 	public Vector3 Direction;
 
 	void Start(){
-		speed += DDAAply.instance.speedChange;
+		//speed += DDAAply.instance.speedChange;
 		if (speed < MINIMUNSPEED)
-			speed = 0.1f;
+			speed = MINIMUNSPEED;
 	}
 
 	void Update (){
@@ -40,6 +40,9 @@ public class AsteroidMovement : MonoBehaviour {
 			Direction.y = -Direction.y;	
 	}
 
+    public void setSpeed(float s) {
+        speed = s;
+    }
 
 }
 
