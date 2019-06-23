@@ -5,8 +5,8 @@ public class CreateAsteroids : MonoBehaviour {
 
     public int AsteroidCount = 500;
 
-    public float minSize = 0.75f;
-    public float maxSize = 0.75f;
+    private float minSize = 1.75f;
+    private float maxSize = 2.00f;
 
     public float maxSpeed = 5f;
 
