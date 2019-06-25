@@ -29,10 +29,10 @@ public class PassLevel : MonoBehaviour {
 	}
 
 	public void PassToNextLevel(){
-		if (bitalino.IsRunning) {
-			bitalino.Kill ();
-			Invoke ("BalanceWithSignals", 2);
-		} else
+		//if (bitalino.IsRunning) {
+		//	bitalino.Kill ();
+		//	Invoke ("BalanceWithSignals", 2);
+		//} else
 			BalanceOnData ();
 	}
 

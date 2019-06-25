@@ -49,7 +49,7 @@ public class DataFile : MonoBehaviour {
     
     public static void addFlagEmpatica(long tempo) {
         botaoFlagEmpatica.Add(tempo);
-        Debug.Log((new System.DateTime(tempo)).ToString());
+        Debug.Log("Flag: " + (new System.DateTime(tempo)).ToString());
     }
 
     public static void addTempoFinal(long tempo) {
@@ -176,6 +176,22 @@ public class DataFile : MonoBehaviour {
     }
 
 	public static void WriteFile() {
+        
+
+        text += "\t\"Flag Empatica\": [\n";
+        for (int i = 0; i < botaoFlagEmpatica.Count(); i++) {
+            text += "\t\t" + botaoFlagEmpatica[i];
+            if (i == botaoFlagEmpatica.Count() - 1) {
+                text += "\n\t]\n";
+            }
+            else {
+                text += ",\n";
+            }
+        }
+        if (botaoFlagEmpatica.Count() == 0) {
+            text += "\t]\n";
+        }
+
         text += "}\n";
         File.WriteAllText (fileName+".txt",text);
     }

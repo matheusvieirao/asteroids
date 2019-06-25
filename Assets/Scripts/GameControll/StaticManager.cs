@@ -5,6 +5,7 @@ using UnityEngine;
 public class StaticManager : MonoBehaviour {
 
     public GameObject seta;
+    public GameObject camera;
     private bool mostrarSeta = false;
 
 	void Awake () {
@@ -15,6 +16,7 @@ public class StaticManager : MonoBehaviour {
     private void Start()
     {
 
+        camera.SetActive(false);
         if (DataFile.GetCurrentLevel() == 1) {
             mostrarSeta = true;
         }
@@ -22,6 +24,14 @@ public class StaticManager : MonoBehaviour {
 
     private void Update()
     {
+        if (Input.GetKey(KeyCode.Q)) {
+            if(Input.GetKey(KeyCode.W)) {
+                camera.SetActive(true);
+            }
+            else {
+                camera.SetActive(false);
+            }
+        }
         if (mostrarSeta) {
             if (Input.GetKey("up"))
             {
