@@ -87,39 +87,55 @@ public class DataFile : MonoBehaviour {
         + "\t\t\"tempo por vida\": " + tempoDuracao / (mortes.Count()+1) + ",\n"
         + "\t\t\"venceu\": " + venceu.ToString().ToLower() + ",\n"
         + "\t\t\"total de mortes\": " + mortes.Count() + ",\n";
-        AddToTxtListLong(mortes, "mortes");
+        AddToTxtMorte(mortes, "mortes");
         text += "\t\t\"Teclas\": {\n";
         text += "\t\t\t\"total de tiros\": " + tiros.Count() + ",\n";
         AddToTxtListLong(tiros, "tiros");
-        text += "\t\t\t\"percentual up\": " + percentualUp + ",\n";
         AddToTxtListLong(apertouUp, "apertou up");
         AddToTxtListLong(soltouUp, "soltou up");
-        text += "\t\t\t\"percentual down\": " + percentualDown + ",\n";
+        text += "\t\t\t\"percentual up\": " + percentualUp + ",\n";
         AddToTxtListLong(apertouDown, "apertou down");
         AddToTxtListLong(soltouDown, "soltou down");
-        text += "\t\t\t\"percentual left\": " + percentualLeft + ",\n";
+        text += "\t\t\t\"percentual down\": " + percentualDown + ",\n";
         AddToTxtListLong(apertouLeft, "apertou left");
         AddToTxtListLong(soltouLeft, "soltou left");
-        text += "\t\t\t\"percentual right\": " + percentualRight + ",\n";
+        text += "\t\t\t\"percentual left\": " + percentualLeft + ",\n";
         AddToTxtListLong(apertouRight, "apertou right");
         AddToTxtListLong(soltouRight, "soltou right");
-        text += "\t\t\t\"percentual right\": " + percentualRight + ",\n";
-        text += "\t\t}\n";
+        text += "\t\t\t\"percentual right\": " + percentualRight + "\n";
+        text += "\t\t},\n";
     }
 
     private static void AddToTxtListLong(List<long> array, string arrayName) {
         text += "\t\t\t\"" + arrayName + "\": [\n";
-        for(int i = 0; i < array.Count(); i++) {
+        for (int i = 0; i < array.Count(); i++) {
             text += "\t\t\t\t" + array[i];
-            if (i == array.Count()-1) {
+            if (i == array.Count() - 1) {
                 text += "\n\t\t\t],\n";
             }
             else {
                 text += ",\n";
             }
         }
-        if(array.Count()==0) {
-            text += "\t\t\t]\n";
+        if (array.Count() == 0) {
+            text += "\t\t\t],\n";
+        }
+        array.Clear();
+    }
+
+    private static void AddToTxtMorte(List<long> array, string arrayName) {
+        text += "\t\t\"" + arrayName + "\": [\n";
+        for (int i = 0; i < array.Count(); i++) {
+            text += "\t\t\t" + array[i];
+            if (i == array.Count() - 1) {
+                text += "\n\t\t],\n";
+            }
+            else {
+                text += ",\n";
+            }
+        }
+        if (array.Count() == 0) {
+            text += "\t\t],\n";
         }
         array.Clear();
     }
@@ -165,14 +181,17 @@ public class DataFile : MonoBehaviour {
     }
 
     public static void AddToTxtPerguntas2(string dificuldade, string tedio, string frustracao, string diversao, string opiniao) {
+        if (opiniao == "") {
+            opiniao = "\"\"";
+        }
         text += "\t\t\"Questionario\": {\n"
         + "\t\t\t\"dificuldade\": " + dificuldade + ",\n"
         + "\t\t\t\"tedio\": " + tedio + ",\n"
         + "\t\t\t\"frustracao\": " + frustracao + ",\n"
-        + "\t\t\t\"diversao\": " + diversao + "\n"
+        + "\t\t\t\"diversao\": " + diversao + ",\n"
         + "\t\t\t\"opiniao\": " + opiniao + "\n"
         + "\t\t}\n"
-        +"\t}\n";
+        +"\t},\n";
     }
 
 	public static void WriteFile() {
@@ -193,6 +212,7 @@ public class DataFile : MonoBehaviour {
         }
 
         text += "}\n";
+
         File.WriteAllText (fileName+".txt",text);
     }
 
