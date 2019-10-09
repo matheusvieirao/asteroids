@@ -33,7 +33,6 @@ public class JumpLevel : MonoBehaviour {
 	}
 
 	private void BalanceOnData(){
-		DDAAply.instance.DensityBalanceNextLevel ();
 		DDAAply.instance.SpeedBalanceNextLevel ();
 		DataColector.instance.ResetData (false);
 

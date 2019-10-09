@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour{
 			ExitGame();
 		if (shipCollisionStatus.isDead) {
             TextEnable.SetHiperspaceText("Pressione espaço");
-            if (HasPressedRestart()) {
+            if (Input.GetKeyDown(KeyCode.Space)) {
                 RestartLevel ();
             }
         }
@@ -43,15 +43,8 @@ public class GameController : MonoBehaviour{
 	}
 
 	private void RestartLevel(){
-		DDAAply.instance.DensityBalanceCurrentLevel ();
 		DDAAply.instance.SpeedBalanceCurrentLevel ();
 		SceneManager.LoadScene (actualScene);
-	}
-
-	private bool HasPressedRestart(){
-		if (Input.GetKeyDown (KeyCode.Space))
-			return true;
-		return false;
 	}
 
 	private void ExitGame(){

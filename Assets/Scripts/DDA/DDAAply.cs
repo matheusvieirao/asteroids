@@ -10,8 +10,6 @@ public class DDAAply : MonoBehaviour {
 	public static DDAAply instance;
 		
 	public GetPlayerData playerSignals;
-	public int densityChange = 0; //the actual amout of change
-	public int lastDensityChange = 0;//the last level amount of change
 	public float speedChange = 0;//idem for speed
 	public float lastSpeedChange = 0;
 
@@ -77,40 +75,14 @@ public class DDAAply : MonoBehaviour {
 		speedChange = lastSpeedChange;
 	}
 
-	public void DensityBalanceNextLevel(){
-		if (LowDeathLevel () && emotion==PlayerState.BORED)
-			lastDensityChange += 200;
-		else if (LowDeathLevel () && emotion==PlayerState.NORMAL)
-			lastDensityChange += 150;
-		else if (MediumDeathLevel () && emotion==PlayerState.STRESSED)
-			lastDensityChange += signalChange*GradualDensityChange();
-		else if(MediumDeathLevel () && emotion==PlayerState.NORMAL)
-			lastDensityChange += GradualDensityChange();
-		else if(MediumDeathLevel () && emotion==PlayerState.BORED)
-			lastDensityChange += 50;
-		else if(emotion==PlayerState.STRESSED)
-			lastDensityChange += signalChange*GradualDensityChange() -50;
-		else if(emotion==PlayerState.NORMAL)
-			lastDensityChange += signalChange*GradualDensityChange();
-		densityChange = lastDensityChange;
-	}
-
 	public void SpeedBalanceCurrentLevel(){
 		speedChange = lastSpeedChange+ signalChange*GradualSpeedChange();
 
 	}
 
-	public void DensityBalanceCurrentLevel(){
-		densityChange = lastDensityChange+signalChange*GradualDensityChange();
-	}
-
 		
 	private float GradualSpeedChange(){
 		return (float)DataColector.instance.numberOfLevelDeaths/20;
-	}
-
-	private int GradualDensityChange(){
-		return DataColector.instance.numberOfLevelDeaths * 20;
 	}
 
 	private bool LowDeathLevel(){
