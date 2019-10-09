@@ -42,22 +42,18 @@ public class DDAAply : MonoBehaviour {
 			IsECG = true;
 	}
 
-	public void BalanceWithEmotion(){
-		GetPlayerData ();
-	}	
+	public void BalanceWithEmotion() {
+        playerSignals = GameObject.Find("Game Controller").GetComponent<GetPlayerData>();
+        string playerData = File.ReadAllText("FisiologicalData.txt");
+        playerSignals.BreakIntoLines(playerData);
 
-	public void GetPlayerData(){
-		playerSignals = GameObject.Find("Game Controller").GetComponent<GetPlayerData>();
-		string playerData = File.ReadAllText("FisiologicalData.txt");
-		playerSignals.BreakIntoLines (playerData);
-
-		if (IsEDA)
-			emotion = playerSignals.GetEDAEmotion ();
-		else if (IsECG)
-			emotion = playerSignals.GetECGEmotion ();
-		else
-			emotion = PlayerState.NORMAL;
-	}
+        if (IsEDA)
+            emotion = playerSignals.GetEDAEmotion();
+        else if (IsECG)
+            emotion = playerSignals.GetECGEmotion();
+        else
+            emotion = PlayerState.NORMAL;
+    }
 				
 	public void SpeedBalanceNextLevel(){
 		if (LowDeathLevel () && emotion==PlayerState.BORED)

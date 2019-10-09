@@ -59,16 +59,16 @@ public class GetPlayerData: MonoBehaviour{
 //		LastMeasures[0] = MeasureToCondutanceEDA(GetEDAValue(lines[lines.Count-2]));
 //		LastMeasures[1] = MeasureToCondutanceEDA(GetEDAValue(lines[lines.Count-1]));
 		double[] LastMeasures =  new double[lines.Count];
-		int aboveAvarage = 0;
+
 		double avarage = 0;
 		for (int i = 0; i < LastMeasures.Length ; i++){
 			LastMeasures[i] = MeasureToCondutanceEDA(GetEDAValue(lines[i]));
-			avarage = LastMeasures [i];
+			avarage += LastMeasures [i];
 		}
-
 		avarage = avarage / LastMeasures.Length;
 
-		for (int i = 0; i < LastMeasures.Length; i++) {
+        int aboveAvarage = 0;
+        for (int i = 0; i < LastMeasures.Length; i++) {
 			if (LastMeasures [i] > avarage)
 				aboveAvarage++;
 		}
