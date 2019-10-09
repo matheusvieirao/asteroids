@@ -23,8 +23,6 @@ public class CreateAsteroids : MonoBehaviour {
     void Start() {
 
         int level = DataFile.GetCurrentLevel();
-        int inicial_densidade = 1000;
-        int razao_densidade = 500;
         float inicial_velocidade_min = 0f;
         float inicial_velocidade_max = 1.0f;
         float razao_velocidade = 1f;
@@ -35,10 +33,8 @@ public class CreateAsteroids : MonoBehaviour {
         if(minSpeed < 0) {
             minSpeed = 0;
         }
-        
-
-        //if(isNormal)
-        //AsteroidCount += DDAAply.instance.densityChange; // TODO criar DDA
+        //minSpeed += DDAAply.instance.speedChange; // TODO criar DDA
+        //maxSpeed += DDAAply.instance.speedChange; // TODO criar DDA
         for (int i = 0; i < AsteroidCount; i++) {
 
             GameObject asteroid = (GameObject)Instantiate(asteroidPrefab, StartPosition(), Quaternion.Euler(0, 0, 0));

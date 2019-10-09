@@ -47,25 +47,6 @@ public class UDPObj : MonoBehaviour
         init();
     }
 
-    // OnGUI
-    //void OnGUI()
-    //{
-    //    Rect rectObj = new Rect(40, 10, 200, 400);
-    //    GUIStyle style = new GUIStyle();
-    //    style.alignment = TextAnchor.UpperLeft;
-    //    GUI.Box(rectObj, "# UDP Object Receive\n127.0.0.1:" + portLocal + "\n"
-    //    + "\nLast Packet: \n" + lastReceivedUDPPacket
-    //    + "\n\nAll Messages: \n" + allReceivedUDPPackets
-    //        , style);
-
-    //    strMessageSend = GUI.TextField(new Rect(40, 420, 140, 20), strMessageSend);
-    //    if (GUI.Button(new Rect(190, 420, 40, 20), "send"))
-    //    {
-    //        sendData(strMessageSend + "\n");
-    //    }
-
-    //}
-
     // Initialization code
     private void init()
     {

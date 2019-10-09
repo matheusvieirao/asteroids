@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour{
 	}
 
 	private void RestartLevel(){
-		DDAAply.instance.SpeedBalanceCurrentLevel ();
+		DDAAply.instance.SpeedBalanceCurrentLevel (); //balanceia level atual baseando apenas em mortes
 		SceneManager.LoadScene (actualScene);
 	}
 
