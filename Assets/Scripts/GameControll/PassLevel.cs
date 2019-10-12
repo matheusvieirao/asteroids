@@ -19,32 +19,44 @@ public class PassLevel : MonoBehaviour {
     {
         if (ship.hasWon)
             PassToNextLevel ();
-	}
+        if (Input.GetKeyDown(KeyCode.P))
+            Jump();
+    }
 
-	private bool HasPressedNext(){
-		if (Input.GetKeyDown (KeyCode.Space))
-			return true;
-		return false;
-	}
+    private void Jump() {
+        /*if (bitalino.IsRunning) {
+			bitalino.Kill ();
+			Invoke ("BalanceWithSignals", 2);
+		} else*/
+            BalanceOnData(false);
+    }
 
 	public void PassToNextLevel(){
 		//if (bitalino.IsRunning) {
 		//	bitalino.Kill ();
 		//	Invoke ("BalanceWithSignals", 2);
 		//} else
-			BalanceOnData ();
+		    BalanceOnData (true);
 	}
 
 
 	private void BalanceWithSignals(){
-		DDAAply.instance.BalanceWithEmotion ();
-		BalanceOnData ();
+		//DDAAply.instance.BalanceWithEmotion ();
+		//BalanceOnData ();
 	}
 
-	private void BalanceOnData(){
+	private void BalanceOnData(bool venceu){
 		DDAAply.instance.SpeedBalanceNextLevel ();
-		DataColector.instance.ResetData (true);
+		DataColector.instance.AddToOutputLevel(venceu);
         SceneManager.LoadScene(nextLevel);
     }
 
+    void OnApplicationQuit() {
+        if (SceneManager.GetActiveScene().name.Equals("Level")) {
+            DataColector.instance.SetTempoFinal();
+            DataColector.instance.AddToOutputLevel(false);
+            DataColector.instance.AddLevelToJson();
+            DataColector.instance.Write();
+        }
+    }
 }

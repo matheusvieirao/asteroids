@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// mostrar imagens na tela
 public class StaticManager : MonoBehaviour {
 
     public GameObject seta;

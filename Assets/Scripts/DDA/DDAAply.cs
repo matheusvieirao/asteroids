@@ -13,7 +13,7 @@ public class DDAAply : MonoBehaviour {
 	public float speedChange = 0;//idem for speed
 	public float lastSpeedChange = 0;
 
-	private float EDA = 0; //eda values
+	//private float EDA = 0; //eda values
 
 	public bool isFirstLevel = false;
 
@@ -44,8 +44,6 @@ public class DDAAply : MonoBehaviour {
         playerSignals = GameObject.Find("Game Controller").GetComponent<GetPlayerData>();
         string playerData = File.ReadAllText("FisiologicalData.txt");
         playerSignals.BreakIntoLines(playerData);
-
-        print("BalanceWithEmotion - IsEDA: " + IsEDA);
 
         if (IsEDA)
             emotion = playerSignals.GetEDAEmotion();

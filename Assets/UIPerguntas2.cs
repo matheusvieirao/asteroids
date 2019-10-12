@@ -111,11 +111,8 @@ public class UIPerguntas2 : MonoBehaviour
             {
                 grupoDiversao.transform.Find("Seta").GetComponent<Image>().enabled = false;
             }
-        }
-        
+        }    
     }
-
-
 
     public void SubmitAnswer()
     {
@@ -125,7 +122,8 @@ public class UIPerguntas2 : MonoBehaviour
 
         if (respostaDificuldade != null && respostaTedio != null && respostaFrustracao != null && respostaDiversao != null)
         {
-            DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+            DataColector.instance.AddToOutputPerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+            DataColector.instance.AddLevelToJson();
             if(DataColector.instance.GetCurrentLevel() == 10) {
                 gameObject.GetComponent<ProximaCena>().nextScene = "Fim do Jogo";
             }
@@ -139,8 +137,9 @@ public class UIPerguntas2 : MonoBehaviour
         if (SceneManager.GetActiveScene().name.Equals("Perguntas2")) {
             jaClicouSubmit = true;
             Update();
-            DataFile.AddToTxtPerguntas2(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
-            DataFile.WriteFile();
+            DataColector.instance.AddToOutputPerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+            DataColector.instance.AddLevelToJson();
+            DataColector.instance.Write();
         }
     }
 

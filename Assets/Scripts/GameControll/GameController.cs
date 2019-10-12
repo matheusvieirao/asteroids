@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour{
 
     void Start (){
 		LoadResourcers ();
+        DataColector.instance.SetTempoInicial();
 	}
 
 	private void LoadResourcers(){

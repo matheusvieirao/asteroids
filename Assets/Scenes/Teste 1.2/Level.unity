@@ -1966,7 +1966,8 @@ PrefabInstance:
       propertyPath: cameraIcone
       value: 
       objectReference: {fileID: 1884900807}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114659919226736872, guid: 88f6581592814af40a5a5a67eb86dad2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 88f6581592814af40a5a5a67eb86dad2, type: 3}
 --- !u!1 &1658734843
 GameObject:

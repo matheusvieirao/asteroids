@@ -36,8 +36,8 @@ public class EDAStart : MonoBehaviour
                 Debug.Log(www.error);
             }
             else {
-                string jsonString = www.downloadHandler.text;
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
+                string jsonString = www.downloadHandler.text;
                 sinais = JsonUtility.FromJson<EDASignals>(jsonString);
             }
 

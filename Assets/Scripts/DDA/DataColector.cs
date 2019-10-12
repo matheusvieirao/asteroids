@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.IO;
+using System;
 
+// Possui uma unica instancia. 
+// É usada para se passar dados dados entre diferentes cenas do jogo.
+// Está atrelada ao prefab "DataReceiver"
+// No final escreve os dados no JSON representado por pela variavel df (DataFile)
 public class DataColector : MonoBehaviour {
 
     public GameObject prefab;
 
-    public string outputFileName;
-
     static public DataColector instance = null;
     public static int currentLevel;
+    public string nomeCompleto;
     public int numberOfLevelDeaths;
+    DataFile df;
 
     void Start() {
-
         if (instance == null)
         {
             instance = prefab.GetComponent<DataColector>();
-            DataFile.SetFileName(outputFileName);
-            DataFile.Init();
+            df = new DataFile();
             currentLevel = 1;
         }
         else if (instance != this) {
@@ -34,58 +38,71 @@ public class DataColector : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.Q)){
             if (Input.GetKeyDown(KeyCode.W)) {
-                DataFile.addFlagEmpatica(agora);
+                df.addFlagEmpatica(agora);
             }
         }
         if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            DataFile.addApertouUp(agora);
+            df.addApertouUp(agora);
         }
         if (Input.GetKeyUp(KeyCode.UpArrow)) {
-            DataFile.addSoltouUp(agora);
+            df.addSoltouUp(agora);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            DataFile.addApertouDown(agora);
+            df.addApertouDown(agora);
         }
         if (Input.GetKeyUp(KeyCode.DownArrow)) {
-            DataFile.addSoltouDown(agora);
+            df.addSoltouDown(agora);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            DataFile.addApertouLeft(agora);
+            df.addApertouLeft(agora);
         }
         if (Input.GetKeyUp(KeyCode.LeftArrow)) {
-            DataFile.addSoltouLeft(agora);
+            df.addSoltouLeft(agora);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            DataFile.addApertouRight(agora);
+            df.addApertouRight(agora);
         }
         if (Input.GetKeyUp(KeyCode.RightArrow)) {
-            DataFile.addSoltouRight(agora);
+            df.addSoltouRight(agora);
         }
         if (Input.GetKeyDown(KeyCode.Space)) {
-            DataFile.addTiro(agora);
+            df.addTiro(agora);
         }
 	}
 
 	public void AddDeath(){
 		numberOfLevelDeaths++;
-        DataFile.addMorte(System.DateTime.Now.Ticks);
+        df.addMorte(System.DateTime.Now.Ticks);
 	}
 
-	public void ResetData(bool venceu) {
+	public void AddToOutputLevel(bool venceu) {
         int AsteroidCount = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetAsteroidCount();
         float minSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMinSpeed();
         float maxSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMaxSpeed();
-        long tempoFinal = System.DateTime.Now.Ticks;
-        DataFile.addTempoFinal(tempoFinal);
-        DataFile.AddToTxtLevel (AsteroidCount, minSpeed, maxSpeed, venceu);
+        df.AddToOutputFileLevel (AsteroidCount, minSpeed, maxSpeed, venceu);
 		numberOfLevelDeaths = 0;
-	}
+    }
 
-	void OnApplicationQuit() {
-        if (SceneManager.GetActiveScene().name.Equals("Level")) {
-            ResetData(false);
-            DataFile.WriteFile();
-        }
+    public void AddToOutputPerguntas(string respostaDificuldade, string respostaTedio, string respostaFrustracao, string respostaDiversao, string respostaInputText) {
+        df.AddToOutputFilePerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+    }
+
+    public void Write() {
+        string jsonstring = JsonUtility.ToJson(df, true);
+        File.WriteAllText("Output "+nomeCompleto+".txt", jsonstring);
+    }
+
+    public void SetNomeCompleto(string nome_str, string sobrenome_str) {
+        nomeCompleto = nome_str + " " + sobrenome_str;
+        df.SetNomeCompleto(nomeCompleto);
+    }
+
+    public void SetTempoInicial() {
+        df.SetTempoInicial(System.DateTime.Now.Ticks);
+    }
+
+    public void SetTempoFinal() {
+        df.SetTempoFinal(System.DateTime.Now.Ticks);
     }
 
     public int GetCurrentLevel() {
@@ -94,6 +111,10 @@ public class DataColector : MonoBehaviour {
 
     public void AddLevel() {
         currentLevel++;
+    }
+
+    public void AddLevelToJson() {
+        df.AddLevelToJson();
     }
 
 }

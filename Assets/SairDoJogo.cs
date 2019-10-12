@@ -5,34 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class SairDoJogo : MonoBehaviour {
 
-    public GameObject camera;
+    public GameObject cameraIcon;
 
     private void Start() {
 
-        camera.SetActive(false);
+        cameraIcon.SetActive(false);
 
     }
     private void Update() {
         if (Input.GetKey(KeyCode.Q)) {
-            if (Input.GetKeyDown(KeyCode.W)) {
-                DataFile.addFlagEmpatica(System.DateTime.Now.Ticks);
-            }
             if (Input.GetKey(KeyCode.W)) {
-                camera.SetActive(true);
+                cameraIcon.SetActive(true);
             }
             else {
-                camera.SetActive(false);
+                cameraIcon.SetActive(false);
             }
         }
     }
 
     public void Sair() {
-        //Application.Quit();
+        Application.Quit();
     }
 
     void OnApplicationQuit() {
         if (SceneManager.GetActiveScene().name.Equals("Fim do Jogo")) {
-            DataFile.WriteFile();
+            DataColector.instance.Write();
         }
     }
 }

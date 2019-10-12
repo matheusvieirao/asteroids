@@ -48,8 +48,9 @@ public class Presentation : MonoBehaviour
         string sobrenome_str = sobrenome_go.transform.Find("Texto").GetComponent<Text>().text;
 
         if(!nome_str.Equals("") && !sobrenome_str.Equals("")) {
-            DataFile.setNomeCompleto(nome_str, sobrenome_str);
+            DataColector.instance.SetNomeCompleto(nome_str, sobrenome_str);
             SceneManager.LoadScene(nextScene);
+            Destroy(gameObject);
         }
     }
 }
