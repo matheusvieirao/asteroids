@@ -22,7 +22,7 @@ public class CreateAsteroids : MonoBehaviour {
 
     void Start() {
 
-        int level = DataFile.GetCurrentLevel();
+        int level = DataColector.instance.GetCurrentLevel();
         float inicial_velocidade_min = 0f;
         float inicial_velocidade_max = 1.0f;
         float razao_velocidade = 1f;

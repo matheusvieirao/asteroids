@@ -9,34 +9,19 @@ public class DataFile : MonoBehaviour {
 
 	public static string fileName;
 	public static string text;
-
-	public static int currentLevel;
-    public static long tempoInicial=0; //em ticks
-    public static long tempoFinal; //em ticks
-    public static float tempoDuracao; //em segundos
-    public static List<long> botaoFlagEmpatica = new List<long>();
-    public static List<long> apertouUp = new List<long>();
-    public static List<long> soltouUp = new List<long>();
-    public static List<long> apertouDown = new List<long>();
-    public static List<long> soltouDown = new List<long>();
-    public static List<long> apertouLeft = new List<long>();
-    public static List<long> soltouLeft = new List<long>();
-    public static List<long> apertouRight = new List<long>();
-    public static List<long> soltouRight = new List<long>();
-    public static List<long> tiros = new List<long>();
-    public static List<long> mortes = new List<long>();
     private static string nomeCompleto;
-    private static float percentualUp;
-    private static float percentualDown;
-    private static float percentualLeft;
-    private static float percentualRight;
+    public static List<long> botaoFlagEmpatica = new List<long>();
+
+    public List<DataFileLevel> dfLevel;
+    static DataFileLevel level_aux;
 
     public static void Init(){
         System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para imprimir separar os floats com '.' e nao ','
         text = "{\n";
         text += "\t\"nome\": \"" + nomeCompleto + "\",\n";
-        currentLevel = 1;
-	}
+        level_aux = new DataFileLevel();
+
+    }
 
 	public static void SetFileName(string fName){
 		fileName = fName + " " + nomeCompleto;
@@ -44,65 +29,63 @@ public class DataFile : MonoBehaviour {
 
     public static void setNomeCompleto(string nome, string sobrenome) {
         nomeCompleto = nome + " " + sobrenome;
-        Debug.Log(nomeCompleto);
     }
     
     public static void addFlagEmpatica(long tempo) {
         botaoFlagEmpatica.Add(tempo);
-        Debug.Log("Flag: " + (new System.DateTime(tempo)).ToString());
     }
 
     public static void addTempoFinal(long tempo) {
-        tempoFinal = tempo;
-        if(tempoInicial == 0) {
-            tempoInicial = tempoFinal;
+        level_aux.tempoFinal = tempo;
+        if(level_aux.tempoInicial == 0) {
+            level_aux.tempoInicial = level_aux.tempoFinal;
         }
     }
 
-    public static void addApertouUp(long tempo) { apertouUp.Add(tempo); }
-    public static void addApertouDown(long tempo) { apertouDown.Add(tempo); }
-    public static void addApertouLeft(long tempo) { apertouLeft.Add(tempo); }
-    public static void addApertouRight(long tempo) { apertouRight.Add(tempo); }
-    public static void addSoltouUp(long tempo) { soltouUp.Add(tempo); }
-    public static void addSoltouDown(long tempo) { soltouDown.Add(tempo); }
-    public static void addSoltouLeft(long tempo) { soltouLeft.Add(tempo); }
-    public static void addSoltouRight(long tempo) { soltouRight.Add(tempo); }
-    public static void addTiro(long tempo) { tiros.Add(tempo); }
-    public static void addMorte(long tempo) { mortes.Add(tempo); }
+    public static void addApertouUp(long tempo) { level_aux.apertouUp.Add(tempo); }
+    public static void addApertouDown(long tempo) { level_aux.apertouDown.Add(tempo); }
+    public static void addApertouLeft(long tempo) { level_aux.apertouLeft.Add(tempo); }
+    public static void addApertouRight(long tempo) { level_aux.apertouRight.Add(tempo); }
+    public static void addSoltouUp(long tempo) { level_aux.soltouUp.Add(tempo); }
+    public static void addSoltouDown(long tempo) { level_aux.soltouDown.Add(tempo); }
+    public static void addSoltouLeft(long tempo) { level_aux.soltouLeft.Add(tempo); }
+    public static void addSoltouRight(long tempo) { level_aux.soltouRight.Add(tempo); }
+    public static void addTiro(long tempo) { level_aux.tiros.Add(tempo); }
+    public static void addMorte(long tempo) { level_aux.mortes.Add(tempo); }
 
 
     public static void AddToTxtLevel(int asteroidsCount, float minSpeed, float maxSpeed, bool venceu) {
-        if (apertouUp.Count() != 0)
-            tempoInicial = apertouUp[0];
-        tempoDuracao = ((float)(tempoFinal - tempoInicial)) / 10000000f;
+        if (level_aux.apertouUp.Count() != 0)
+            level_aux.tempoInicial = level_aux.apertouUp[0];
+        level_aux.tempoDuracao = ((float)(level_aux.tempoFinal - level_aux.tempoInicial)) / 10000000f;
         CalculaPercentuais();
 
-        text += "\t\"Level " + currentLevel.ToString() + "\": {\n"
+        text += "\t\"Level " + DataColector.instance.GetCurrentLevel().ToString() + "\": {\n"
         + "\t\t\"numero de asteroids\": " + asteroidsCount + ",\n"
         + "\t\t\"velocidade minima dos asteroids\": " + minSpeed + ",\n"
         + "\t\t\"velocidade maxima dos asteroids\": " + maxSpeed + ",\n"
-        + "\t\t\"tempo inicial\": " + tempoInicial + ",\n"
-        + "\t\t\"tempo final\": " + tempoFinal + ",\n"
-        + "\t\t\"tempo total\": " + tempoDuracao + ",\n"
-        + "\t\t\"tempo por vida\": " + tempoDuracao / (mortes.Count()+1) + ",\n"
+        + "\t\t\"tempo inicial\": " + level_aux.tempoInicial + ",\n"
+        + "\t\t\"tempo final\": " + level_aux.tempoFinal + ",\n"
+        + "\t\t\"tempo total\": " + level_aux.tempoDuracao + ",\n"
+        + "\t\t\"tempo por vida\": " + level_aux.tempoDuracao / (level_aux.mortes.Count()+1) + ",\n"
         + "\t\t\"venceu\": " + venceu.ToString().ToLower() + ",\n"
-        + "\t\t\"total de mortes\": " + mortes.Count() + ",\n";
-        AddToTxtMorte(mortes, "mortes");
+        + "\t\t\"total de mortes\": " + level_aux.mortes.Count() + ",\n";
+        AddToTxtMorte(level_aux.mortes, "mortes");
         text += "\t\t\"Teclas\": {\n";
-        text += "\t\t\t\"total de tiros\": " + tiros.Count() + ",\n";
-        AddToTxtListLong(tiros, "tiros");
-        AddToTxtListLong(apertouUp, "apertou up");
-        AddToTxtListLong(soltouUp, "soltou up");
-        text += "\t\t\t\"percentual up\": " + percentualUp + ",\n";
-        AddToTxtListLong(apertouDown, "apertou down");
-        AddToTxtListLong(soltouDown, "soltou down");
-        text += "\t\t\t\"percentual down\": " + percentualDown + ",\n";
-        AddToTxtListLong(apertouLeft, "apertou left");
-        AddToTxtListLong(soltouLeft, "soltou left");
-        text += "\t\t\t\"percentual left\": " + percentualLeft + ",\n";
-        AddToTxtListLong(apertouRight, "apertou right");
-        AddToTxtListLong(soltouRight, "soltou right");
-        text += "\t\t\t\"percentual right\": " + percentualRight + "\n";
+        text += "\t\t\t\"total de tiros\": " + level_aux.tiros.Count() + ",\n";
+        AddToTxtListLong(level_aux.tiros, "tiros");
+        AddToTxtListLong(level_aux.apertouUp, "apertou up");
+        AddToTxtListLong(level_aux.soltouUp, "soltou up");
+        text += "\t\t\t\"percentual up\": " + level_aux.percentualUp + ",\n";
+        AddToTxtListLong(level_aux.apertouDown, "apertou down");
+        AddToTxtListLong(level_aux.soltouDown, "soltou down");
+        text += "\t\t\t\"percentual down\": " + level_aux.percentualDown + ",\n";
+        AddToTxtListLong(level_aux.apertouLeft, "apertou left");
+        AddToTxtListLong(level_aux.soltouLeft, "soltou left");
+        text += "\t\t\t\"percentual left\": " + level_aux.percentualLeft + ",\n";
+        AddToTxtListLong(level_aux.apertouRight, "apertou right");
+        AddToTxtListLong(level_aux.soltouRight, "soltou right");
+        text += "\t\t\t\"percentual right\": " + level_aux.percentualRight + "\n";
         text += "\t\t},\n";
     }
 
@@ -141,14 +124,14 @@ public class DataFile : MonoBehaviour {
     }
 
     private static void CalculaPercentuais() {
-        CalculaPercentual(apertouUp, soltouUp, "up");
-        CalculaPercentual(apertouDown, soltouDown, "down");
-        CalculaPercentual(apertouLeft, soltouLeft, "left");
-        CalculaPercentual(apertouRight, soltouRight, "right");
+        CalculaPercentual(level_aux.apertouUp, level_aux.soltouUp, "up");
+        CalculaPercentual(level_aux.apertouDown, level_aux.soltouDown, "down");
+        CalculaPercentual(level_aux.apertouLeft, level_aux.soltouLeft, "left");
+        CalculaPercentual(level_aux.apertouRight, level_aux.soltouRight, "right");
     }
 
-        private static void CalculaPercentual(List<long> apertouX, List<long> soltouX, string modo) {
-            int i = 0;
+    private static void CalculaPercentual(List<long> apertouX, List<long> soltouX, string modo) {
+        int i = 0;
         float ticksApertando = 0;
         
         for (int j = 0; j < soltouX.Count(); j++) {
@@ -162,20 +145,20 @@ public class DataFile : MonoBehaviour {
         }
         //terminou o jogo segurando a tecla
         if (apertouX.Count() > soltouX.Count()) {
-            ticksApertando += tempoFinal - apertouX[i];
+            ticksApertando += level_aux.tempoFinal - apertouX[i];
         }
 
         if (modo.Equals("up")) {
-            percentualUp = (float)((float)ticksApertando) / ((float)(tempoFinal - tempoInicial));
+            level_aux.percentualUp = (float)((float)ticksApertando) / ((float)(level_aux.tempoFinal - level_aux.tempoInicial));
         }
         else if (modo.Equals("down")) {
-            percentualDown = (float)((float)ticksApertando) / ((float)(tempoFinal - tempoInicial));
+            level_aux.percentualDown = (float)((float)ticksApertando) / ((float)(level_aux.tempoFinal - level_aux.tempoInicial));
         }
         else if (modo.Equals("left")) {
-            percentualLeft = (float)((float)ticksApertando) / ((float)(tempoFinal - tempoInicial));
+            level_aux.percentualLeft = (float)((float)ticksApertando) / ((float)(level_aux.tempoFinal - level_aux.tempoInicial));
         }
         else if (modo.Equals("right")) {
-            percentualRight = (float)((float)ticksApertando) / ((float)(tempoFinal - tempoInicial));
+            level_aux.percentualRight = (float)((float)ticksApertando) / ((float)(level_aux.tempoFinal - level_aux.tempoInicial));
         }
 
     }
@@ -214,14 +197,6 @@ public class DataFile : MonoBehaviour {
         text += "}\n";
 
         File.WriteAllText (fileName+".txt",text);
-    }
-
-    public static int GetCurrentLevel () {
-        return currentLevel;
-    }
-
-    public static void AddLevel() {
-        currentLevel++;
     }
 
 }

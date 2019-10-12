@@ -7,6 +7,7 @@ public class EDAStart : MonoBehaviour
 {
     public static EDAStart instance;
     public GameObject prefab;
+    public EDASignals sinais;
 
     void Awake() {
         
@@ -22,7 +23,7 @@ public class EDAStart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GetReadBigger(10));
+        StartCoroutine(GetReadAll());
 
     }
 
@@ -37,7 +38,7 @@ public class EDAStart : MonoBehaviour
             else {
                 string jsonString = www.downloadHandler.text;
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
-                EDASignals sinais = JsonUtility.FromJson<EDASignals>(jsonString);
+                sinais = JsonUtility.FromJson<EDASignals>(jsonString);
             }
 
         }
@@ -55,7 +56,7 @@ public class EDAStart : MonoBehaviour
             else {
                 string jsonString = www.downloadHandler.text;
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
-                EDASignals sinais = JsonUtility.FromJson<EDASignals>(jsonString);
+                sinais = JsonUtility.FromJson<EDASignals>(jsonString);
             }
         }
     }

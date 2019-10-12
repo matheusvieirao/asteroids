@@ -5,7 +5,7 @@ using UnityEngine;
 public class StaticManager : MonoBehaviour {
 
     public GameObject seta;
-    public GameObject camera;
+    public GameObject cameraIcone;
     private bool mostrarSeta = false;
 
 	void Awake () {
@@ -16,8 +16,8 @@ public class StaticManager : MonoBehaviour {
     private void Start()
     {
 
-        camera.SetActive(false);
-        if (DataFile.GetCurrentLevel() == 1) {
+        cameraIcone.SetActive(false);
+        if (DataColector.instance.GetCurrentLevel() == 1) {
             mostrarSeta = true;
         }
     }
@@ -26,10 +26,10 @@ public class StaticManager : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.Q)) {
             if(Input.GetKey(KeyCode.W)) {
-                camera.SetActive(true);
+                cameraIcone.SetActive(true);
             }
             else {
-                camera.SetActive(false);
+                cameraIcone.SetActive(false);
             }
         }
         if (mostrarSeta) {

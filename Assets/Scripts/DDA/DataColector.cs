@@ -10,7 +10,7 @@ public class DataColector : MonoBehaviour {
     public string outputFileName;
 
     static public DataColector instance = null;
-
+    public static int currentLevel;
     public int numberOfLevelDeaths;
 
     void Start() {
@@ -20,6 +20,7 @@ public class DataColector : MonoBehaviour {
             instance = prefab.GetComponent<DataColector>();
             DataFile.SetFileName(outputFileName);
             DataFile.Init();
+            currentLevel = 1;
         }
         else if (instance != this) {
             Destroy(gameObject);
@@ -30,22 +31,6 @@ public class DataColector : MonoBehaviour {
 
     void Update() {
         long agora = System.DateTime.Now.Ticks;
-        //Marcar eventos para sincronizar com a pulseira Empatica E4
-        if (Input.GetKeyDown(KeyCode.O)) {
-            GameObject[] asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
-            float maxSpeed = 0;
-            float minSpeed = 9999f;
-            foreach(GameObject asteroid in asteroids) {
-                float speed = asteroid.GetComponent<AsteroidMovement>().speed;
-                if (speed > maxSpeed) {
-                    maxSpeed = speed;
-                }
-                if (speed < minSpeed) {
-                    minSpeed = speed;
-                }
-            }
-            Debug.Log("Level " + DataFile.GetCurrentLevel() + " | min speed: " + minSpeed + " | max speed: " + maxSpeed + " | Asteroid number: " + asteroids.Length);
-        }
 
         if (Input.GetKey(KeyCode.Q)){
             if (Input.GetKeyDown(KeyCode.W)) {
@@ -101,6 +86,14 @@ public class DataColector : MonoBehaviour {
             ResetData(false);
             DataFile.WriteFile();
         }
+    }
+
+    public int GetCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void AddLevel() {
+        currentLevel++;
     }
 
 }
