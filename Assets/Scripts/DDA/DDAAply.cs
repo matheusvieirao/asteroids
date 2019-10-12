@@ -18,9 +18,11 @@ public class DDAAply : MonoBehaviour {
 	public bool isFirstLevel = false;
 
 	private PlayerState emotion;
-	private bool IsEDA;
+    private bool IsEDA = false;
+    private bool IsDesempenho = false;
+    private bool IsHibrido = false;
 
-	void Awake () {
+    void Awake () {
 		if (instance == null) {
 			instance = prefab.GetComponent<DDAAply> ();
 			instance.emotion = PlayerState.NORMAL;
@@ -30,8 +32,12 @@ public class DDAAply : MonoBehaviour {
         }
         DontDestroyOnLoad (gameObject);
 		string sensor = PlayerPrefs.GetString ("Sensor");
-		if (sensor == "EDA")
-			IsEDA = true;
+        if (sensor == "EDA")
+            IsEDA = true;
+        else if (sensor == "DSP")
+            IsDesempenho = true;
+        else if (sensor == "HIB")
+            IsHibrido = true;
 	}
 
 	public void BalanceWithEmotion() {
@@ -52,12 +58,11 @@ public class DDAAply : MonoBehaviour {
         //a velocidade no nivel 1 é de 1-2, no nivel 2 de 2-3 e no nivel 10 de 10-11 (tudo em float).
         int mortes = DataColector.instance.numberOfLevelDeaths;
         float mudanca_gradual = mortes / 20;
-        //primeiro verifica o quanto se morreu e dependendo do quanto morreu, se ajusta baseado no EDA
         if (mortes < 2) {
             if (emotion == PlayerState.STRESSED)
                 lastSpeedChange -= 0.2f;
             else if (emotion == PlayerState.NORMAL)
-                lastSpeedChange += 0;// 0.6f;
+                lastSpeedChange += 0;
             else if (emotion == PlayerState.BORED)
                 lastSpeedChange += 0.8f;
         }
@@ -65,7 +70,7 @@ public class DDAAply : MonoBehaviour {
             if (emotion == PlayerState.STRESSED)
                 lastSpeedChange -= mudanca_gradual + 0.2f; // se morreu 3, -0,35
             else if (emotion == PlayerState.NORMAL)
-                lastSpeedChange += 0;// GradualSpeedChange(); // 0,25
+                lastSpeedChange += 0;
             else if (emotion == PlayerState.BORED)
                 lastSpeedChange += 0.2f;
         }
@@ -75,7 +80,7 @@ public class DDAAply : MonoBehaviour {
 		    else if(emotion==PlayerState.NORMAL)
 			    lastSpeedChange -= mudanca_gradual; //-0,25
 		    else if(emotion==PlayerState.BORED)
-			    lastSpeedChange += mudanca_gradual; //+0,25 //perigo com essa pq se o eda nao estiver calibrado direito, simplemesnte só vai ficar impossivel dps de um tempo
+			    lastSpeedChange -= 0.1f;
         }
 
 		speedChange = lastSpeedChange;
