@@ -7,5 +7,5 @@ using UnityEngine;
 public class EDASignals
 {
     public int success;
-    public EDASignal[] eda;
+    public List<EDASignal> eda;
 }

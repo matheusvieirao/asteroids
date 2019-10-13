@@ -13,6 +13,7 @@ public class EDAStart : MonoBehaviour
     private double tempo_inicial_jogo;
     private TimerController timer;
     private int ultimo_id_lido;
+    private EDAProcessor edaProcessor;
 
     void Awake() {
         if (instance == null) {
@@ -31,6 +32,8 @@ public class EDAStart : MonoBehaviour
         //tempo_inicial_jogo = System.DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //também é uma opção mas tem menos precisão
         timer = new TimerController();
         timer.Reset();
+
+        edaProcessor = new EDAProcessor();
     }
     
     void Update() {
@@ -72,6 +75,7 @@ public class EDAStart : MonoBehaviour
                 string jsonString = www.downloadHandler.text;
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
                 sinais = JsonUtility.FromJson<EDASignals>(jsonString);
+                //ultimo_id_lido = sinais.eda[sinais.eda.Length - 1].id;
             }
         }
     }
@@ -93,7 +97,10 @@ public class EDAStart : MonoBehaviour
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
                 sinais = JsonUtility.FromJson<EDASignals>(jsonString);
                 Debug.Log(jsonString);
-                ultimo_id_lido = sinais.eda[sinais.eda.Length-1].id;
+                //ultimo_id_lido = sinais.eda[sinais.eda.Length-1].id;
+                ultimo_id_lido = sinais.eda[sinais.eda.Count - 1].id;
+                print("GetTonicLevel: " + edaProcessor.GetTonicLevel(sinais.eda));
+                print("GetPhasicLevel: " + edaProcessor.GetPhasicLevel(sinais.eda));
             }
         }
     }
