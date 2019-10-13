@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -14,6 +15,8 @@ public class EDAStart : MonoBehaviour
     private TimerController timer;
     private int ultimo_id_lido;
     private EDAProcessor edaProcessor;
+    private double ultimo_tempo_eda_lido; //usado para gerar os graficos
+    EDATempoTonicoDTO objETT; //usado para guardar os dados dos graficos
 
     void Awake() {
         if (instance == null) {
@@ -34,14 +37,44 @@ public class EDAStart : MonoBehaviour
         timer.Reset();
 
         edaProcessor = new EDAProcessor();
+        string path = Application.streamingAssetsPath + "/input_eda_tempo";
+        int i_voluntario = 18;
+        ultimo_id_lido = 0;
+        string jsonString = File.ReadAllText(path + "/EDA_tempo_"+ i_voluntario.ToString() + ".json");
+        objETT = JsonUtility.FromJson<EDATempoTonicoDTO>(jsonString); //entrada do eda e saida do tonic e phasic
+        ultimo_tempo_eda_lido = objETT.tempoEda[0];
+        List<EDASignal> sinais_buffer = new List<EDASignal>();
+        int id_aux = 0;
+        for(int i = 0; i < objETT.tempoEda.Count; i++) { 
+            if(objETT.tempoEda[i] - ultimo_tempo_eda_lido < 2.0f) {
+                sinais_buffer.Add(new EDASignal(id_aux, objETT.tempoEda[i], objETT.eda[i], 0));
+                id_aux++;
+            }
+            else {
+
+                objETT.tempoTonicLevel.Add(objETT.tempoEda[i]);
+                int tonic = edaProcessor.GetTonicLevel(sinais_buffer);
+                objETT.tonicLevel.Add(tonic);
+                objETT.phasicLevel.Add(edaProcessor.GetPhasicLevel(sinais_buffer));
+                sinais_buffer = null;
+                sinais_buffer = new List<EDASignal>();
+                ultimo_tempo_eda_lido = objETT.tempoEda[i];
+
+            }
+        }
+        jsonString = JsonUtility.ToJson(objETT, true);
+        File.WriteAllText(path + "/ETT_"+i_voluntario+".json", jsonString);
+        print("ok");
+        
     }
     
     void Update() {
-        timer.Run();
-        if (timer.GetElapsedTime() > 2) {
-            StartCoroutine(GetReadBiggerSimulation(ultimo_id_lido));
-            timer.Reset();
-        }
+        //timer.Run();
+        //if (timer.GetElapsedTime() > 2) {
+        //    StartCoroutine(GetReadBiggerSimulation(ultimo_id_lido));
+        //    timer.Reset();
+        //}
+
 
     }
 
@@ -101,6 +134,25 @@ public class EDAStart : MonoBehaviour
                 ultimo_id_lido = sinais.eda[sinais.eda.Count - 1].id;
                 print("GetTonicLevel: " + edaProcessor.GetTonicLevel(sinais.eda));
                 print("GetPhasicLevel: " + edaProcessor.GetPhasicLevel(sinais.eda));
+            }
+        }
+    }
+    
+    // lê todos os números maiores que id e menores do que determinado tempo passado como parametro
+    IEnumerator GetReadBetween(int id, float tempo) {
+        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/android_connect/read_between.php" + "?id=" + id + "&tempo=" + tempo)) {
+            www.SetRequestHeader("Content-Type", "application/json");
+            yield return www.SendWebRequest();
+
+            if ((www.isNetworkError || www.isHttpError)) {
+                Debug.Log(www.error);
+            }
+            else {
+                string jsonString = www.downloadHandler.text;
+                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
+                sinais = JsonUtility.FromJson<EDASignals>(jsonString);
+                //print(">>"+jsonString);
+                ultimo_id_lido = sinais.eda[sinais.eda.Count - 1].id;
             }
         }
     }

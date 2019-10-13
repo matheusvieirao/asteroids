@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
-public class EDAProcessor : MonoBehaviour {
+public class EDAProcessor {
 
     //private int sampleRate = 4;
     private int arousalLevel = 100;
@@ -17,14 +17,9 @@ public class EDAProcessor : MonoBehaviour {
     private double minMovingAverage;
     private double maxMovingAverage;
 
-    void Start ()
+    public EDAProcessor()
     {
         Reset();
-    }
-	
-	void Update ()
-    {
-
     }
 
     public void Reset()
