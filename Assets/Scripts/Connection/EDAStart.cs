@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -36,38 +37,10 @@ public class EDAStart : MonoBehaviour
         timer = new TimerController();
         timer.Reset();
 
-        edaProcessor = new EDAProcessor();
-        string path = Application.streamingAssetsPath + "/input_eda_tempo";
-        int i_voluntario = 18;
-        ultimo_id_lido = 0;
-        string jsonString = File.ReadAllText(path + "/EDA_tempo_"+ i_voluntario.ToString() + ".json");
-        objETT = JsonUtility.FromJson<EDATempoTonicoDTO>(jsonString); //entrada do eda e saida do tonic e phasic
-        ultimo_tempo_eda_lido = objETT.tempoEda[0];
-        List<EDASignal> sinais_buffer = new List<EDASignal>();
-        int id_aux = 0;
-        for(int i = 0; i < objETT.tempoEda.Count; i++) { 
-            if(objETT.tempoEda[i] - ultimo_tempo_eda_lido < 2.0f) {
-                sinais_buffer.Add(new EDASignal(id_aux, objETT.tempoEda[i], objETT.eda[i], 0));
-                id_aux++;
-            }
-            else {
+        GetReadFromJsonFiles(43.0f);
 
-                objETT.tempoTonicLevel.Add(objETT.tempoEda[i]);
-                int tonic = edaProcessor.GetTonicLevel(sinais_buffer);
-                objETT.tonicLevel.Add(tonic);
-                objETT.phasicLevel.Add(edaProcessor.GetPhasicLevel(sinais_buffer));
-                sinais_buffer = null;
-                sinais_buffer = new List<EDASignal>();
-                ultimo_tempo_eda_lido = objETT.tempoEda[i];
-
-            }
-        }
-        jsonString = JsonUtility.ToJson(objETT, true);
-        File.WriteAllText(path + "/ETT_"+i_voluntario+".json", jsonString);
-        print("ok");
-        
     }
-    
+
     void Update() {
         //timer.Run();
         //if (timer.GetElapsedTime() > 2) {
@@ -78,6 +51,46 @@ public class EDAStart : MonoBehaviour
 
     }
 
+    // le todos os arquivos StreamingAssets/input_eda_tempo/EDA_tempo_<numero>.json e faz uma simulação em que:
+    // - se le os dados em um intervalo de tempo determinado por tempo_buffer 
+    // - calcula um nivel tonico e um nivel fasico para esse internvalo, 
+    // - salva a saida em "ETT_<numero>.json
+    private void GetReadFromJsonFiles(float tempo_buffer) {
+
+        edaProcessor = new EDAProcessor();
+        string path = Application.streamingAssetsPath + "/input_eda_tempo";
+        for (int i_voluntario = 1; i_voluntario < 19; i_voluntario++) {
+            ultimo_id_lido = 0;
+            string jsonString = File.ReadAllText(path + "/EDA_tempo_" + i_voluntario.ToString() + ".json");
+            objETT = JsonUtility.FromJson<EDATempoTonicoDTO>(jsonString); //entrada do eda e saida do tonic e phasic
+            ultimo_tempo_eda_lido = objETT.tempoEda[0];
+            List<EDASignal> sinais_buffer = new List<EDASignal>();
+            edaProcessor.Reset();
+            int id_aux = 0;
+            for (int i = 0; i < objETT.tempoEda.Count; i++) {
+                if (objETT.tempoEda[i] - ultimo_tempo_eda_lido < tempo_buffer) {
+                    sinais_buffer.Add(new EDASignal(id_aux, objETT.tempoEda[i], objETT.eda[i], 0));
+                    id_aux++;
+                }
+                else {
+
+                    objETT.tempoTonicLevel.Add(objETT.tempoEda[i]);
+                    int tonic = edaProcessor.GetTonicLevel(sinais_buffer);
+                    objETT.tonicLevel.Add(tonic);
+                    objETT.phasicLevel.Add(edaProcessor.GetPhasicLevel(sinais_buffer));
+                    sinais_buffer = null;
+                    sinais_buffer = new List<EDASignal>();
+                    ultimo_tempo_eda_lido = objETT.tempoEda[i];
+
+                }
+            }
+            jsonString = JsonUtility.ToJson(objETT, true);
+            File.WriteAllText(path + "/ETT_" + i_voluntario + ".json", jsonString);
+            print("ok");
+        }
+    }
+
+    // lê todos os dados na tabela eda do servidor
     IEnumerator GetReadAll() {
         using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/android_connect/read_all.php")) {
             www.SetRequestHeader("Content-Type", "application/json");
