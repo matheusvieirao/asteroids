@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using Emotion;
+using State;
 
 public class GetPlayerData: MonoBehaviour{
 
@@ -15,16 +15,16 @@ public class GetPlayerData: MonoBehaviour{
 		lines.RemoveAt (lines.Count-1);//erase the blank line
 	}
     
-	public PlayerExcitement GetEDAEmotion(){
+	public PlayerState GetEDAEmotion(){
 		double[] LastMeasures =  new double[lines.Count];
         int aboveAvarage = 0;
 
 		if (aboveAvarage > (double)LastMeasures.Length / 2)
-			return PlayerExcitement.HIGH;
+			return PlayerState.HIGH;
 		else if (aboveAvarage == (double)LastMeasures.Length / 2)
-			return PlayerExcitement.NORMAL;
+			return PlayerState.NORMAL;
 		else
-			return PlayerExcitement.LOW;
+			return PlayerState.LOW;
 	}
 
 	public int GetEDAValue(string line){

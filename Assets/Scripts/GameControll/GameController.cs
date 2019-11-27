@@ -14,22 +14,18 @@ public class GameController : MonoBehaviour{
 
 	public string actualScene;
 
-    void Start (){
-		LoadResourcers ();
+    void Start () {
+        TextEnable.Init();
+        player = GameObject.FindGameObjectWithTag("Player");
+        shipCollisionStatus = player.GetComponent<ShipCollision>();
         DataColector.instance.SetTempoInicial(); //grava o tempo inicial do nível
-	}
-
-	private void LoadResourcers(){
-		TextEnable.Init ();
-		player = GameObject.FindGameObjectWithTag("Player");
-		shipCollisionStatus = player.GetComponent<ShipCollision> ();
 	}
 
 
     void Update () {
 		if(HasPressedExitGame())
-			ExitGame();
-		if (shipCollisionStatus.isDead) {
+            Application.Quit();
+        if (shipCollisionStatus.isDead) {
             TextEnable.SetHiperspaceText("Pressione espaço");
             if (Input.GetKeyDown(KeyCode.Space)) {
                 RestartLevel ();
@@ -46,10 +42,6 @@ public class GameController : MonoBehaviour{
 	private void RestartLevel(){
 		DDAAply.instance.BalanceAtDeath();
 		SceneManager.LoadScene (actualScene);
-	}
-
-	private void ExitGame(){
-		Application.Quit ();
 	}
 						
     public void SetGameWin(){

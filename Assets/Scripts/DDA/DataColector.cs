@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.IO;
 using System;
+using State;
 
 // Possui uma unica instancia. 
 // É usada para se passar dados dados entre diferentes cenas do jogo.
@@ -19,6 +20,8 @@ public class DataColector : MonoBehaviour {
     public int numberOfLevelDeaths;
     public long initialLevelTime;
     public long finalLevelTime;
+    public PlayerState excitacao; //LOW, NORMAL ou HIGH
+    public PlayerState desempenho; //LOW, NORMAL ou HIGH
     DataFile df;
 
     void Start() {
@@ -26,6 +29,8 @@ public class DataColector : MonoBehaviour {
         {
             instance = prefab.GetComponent<DataColector>();
             df = new DataFile();
+            excitacao = PlayerState.NORMAL;
+            desempenho = PlayerState.NORMAL;
             currentLevel = 1;
         }
         else if (instance != this) {
