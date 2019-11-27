@@ -8,7 +8,7 @@ using System;
 // Possui uma unica instancia. 
 // É usada para se passar dados dados entre diferentes cenas do jogo.
 // Está atrelada ao prefab "DataReceiver"
-// No final escreve os dados no JSON representado por pela variavel df (DataFile)
+// No final escreve os dados no JSON representado por pelo objeto df (DataFile)
 public class DataColector : MonoBehaviour {
 
     public GameObject prefab;
@@ -17,6 +17,8 @@ public class DataColector : MonoBehaviour {
     public static int currentLevel;
     public string nomeCompleto;
     public int numberOfLevelDeaths;
+    public long initialLevelTime;
+    public long finalLevelTime;
     DataFile df;
 
     void Start() {
@@ -98,11 +100,13 @@ public class DataColector : MonoBehaviour {
     }
 
     public void SetTempoInicial() {
-        df.SetTempoInicial(System.DateTime.Now.Ticks);
+        initialLevelTime = System.DateTime.Now.Ticks;
+        df.SetTempoInicial(initialLevelTime);
     }
 
     public void SetTempoFinal() {
-        df.SetTempoFinal(System.DateTime.Now.Ticks);
+        finalLevelTime = System.DateTime.Now.Ticks;
+        df.SetTempoFinal(finalLevelTime);
     }
 
     public int GetCurrentLevel() {

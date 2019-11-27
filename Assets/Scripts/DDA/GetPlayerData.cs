@@ -15,16 +15,16 @@ public class GetPlayerData: MonoBehaviour{
 		lines.RemoveAt (lines.Count-1);//erase the blank line
 	}
     
-	public PlayerState GetEDAEmotion(){
+	public PlayerExcitement GetEDAEmotion(){
 		double[] LastMeasures =  new double[lines.Count];
         int aboveAvarage = 0;
 
 		if (aboveAvarage > (double)LastMeasures.Length / 2)
-			return PlayerState.STRESSED;
+			return PlayerExcitement.HIGH;
 		else if (aboveAvarage == (double)LastMeasures.Length / 2)
-			return PlayerState.NORMAL;
+			return PlayerExcitement.NORMAL;
 		else
-			return PlayerState.BORED;
+			return PlayerExcitement.LOW;
 	}
 
 	public int GetEDAValue(string line){

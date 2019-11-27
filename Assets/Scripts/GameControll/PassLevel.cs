@@ -18,42 +18,22 @@ public class PassLevel : MonoBehaviour {
 	void Update()
     {
         if (ship.hasWon)
-            PassToNextLevel ();
-        if (Input.GetKeyDown(KeyCode.P))
-            Jump();
+            BalanceAndPassLevel(true);
+        if (Input.GetKeyDown(KeyCode.P)) //pula de nivel
+            BalanceAndPassLevel(false);
     }
 
-    private void Jump() {
-        /*if (bitalino.IsRunning) {
-			bitalino.Kill ();
-			Invoke ("BalanceWithSignals", 2);
-		} else*/
-            BalanceOnData(false);
-    }
-
-	public void PassToNextLevel(){
-		//if (bitalino.IsRunning) {
-		//	bitalino.Kill ();
-		//	Invoke ("BalanceWithSignals", 2);
-		//} else
-		    BalanceOnData (true);
-	}
-
-
-	private void BalanceWithSignals(){
-		//DDAAply.instance.BalanceWithEmotion ();
-		//BalanceOnData ();
-	}
-
-	private void BalanceOnData(bool venceu){
-		DDAAply.instance.SpeedBalanceNextLevel ();
-		DataColector.instance.AddToOutputLevel(venceu);
+	private void BalanceAndPassLevel(bool venceu) {
+        DataColector.instance.SetTempoFinal();
+        DataColector.instance.AddToOutputLevel(venceu);
+        DDAAply.instance.BalanceAtPassLevel ();
         SceneManager.LoadScene(nextLevel);
     }
 
+    // Após a cena "Level" vem a cena do questionario, então quando se fecha Level, se assume que o nível terminou. 
     void OnApplicationQuit() {
         if (SceneManager.GetActiveScene().name.Equals("Level")) {
-            DataColector.instance.SetTempoFinal();
+            DataColector.instance.SetTempoFinal(); //setamos o tempo final aqui novamente para os casos quando se fecha o jogo no meio de um nível.
             DataColector.instance.AddToOutputLevel(false);
             DataColector.instance.AddLevelToJson();
             DataColector.instance.Write();

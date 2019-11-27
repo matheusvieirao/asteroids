@@ -1,8 +1,8 @@
 ﻿namespace Emotion
 {
-	public enum PlayerState
+	public enum PlayerExcitement
 	{
-		BORED,NORMAL,STRESSED
+		LOW,NORMAL,HIGH
 	}
 }
 

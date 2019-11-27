@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour{
 
     void Start (){
 		LoadResourcers ();
-        DataColector.instance.SetTempoInicial();
+        DataColector.instance.SetTempoInicial(); //grava o tempo inicial do nível
 	}
 
 	private void LoadResourcers(){
@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour{
 	}
 
 	private void RestartLevel(){
-		DDAAply.instance.SpeedBalanceCurrentLevel (); //balanceia level atual baseando apenas em mortes
+		DDAAply.instance.BalanceAtDeath();
 		SceneManager.LoadScene (actualScene);
 	}
 

@@ -37,7 +37,7 @@ public class EDAStart : MonoBehaviour
         timer = new TimerController();
         timer.Reset();
 
-        GetReadFromJsonFiles(43.0f);
+        GetReadFromJsonFiles(25.0f);
 
     }
 

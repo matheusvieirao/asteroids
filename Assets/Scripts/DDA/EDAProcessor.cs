@@ -7,7 +7,7 @@ using UnityEngine;
 public class EDAProcessor {
 
     //private int sampleRate = 4;
-    private int arousalLevel = 100;
+    private int arousalLevel = 10;
     //private double defaultTimeWindow = 10;
 
     private double minArousalArea;
@@ -296,6 +296,7 @@ public class EDAProcessor {
         //List<EDASignal> highPassCoordinatesByTimeWindow = AffectedCoordinatePoints(coordinates, coordinates.Count);
         List<InflectionPoint> inflectionPoints = GetInflectionPoints(coordinates, "default");
 
+        // codigo de GetTonicStatisticsForPoints
         double tonicCoordinateXFirst = inflectionPoints[0].CoordinateX;
         double tonicCoordinateXLast = inflectionPoints[inflectionPoints.Count - 1].CoordinateX;
         double tonicCoordinateYFirst = inflectionPoints[0].CoordinateY;
