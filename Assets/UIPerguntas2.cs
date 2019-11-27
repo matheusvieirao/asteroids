@@ -122,12 +122,12 @@ public class UIPerguntas2 : MonoBehaviour
 
         if (respostaDificuldade != null && respostaTedio != null && respostaFrustracao != null && respostaDiversao != null)
         {
-            DataColector.instance.AddToOutputPerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
-            DataColector.instance.AddLevelToJson();
-            if(DataColector.instance.GetCurrentLevel() == 10) {
+            DataCenter.instance.AddToOutputPerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+            DataCenter.instance.AddLevelToJson();
+            if(DataCenter.instance.GetCurrentLevel() == 10) {
                 gameObject.GetComponent<ProximaCena>().nextScene = "Fim do Jogo";
             }
-            DataColector.instance.AddLevel();
+            DataCenter.instance.AddLevel();
             gameObject.GetComponent<ProximaCena>().passLevel();
         }
         
@@ -137,9 +137,9 @@ public class UIPerguntas2 : MonoBehaviour
         if (SceneManager.GetActiveScene().name.Equals("Perguntas2")) {
             jaClicouSubmit = true;
             Update();
-            DataColector.instance.AddToOutputPerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
-            DataColector.instance.AddLevelToJson();
-            DataColector.instance.Write();
+            DataCenter.instance.AddToOutputPerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+            DataCenter.instance.AddLevelToJson();
+            DataCenter.instance.Write();
         }
     }
 

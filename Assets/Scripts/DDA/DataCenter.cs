@@ -10,15 +10,17 @@ using State;
 // É usada para se passar dados dados entre diferentes cenas do jogo.
 // Está atrelada ao prefab "DataReceiver"
 // No final escreve os dados no JSON representado por pelo objeto df (DataFile)
-public class DataColector : MonoBehaviour {
+public class DataCenter : MonoBehaviour {
 
     public GameObject prefab;
 
-    static public DataColector instance = null;
+    static public DataCenter instance = null;
     public static int currentLevel;
+    public float asteroidVelocity; //velocidade utilizada para criar os asteroids
     public string nomeCompleto;
     public int numberOfLevelDeaths;
     public long initialLevelTime;
+
     public long finalLevelTime;
     public PlayerState excitacao; //LOW, NORMAL ou HIGH
     public PlayerState desempenho; //LOW, NORMAL ou HIGH
@@ -27,11 +29,12 @@ public class DataColector : MonoBehaviour {
     void Start() {
         if (instance == null)
         {
-            instance = prefab.GetComponent<DataColector>();
+            instance = prefab.GetComponent<DataCenter>();
             df = new DataFile();
             excitacao = PlayerState.NORMAL;
             desempenho = PlayerState.NORMAL;
             currentLevel = 1;
+            asteroidVelocity = 1f;
         }
         else if (instance != this) {
             Destroy(gameObject);
@@ -116,6 +119,10 @@ public class DataColector : MonoBehaviour {
 
     public int GetCurrentLevel() {
         return currentLevel;
+    }
+
+    internal float GetAsteroidVelocity() {
+        return asteroidVelocity;
     }
 
     public void AddLevel() {

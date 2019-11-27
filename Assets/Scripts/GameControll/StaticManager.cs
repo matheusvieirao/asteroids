@@ -18,7 +18,7 @@ public class StaticManager : MonoBehaviour {
     {
 
         cameraIcone.SetActive(false);
-        if (DataColector.instance.GetCurrentLevel() == 1) {
+        if (DataCenter.instance.GetCurrentLevel() == 1) {
             mostrarSeta = true;
         }
     }

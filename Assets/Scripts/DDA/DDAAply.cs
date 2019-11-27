@@ -9,7 +9,6 @@ public class DDAAply : MonoBehaviour {
 	public GameObject prefab;
 	public static DDAAply instance;
 		
-	public GetPlayerData playerSignals;
 	public float speedChange = 0;//idem for speed
 	public float lastSpeedChange = 0;
 
@@ -29,33 +28,42 @@ public class DDAAply : MonoBehaviour {
         }
         DontDestroyOnLoad (gameObject);
 		string sensor = PlayerPrefs.GetString ("Sensor");
-        if (sensor == "EDA")
+        if (sensor == "EDA") {
             IsEDA = true;
-        else if (sensor == "DSP")
+            IsDesempenho = false;
+            IsHibrido = false;
+        }
+        else if (sensor == "DSP") {
+            IsEDA = false;
             IsDesempenho = true;
-        else if (sensor == "HIB")
+            IsHibrido = false;
+        }
+        else if (sensor == "HIB") {
+            IsEDA = false;
+            IsDesempenho = false;
             IsHibrido = true;
+        }
 	}
 				
     //chamada quando se passa de nível (PassLevel)
 	public void BalanceAtPassLevel(){
         //a velocidade no nivel 1 é de 1-2, no nivel 2 de 2-3 e no nivel 10 de 10-11 (tudo em float).
-        int mortes = DataColector.instance.numberOfLevelDeaths;
-        int duracao = (int) (DataColector.instance.finalLevelTime - DataColector.instance.initialLevelTime);
-        PlayerState excitacao = DataColector.instance.excitacao;
-        PlayerState desempenho = DataColector.instance.desempenho;
+        int mortes = DataCenter.instance.numberOfLevelDeaths;
+        int duracao = (int) (DataCenter.instance.finalLevelTime - DataCenter.instance.initialLevelTime);
+        PlayerState excitacao = DataCenter.instance.excitacao;
+        PlayerState desempenho = DataCenter.instance.desempenho;
 
         //Descobrir, para se usar no próximo nível, se o desempenho do jogador foi alto, médio ou baixo.
         if (IsDesempenho) {
-
-            //alterar DataColector.instance.desempenho
+            //ver como a velocidade é alterada ao iniciar o nivel.
+            //alterar DataCenter.instance.desempenho
             //alterar o speedChange
         }
         //Descobrir, para se usar no próximo nível, se a excitação do jogador foi alta, média ou baixa
         else if (IsEDA) {
 
-            //alterar DataColector.instance.excitacao
-            //alterar o speedChange. ver como ele é alterado ao iniciar o nivel.
+            //alterar DataCenter.instance.excitacao
+            //alterar o speedChange. 
         }
         else {
             Debug.Log("O jogo não estã sendo balanceado");
@@ -95,7 +103,7 @@ public class DDAAply : MonoBehaviour {
 
     //ajusta o nível quando morre
 	public void BalanceAtDeath() {
-        int mortes = DataColector.instance.numberOfLevelDeaths;
+        int mortes = DataCenter.instance.numberOfLevelDeaths;
         float mudanca_gradual = mortes / 20;
         speedChange = lastSpeedChange+ (-1)* mudanca_gradual;
 	}

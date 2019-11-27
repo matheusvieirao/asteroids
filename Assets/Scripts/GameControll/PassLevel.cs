@@ -24,8 +24,8 @@ public class PassLevel : MonoBehaviour {
     }
 
 	private void BalanceAndPassLevel(bool venceu) {
-        DataColector.instance.SetTempoFinal();
-        DataColector.instance.AddToOutputLevel(venceu);
+        DataCenter.instance.SetTempoFinal();
+        DataCenter.instance.AddToOutputLevel(venceu);
         DDAAply.instance.BalanceAtPassLevel ();
         SceneManager.LoadScene(nextLevel);
     }
@@ -33,10 +33,10 @@ public class PassLevel : MonoBehaviour {
     // Após a cena "Level" vem a cena do questionario, então quando se fecha Level, se assume que o nível terminou. 
     void OnApplicationQuit() {
         if (SceneManager.GetActiveScene().name.Equals("Level")) {
-            DataColector.instance.SetTempoFinal(); //setamos o tempo final aqui novamente para os casos quando se fecha o jogo no meio de um nível.
-            DataColector.instance.AddToOutputLevel(false);
-            DataColector.instance.AddLevelToJson();
-            DataColector.instance.Write();
+            DataCenter.instance.SetTempoFinal(); //setamos o tempo final aqui novamente para os casos quando se fecha o jogo no meio de um nível.
+            DataCenter.instance.AddToOutputLevel(false);
+            DataCenter.instance.AddLevelToJson();
+            DataCenter.instance.Write();
         }
     }
 }

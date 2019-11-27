@@ -29,7 +29,7 @@ public class SairDoJogo : MonoBehaviour {
 
     void OnApplicationQuit() {
         if (SceneManager.GetActiveScene().name.Equals("Fim do Jogo")) {
-            DataColector.instance.Write();
+            DataCenter.instance.Write();
         }
     }
 }

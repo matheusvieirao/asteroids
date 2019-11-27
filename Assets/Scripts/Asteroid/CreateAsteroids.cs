@@ -21,15 +21,11 @@ public class CreateAsteroids : MonoBehaviour {
     public GameObject asteroidPrefab;
 
     void Start() {
-
-        int level = DataColector.instance.GetCurrentLevel();
-        float inicial_velocidade_min = 0f;
-        float inicial_velocidade_max = 1.0f;
-        float razao_velocidade = 1f;
+        
+        float inicial_velocidade_min = DataCenter.instance.GetAsteroidVelocity();
+        float inicial_velocidade_max = inicial_velocidade_min + 1.0f;
         //AsteroidCount = inicial_densidade + level * razao_densidade;
         AsteroidCount = 1000;
-        minSpeed = inicial_velocidade_min + level * razao_velocidade;
-        maxSpeed = inicial_velocidade_max + level * razao_velocidade;
         if(minSpeed < 0) {
             minSpeed = 0;
         }

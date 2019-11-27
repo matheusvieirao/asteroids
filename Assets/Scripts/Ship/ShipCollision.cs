@@ -20,7 +20,7 @@ public class ShipCollision : MonoBehaviour{
             return;
 		DestroiNormalAsteroid (collider);
 		PlayDeadSound ();
-		DataColector.instance.AddDeath ();
+		DataCenter.instance.AddDeath ();
 		isDead = true;
 		PauseGame.isGamePaused = true;
 		gameObject.SetActive (false);
