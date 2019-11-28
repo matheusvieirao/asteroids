@@ -268,6 +268,7 @@ public class DDAAply : MonoBehaviour {
     }
 
     public void ChooseSensor(string sensor) {
+        DataCenter.instance.setSensor(sensor);
         if (sensor == "AFT") {
             IsAfetivo = true;
             IsDesempenho = false;

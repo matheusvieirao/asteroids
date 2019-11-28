@@ -9,7 +9,8 @@ using System.Linq;
 [System.Serializable]
 public class DataFile {
     
-    private string nomeCompleto;
+    public string nomeCompleto;
+    public string sensor;
     public List<long> botaoFlagEmpatica = new List<long>();
 
     public List<DataFileLevel> level;
@@ -21,10 +22,6 @@ public class DataFile {
         level = new List<DataFileLevel>();
     }
 
-    public void SetNomeETipoJogo(string nome) {
-        nomeCompleto = nome;
-    }
-    
     public void addFlagEmpatica(long tempo) {
         botaoFlagEmpatica.Add(tempo);
     }

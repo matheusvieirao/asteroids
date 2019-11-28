@@ -91,12 +91,14 @@ public class DataCenter : MonoBehaviour {
 
     public void Write() {
         string jsonstring = JsonUtility.ToJson(df, true);
+
+        Debug.Log("vai escrever: " + df);
         File.WriteAllText("Output "+nomeCompleto+".txt", jsonstring);
     }
 
     public void SetNomeJogador(string nome_str, string sobrenome_str) {
         nomeCompleto = nome_str + " " + sobrenome_str;
-        df.SetNomeJogador(nomeCompleto);
+        df.nomeCompleto = nomeCompleto;
     }
 
     public void SetTempoInicial() {
@@ -127,5 +129,9 @@ public class DataCenter : MonoBehaviour {
 
     public void resetDeath() {
         numberOfLevelDeaths = 0;
+    }
+
+    internal void setSensor(string sensor) {
+        df.sensor = sensor;
     }
 }
