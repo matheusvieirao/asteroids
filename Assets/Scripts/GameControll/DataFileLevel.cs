@@ -14,7 +14,13 @@ public class DataFileLevel
     public long tempoFinal; //em ticks
     public float tempoDuracao; //em segundos
     public float tempoPorVida;
+
+    public string desempenho;
+    public string excitacao;
+    public string zona;
+
     public bool venceu;
+
     public int totalDeMortes;
     public List<long> mortes = new List<long>();
 

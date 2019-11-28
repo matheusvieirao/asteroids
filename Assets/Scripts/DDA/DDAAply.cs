@@ -38,9 +38,7 @@ public class DDAAply : MonoBehaviour {
     //chamada quando se passa de nível (PassLevel)
 	public void BalanceAtPassLevel(){
         CalculaZona();
-        Debug.Log("entrou pass level");
         if (IsDesempenho) {
-            Debug.Log("entrou is desemepnho");
             CalculaDesempenho();
             if (desempenho == PlayerState.LOW) {
                 if (zona == PlayerState.LOW) {
@@ -283,6 +281,18 @@ public class DDAAply : MonoBehaviour {
             IsAfetivo = false;
             IsDesempenho = false;
             IsHibrido = true;
+        }
+    }
+
+    public string getStringPlayerState(PlayerState ps) {
+        if(ps == PlayerState.HIGH) {
+            return "HIGH";
+        }
+        else if(ps == PlayerState.LOW) {
+            return "LOW";
+        }
+        else {
+            return "NORMAL";
         }
     }
 }

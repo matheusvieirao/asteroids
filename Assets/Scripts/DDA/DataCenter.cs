@@ -91,8 +91,6 @@ public class DataCenter : MonoBehaviour {
 
     public void Write() {
         string jsonstring = JsonUtility.ToJson(df, true);
-
-        Debug.Log("vai escrever: " + df);
         File.WriteAllText("Output "+nomeCompleto+".txt", jsonstring);
     }
 
