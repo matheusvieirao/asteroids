@@ -16,14 +16,10 @@ public class DataCenter : MonoBehaviour {
 
     static public DataCenter instance = null;
     public static int currentLevel;
-    public float asteroidVelocity; //velocidade utilizada para criar os asteroids
     public string nomeCompleto;
     public int numberOfLevelDeaths;
     public long initialLevelTime;
-
     public long finalLevelTime;
-    public PlayerState excitacao; //LOW, NORMAL ou HIGH
-    public PlayerState desempenho; //LOW, NORMAL ou HIGH
     DataFile df;
 
     void Start() {
@@ -31,10 +27,7 @@ public class DataCenter : MonoBehaviour {
         {
             instance = prefab.GetComponent<DataCenter>();
             df = new DataFile();
-            excitacao = PlayerState.NORMAL;
-            desempenho = PlayerState.NORMAL;
             currentLevel = 1;
-            asteroidVelocity = 1f;
         }
         else if (instance != this) {
             Destroy(gameObject);
@@ -90,7 +83,6 @@ public class DataCenter : MonoBehaviour {
         float minSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMinSpeed();
         float maxSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMaxSpeed();
         df.AddToOutputFileLevel (AsteroidCount, minSpeed, maxSpeed, venceu);
-		numberOfLevelDeaths = 0;
     }
 
     public void AddToOutputPerguntas(string respostaDificuldade, string respostaTedio, string respostaFrustracao, string respostaDiversao, string respostaInputText) {
@@ -121,8 +113,8 @@ public class DataCenter : MonoBehaviour {
         return currentLevel;
     }
 
-    internal float GetAsteroidVelocity() {
-        return asteroidVelocity;
+    public float GetDuracao() {
+        return (finalLevelTime - initialLevelTime) / 10000000f;
     }
 
     public void AddLevel() {
@@ -133,4 +125,7 @@ public class DataCenter : MonoBehaviour {
         df.AddLevelToJson();
     }
 
+    public void resetDeath() {
+        numberOfLevelDeaths = 0;
+    }
 }

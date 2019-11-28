@@ -25,8 +25,9 @@ public class PassLevel : MonoBehaviour {
 
 	private void BalanceAndPassLevel(bool venceu) {
         DataCenter.instance.SetTempoFinal();
+        DDAAply.instance.BalanceAtPassLevel();
         DataCenter.instance.AddToOutputLevel(venceu);
-        DDAAply.instance.BalanceAtPassLevel ();
+        DataCenter.instance.resetDeath();
         SceneManager.LoadScene(nextLevel);
     }
 

@@ -86,7 +86,6 @@ public class EDAStart : MonoBehaviour
             }
             jsonString = JsonUtility.ToJson(objETT, true);
             File.WriteAllText(path + "/ETT_" + i_voluntario + ".json", jsonString);
-            print("ok");
         }
     }
 

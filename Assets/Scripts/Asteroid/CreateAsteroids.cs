@@ -8,8 +8,8 @@ public class CreateAsteroids : MonoBehaviour {
     private float minSize = 1.75f;
     private float maxSize = 2.00f;
 
-    private float maxSpeed = 1f;
-    private float minSpeed = 0f;
+    private float minSpeed = 1f;
+    private float maxSpeed = 2f;
 
     public static float minX = 20f;
     public static float maxX = 600f;
@@ -22,15 +22,9 @@ public class CreateAsteroids : MonoBehaviour {
 
     void Start() {
         
-        float inicial_velocidade_min = DataCenter.instance.GetAsteroidVelocity();
-        float inicial_velocidade_max = inicial_velocidade_min + 1.0f;
-        //AsteroidCount = inicial_densidade + level * razao_densidade;
         AsteroidCount = 1000;
-        if(minSpeed < 0) {
-            minSpeed = 0;
-        }
-        //minSpeed += DDAAply.instance.speedChange; // TODO criar DDA
-        //maxSpeed += DDAAply.instance.speedChange; // TODO criar DDA
+        minSpeed = DDAAply.instance.getAsteroidSpeed();
+        maxSpeed = minSpeed + 1f;
         for (int i = 0; i < AsteroidCount; i++) {
 
             GameObject asteroid = (GameObject)Instantiate(asteroidPrefab, StartPosition(), Quaternion.Euler(0, 0, 0));
