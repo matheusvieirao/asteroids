@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using State;
 
+//apagar, nao usamos mais
 public class GetPlayerData: MonoBehaviour{
 
 	private List<string> lines =  new List<string>();

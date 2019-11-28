@@ -21,7 +21,7 @@ public class DataFile {
         level = new List<DataFileLevel>();
     }
 
-    public void SetNomeCompleto(string nome) {
+    public void SetNomeETipoJogo(string nome) {
         nomeCompleto = nome;
     }
     

@@ -94,9 +94,9 @@ public class DataCenter : MonoBehaviour {
         File.WriteAllText("Output "+nomeCompleto+".txt", jsonstring);
     }
 
-    public void SetNomeCompleto(string nome_str, string sobrenome_str) {
+    public void SetNomeJogador(string nome_str, string sobrenome_str) {
         nomeCompleto = nome_str + " " + sobrenome_str;
-        df.SetNomeCompleto(nomeCompleto);
+        df.SetNomeJogador(nomeCompleto);
     }
 
     public void SetTempoInicial() {

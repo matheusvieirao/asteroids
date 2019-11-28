@@ -18,7 +18,7 @@ public class DDAAply : MonoBehaviour {
 	//private float EDA = 0; //eda values
     
 	
-    private bool IsEDA = false;
+    private bool IsAfetivo = false;
     private bool IsDesempenho = false;
     private bool IsHibrido = false;
 
@@ -33,32 +33,15 @@ public class DDAAply : MonoBehaviour {
             Destroy(gameObject);
         }
         DontDestroyOnLoad (gameObject);
-		string sensor = PlayerPrefs.GetString ("Sensor");
-        if (sensor == "EDA") {
-            IsEDA = true;
-            IsDesempenho = false;
-            IsHibrido = false;
-        }
-        else if (sensor == "DSP") {
-            IsEDA = false;
-            IsDesempenho = true;
-            IsHibrido = false;
-        }
-        else if (sensor == "HIB") {
-            IsEDA = false;
-            IsDesempenho = false;
-            IsHibrido = true;
-        }
 	}
 				
     //chamada quando se passa de nível (PassLevel)
 	public void BalanceAtPassLevel(){
-        //a velocidade no nivel 1 é de 1-2, no nivel 2 de 2-3 e no nivel 10 de 10-11 (tudo em float).
-
-        CalculaDesempenho();
         CalculaZona();
-
+        Debug.Log("entrou pass level");
         if (IsDesempenho) {
+            Debug.Log("entrou is desemepnho");
+            CalculaDesempenho();
             if (desempenho == PlayerState.LOW) {
                 if (zona == PlayerState.LOW) {
                     Debug.Log("desL zonaL");
@@ -102,7 +85,9 @@ public class DDAAply : MonoBehaviour {
                 }
             }
         }
-        else if (IsEDA) {
+        else if (IsAfetivo) {
+            Debug.Log("is afetivos");
+            CalculaExcitacao();
             if (excitacao == PlayerState.LOW) {
                 if (zona == PlayerState.LOW) {
                     asteroidSpeed += 1f;
@@ -142,7 +127,7 @@ public class DDAAply : MonoBehaviour {
         }
     }
 
-    //ajusta o nível quando morre
+    //ajusta o nível quando morre (GameController)
     public void BalanceAtDeath() {
 
         CalculaZona();
@@ -182,7 +167,7 @@ public class DDAAply : MonoBehaviour {
                 }
             }
         }
-        else if (IsEDA) {
+        else if (IsAfetivo) {
             if (excitacao == PlayerState.HIGH) {
                 if (zona == PlayerState.LOW) {
                     asteroidSpeed += -0.25f;
@@ -225,15 +210,13 @@ public class DDAAply : MonoBehaviour {
     public void CalculaDesempenho() {
         float mortes = (float) DataCenter.instance.numberOfLevelDeaths;
         float duracao = DataCenter.instance.GetDuracao();
-        //float velocidade = ;
-        float velocidade = asteroidSpeed;
 
-        float limiarMortesAltoDesempenho = 0.03619733f * Mathf.Exp(0.43041275f * velocidade); //se tiver menos mortes que isso, é alto desempenho
-        float limiarDuracaoAltoDesempenho =  24.12764375f * Mathf.Exp(0.08573745f * velocidade); //se durar menos tempo que isso, é alto desemepnho
-        float limiarMortesBaixoDesempenho = 0.11379691f * Mathf.Exp(0.49376684f * velocidade); //se tiver mais mortes que isso, é baixo desempenho
-        float limiarDuracaoBaixoDesempenho = 35.66058598f * Mathf.Exp(0.15140602f * velocidade); //se durar mais tempo que isso, é baixo desempenho
+        float limiarMortesAltoDesempenho = 0.03619733f * Mathf.Exp(0.43041275f * asteroidSpeed); //se tiver menos mortes que isso, é alto desempenho
+        float limiarDuracaoAltoDesempenho =  24.12764375f * Mathf.Exp(0.08573745f * asteroidSpeed); //se durar menos tempo que isso, é alto desemepnho
+        float limiarMortesBaixoDesempenho = 0.11379691f * Mathf.Exp(0.49376684f * asteroidSpeed); //se tiver mais mortes que isso, é baixo desempenho
+        float limiarDuracaoBaixoDesempenho = 35.66058598f * Mathf.Exp(0.15140602f * asteroidSpeed); //se durar mais tempo que isso, é baixo desempenho
         
-        Debug.Log("v:" + velocidade);
+        Debug.Log("v" + asteroidSpeed);
 
         if (mortes < limiarMortesAltoDesempenho && duracao < limiarDuracaoAltoDesempenho) {
             desempenho = PlayerState.HIGH;
@@ -244,8 +227,9 @@ public class DDAAply : MonoBehaviour {
         else {
             desempenho = PlayerState.NORMAL;
         }
+    }
 
-        Mathf.Exp(5);
+    public void CalculaExcitacao() {
 
     }
 
@@ -268,4 +252,36 @@ public class DDAAply : MonoBehaviour {
         return asteroidSpeed;
     }
 
+    public string getTipoJogo() {
+        if (IsDesempenho) {
+            return "Desempenho";
+        }
+        else if (IsAfetivo) {
+            return "Afetivo";
+        }
+        else if (IsHibrido) {
+            return "Hibrido";
+        }
+        else {
+            return "Erro ao selecionar o tipo de jogo";
+        }
+    }
+
+    public void ChooseSensor(string sensor) {
+        if (sensor == "AFT") {
+            IsAfetivo = true;
+            IsDesempenho = false;
+            IsHibrido = false;
+        }
+        else if (sensor == "DSP") {
+            IsAfetivo = false;
+            IsDesempenho = true;
+            IsHibrido = false;
+        }
+        else if (sensor == "HIB") {
+            IsAfetivo = false;
+            IsDesempenho = false;
+            IsHibrido = true;
+        }
+    }
 }
