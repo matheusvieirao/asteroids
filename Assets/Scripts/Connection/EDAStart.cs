@@ -9,8 +9,8 @@ public class EDAStart : MonoBehaviour
 {
     public static EDAStart instance;
     public GameObject prefab;
-    public EDASignals sinais;
-
+    public EDASignals sinais; //onde ficam os sinais lidos.
+    
     private readonly double tempo_inicial_bd = 1570572504.2719;
     private double tempo_inicial_jogo;
     private TimerController timer;
@@ -50,6 +50,55 @@ public class EDAStart : MonoBehaviour
 
 
     }
+
+
+
+    public void callGetReadBigger() {
+        StartCoroutine(GetReadBigger());
+    }
+
+    // lê todos os números maiores que id
+    //vou usar essa. o id vou salvar antes.
+    IEnumerator GetReadBigger() {
+        Debug.Log("Entrou no GetReadBigger com id: " + ultimo_id_lido);
+        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/android_connect/read_bigger.php" + "?id=" + ultimo_id_lido)) {
+            www.SetRequestHeader("Content-Type", "application/json");
+            yield return www.SendWebRequest();
+
+            if ((www.isNetworkError || www.isHttpError)) {
+                Debug.Log(www.error);
+                Debug.Log("Erro de conecção");
+            }
+            else {
+                string jsonString = www.downloadHandler.text;
+                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
+                sinais = JsonUtility.FromJson<EDASignals>(jsonString);
+                ultimo_id_lido = sinais.eda[sinais.eda.Count - 1].id;
+                Debug.Log(sinais.eda.Count + " sinais lidos");
+            }
+        }
+    }
+
+    public void PrintSinais() {
+        Debug.Log(sinais.eda.Count);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // le todos os arquivos StreamingAssets/input_eda_tempo/EDA_tempo_<numero>.json e faz uma simulação em que:
     // - se le os dados em um intervalo de tempo determinado por tempo_buffer 
@@ -104,24 +153,6 @@ public class EDAStart : MonoBehaviour
                 sinais = JsonUtility.FromJson<EDASignals>(jsonString);
             }
 
-        }
-    }
-
-    // lê todos os números maiores que id
-    IEnumerator GetReadBigger(int id) {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/android_connect/read_bigger.php" + "?id=" + id)) {
-            www.SetRequestHeader("Content-Type", "application/json");
-            yield return www.SendWebRequest();
-
-            if ((www.isNetworkError || www.isHttpError)) {
-                Debug.Log(www.error);
-            }
-            else {
-                string jsonString = www.downloadHandler.text;
-                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
-                sinais = JsonUtility.FromJson<EDASignals>(jsonString);
-                //ultimo_id_lido = sinais.eda[sinais.eda.Length - 1].id;
-            }
         }
     }
 

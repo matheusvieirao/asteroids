@@ -12,7 +12,7 @@ public class DataFile {
     
     public string nomeCompleto;
     public string sensor;
-    public List<long> botaoFlagEmpatica = new List<long>();
+    public List<double> botaoFlagEmpatica = new List<double>();
 
     public List<DataFileLevel> level;
     private DataFileLevel level_aux;
@@ -23,15 +23,15 @@ public class DataFile {
         level = new List<DataFileLevel>();
     }
 
-    public void addFlagEmpatica(long tempo) {
+    public void addFlagEmpatica(double tempo) {
         botaoFlagEmpatica.Add(tempo);
     }
 
-    public void SetTempoInicial(long tempo) {
+    public void SetTempoInicial(double tempo) {
         level_aux.tempoInicial = tempo;
     }
 
-    public void SetTempoFinal(long tempo) {
+    public void SetTempoFinal(double tempo) {
         level_aux.tempoFinal = tempo;
         //se o tempo inicial nao foi setado corretamente, seta ele pro primeiro momento que se andou pra cima, se nao der, pro mesmo tempo que o final
         if(level_aux.tempoInicial == 0) {
@@ -43,16 +43,16 @@ public class DataFile {
         }
     }
 
-    public void addApertouUp(long tempo) { level_aux.apertouUp.Add(tempo); }
-    public void addApertouDown(long tempo) { level_aux.apertouDown.Add(tempo); }
-    public void addApertouLeft(long tempo) { level_aux.apertouLeft.Add(tempo); }
-    public void addApertouRight(long tempo) { level_aux.apertouRight.Add(tempo); }
-    public void addSoltouUp(long tempo) { level_aux.soltouUp.Add(tempo); }
-    public void addSoltouDown(long tempo) { level_aux.soltouDown.Add(tempo); }
-    public void addSoltouLeft(long tempo) { level_aux.soltouLeft.Add(tempo); }
-    public void addSoltouRight(long tempo) { level_aux.soltouRight.Add(tempo); }
-    public void addTiro(long tempo) { level_aux.tiros.Add(tempo); }
-    public void addMorte(long tempo) { level_aux.mortes.Add(tempo); }
+    public void addApertouUp(double tempo) { level_aux.apertouUp.Add(tempo); }
+    public void addApertouDown(double tempo) { level_aux.apertouDown.Add(tempo); }
+    public void addApertouLeft(double tempo) { level_aux.apertouLeft.Add(tempo); }
+    public void addApertouRight(double tempo) { level_aux.apertouRight.Add(tempo); }
+    public void addSoltouUp(double tempo) { level_aux.soltouUp.Add(tempo); }
+    public void addSoltouDown(double tempo) { level_aux.soltouDown.Add(tempo); }
+    public void addSoltouLeft(double tempo) { level_aux.soltouLeft.Add(tempo); }
+    public void addSoltouRight(double tempo) { level_aux.soltouRight.Add(tempo); }
+    public void addTiro(double tempo) { level_aux.tiros.Add(tempo); }
+    public void addMorte(double tempo) { level_aux.mortes.Add(tempo); }
 
 
 // tempo inicial e tempo final já foram povoados. mortes, tiros, e teclas (up, down...) também.
@@ -62,8 +62,8 @@ public class DataFile {
         level_aux.numeroDeAsteroids = asteroidsCount;
         level_aux.velocidadeMinimaDosAsteroids = minSpeed;
         level_aux.velocidadeMaximaDosAsteroids = maxSpeed;
-        level_aux.tempoDuracao = ((float)(level_aux.tempoFinal - level_aux.tempoInicial)) / 10000000f;
-        level_aux.tempoPorVida = level_aux.tempoDuracao / (level_aux.mortes.Count() + 1);
+        level_aux.tempoDuracao = (level_aux.tempoFinal - level_aux.tempoInicial);
+        level_aux.tempoPorVida = (float) level_aux.tempoDuracao / (level_aux.mortes.Count() + 1);
         level_aux.venceu = venceu;
         level_aux.totalDeMortes = level_aux.mortes.Count();
         level_aux.totalDeTiros = level_aux.tiros.Count();
@@ -79,9 +79,9 @@ public class DataFile {
         CalculaPercentual(level_aux.apertouRight, level_aux.soltouRight, "right");
     }
 
-    private void CalculaPercentual(List<long> apertouX, List<long> soltouX, string modo) {
+    private void CalculaPercentual(List<double> apertouX, List<double> soltouX, string modo) {
         int i = 0;
-        float ticksApertando = 0;
+        double ticksApertando = 0;
         
         for (int j = 0; j < soltouX.Count(); j++) {
             if(i<apertouX.Count()) {

@@ -10,9 +10,9 @@ public class DataFileLevel
     public int numeroDeAsteroids;
     public float velocidadeMinimaDosAsteroids;
     public float velocidadeMaximaDosAsteroids;
-    public long tempoInicial = 0; //em ticks
-    public long tempoFinal; //em ticks
-    public float tempoDuracao; //em segundos
+    public double tempoInicial = 0; //em ticks
+    public double tempoFinal; //em ticks
+    public double tempoDuracao; //em segundos
     public float tempoPorVida;
 
     public string desempenho;
@@ -22,22 +22,22 @@ public class DataFileLevel
     public bool venceu;
 
     public int totalDeMortes;
-    public List<long> mortes = new List<long>();
+    public List<double> mortes = new List<double>();
 
     public int totalDeTiros;
     public float percentualUp;
     public float percentualDown;
     public float percentualLeft;
     public float percentualRight;
-    public List<long> tiros = new List<long>();
-    public List<long> apertouUp = new List<long>();
-    public List<long> soltouUp = new List<long>();
-    public List<long> apertouDown = new List<long>();
-    public List<long> soltouDown = new List<long>();
-    public List<long> apertouLeft = new List<long>();
-    public List<long> soltouLeft = new List<long>();
-    public List<long> apertouRight = new List<long>();
-    public List<long> soltouRight = new List<long>();
+    public List<double> tiros = new List<double>();
+    public List<double> apertouUp = new List<double>();
+    public List<double> soltouUp = new List<double>();
+    public List<double> apertouDown = new List<double>();
+    public List<double> soltouDown = new List<double>();
+    public List<double> apertouLeft = new List<double>();
+    public List<double> soltouLeft = new List<double>();
+    public List<double> apertouRight = new List<double>();
+    public List<double> soltouRight = new List<double>();
 
     public string dificuldade;
     public string tedio;

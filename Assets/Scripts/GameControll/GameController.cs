@@ -20,8 +20,9 @@ public class GameController : MonoBehaviour{
         shipCollisionStatus = player.GetComponent<ShipCollision>();
         if(DataCenter.instance.numberOfLevelDeaths == 0) {
             DataCenter.instance.SetTempoInicial(); //grava o tempo inicial do nível
-            Debug.Log("setou tempo inicial");
-            //printar aqui os sinais
+            if (DDAAply.instance.IsAfetivo) {
+                EDAStart.instance.callGetReadBigger(); //le os sinais coletados no questionario até agora só pra descartar eles.
+            }
         }
     }
 
@@ -47,7 +48,7 @@ public class GameController : MonoBehaviour{
 		DDAAply.instance.BalanceAtDeath();
 		SceneManager.LoadScene (actualScene);
 	}
-						
+	
     public void SetGameWin(){
 		TextEnable.EnableFaseCompleta ();
     }

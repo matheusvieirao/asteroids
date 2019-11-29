@@ -18,8 +18,8 @@ public class DataCenter : MonoBehaviour {
     public static int currentLevel;
     public string nomeCompleto;
     public int numberOfLevelDeaths;
-    public long initialLevelTime;
-    public long finalLevelTime;
+    public double initialLevelTime;
+    public double finalLevelTime;
     DataFile df;
 
     void Start() {
@@ -37,7 +37,7 @@ public class DataCenter : MonoBehaviour {
 
 
     void Update() {
-        long agora = System.DateTime.Now.Ticks;
+        double agora = System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds;
 
         if (Input.GetKey(KeyCode.Q)){
             if (Input.GetKeyDown(KeyCode.W)) {
@@ -75,7 +75,7 @@ public class DataCenter : MonoBehaviour {
 
 	public void AddDeath(){
 		numberOfLevelDeaths++;
-        df.addMorte(System.DateTime.Now.Ticks);
+        df.addMorte(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
 	}
 
 	public void AddToOutputLevel(bool venceu) {
@@ -100,12 +100,12 @@ public class DataCenter : MonoBehaviour {
     }
 
     public void SetTempoInicial() {
-        initialLevelTime = System.DateTime.Now.Ticks;
+        initialLevelTime = System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds;
         df.SetTempoInicial(initialLevelTime);
     }
 
     public void SetTempoFinal() {
-        finalLevelTime = System.DateTime.Now.Ticks;
+        finalLevelTime = System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds;
         df.SetTempoFinal(finalLevelTime);
     }
 
@@ -113,8 +113,8 @@ public class DataCenter : MonoBehaviour {
         return currentLevel;
     }
 
-    public float GetDuracao() {
-        return (finalLevelTime - initialLevelTime) / 10000000f;
+    public double GetDuracao() {
+        return (finalLevelTime - initialLevelTime);
     }
 
     public void AddLevel() {

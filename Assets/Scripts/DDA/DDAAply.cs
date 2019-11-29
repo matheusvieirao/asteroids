@@ -18,9 +18,9 @@ public class DDAAply : MonoBehaviour {
 	//private float EDA = 0; //eda values
     
 	
-    private bool IsAfetivo = false;
-    private bool IsDesempenho = false;
-    private bool IsHibrido = false;
+    public bool IsAfetivo = false;
+    public bool IsDesempenho = false;
+    public bool IsHibrido = false;
 
     void Awake () {
 		if (instance == null) {
@@ -165,7 +165,6 @@ public class DDAAply : MonoBehaviour {
             }
         }
         else if (IsAfetivo) {
-            CalculaExcitacao();
             if (excitacao == PlayerState.HIGH) {
                 if (zona == PlayerState.LOW) {
                     asteroidSpeed += -0.5f;
@@ -207,12 +206,12 @@ public class DDAAply : MonoBehaviour {
 
     public void CalculaDesempenho() {
         float mortes = (float) DataCenter.instance.numberOfLevelDeaths;
-        float duracao = DataCenter.instance.GetDuracao();
+        double duracao = DataCenter.instance.GetDuracao();
 
-        float limiarMortesAltoDesempenho = 0.03619733f * Mathf.Exp(0.43041275f * asteroidSpeed); //se tiver menos mortes que isso, é alto desempenho
-        float limiarDuracaoAltoDesempenho =  24.12764375f * Mathf.Exp(0.08573745f * asteroidSpeed); //se durar menos tempo que isso, é alto desemepnho
-        float limiarMortesBaixoDesempenho = 0.11379691f * Mathf.Exp(0.49376684f * asteroidSpeed); //se tiver mais mortes que isso, é baixo desempenho
-        float limiarDuracaoBaixoDesempenho = 35.66058598f * Mathf.Exp(0.15140602f * asteroidSpeed); //se durar mais tempo que isso, é baixo desempenho
+        double limiarMortesAltoDesempenho = 0.03619733 * Mathf.Exp(0.43041275f * asteroidSpeed); //se tiver menos mortes que isso, é alto desempenho
+        double limiarDuracaoAltoDesempenho =  24.12764375 * Mathf.Exp(0.08573745f * asteroidSpeed); //se durar menos tempo que isso, é alto desemepnho
+        double limiarMortesBaixoDesempenho = 0.11379691 * Mathf.Exp(0.49376684f * asteroidSpeed); //se tiver mais mortes que isso, é baixo desempenho
+        double limiarDuracaoBaixoDesempenho = 35.66058598 * Mathf.Exp(0.15140602f * asteroidSpeed); //se durar mais tempo que isso, é baixo desempenho
         
         Debug.Log("v" + asteroidSpeed);
 
@@ -229,17 +228,18 @@ public class DDAAply : MonoBehaviour {
 
     public void CalculaExcitacao() {
         EDAStart.instance.callGetReadBigger(); //le os sinais e os salva em EDAStart.instance.sinais
-        //printar aqui os sinais
+        Debug.Log("Calculando Excitacao: ");
+        EDAStart.instance.PrintSinais();
     }
 
     public void CalculaZona() {
         int mortes = DataCenter.instance.numberOfLevelDeaths;
-        float duracao = DataCenter.instance.GetDuracao();
+        double duracao = DataCenter.instance.GetDuracao();
 
-        if (mortes < 4 && duracao < 67f) {
+        if (mortes < 4 && duracao < 67) {
             zona = PlayerState.LOW;
         }
-        else if (mortes > 4 && duracao > 77f) {
+        else if (mortes > 4 && duracao > 67) {
             zona = PlayerState.HIGH;
         }
         else {
@@ -269,11 +269,13 @@ public class DDAAply : MonoBehaviour {
     public void ChooseSensor(string sensor) {
         DataCenter.instance.setSensor(sensor);
         if (sensor == "AFT") {
+            Debug.Log("É Afetivo");
             IsAfetivo = true;
             IsDesempenho = false;
             IsHibrido = false;
         }
         else if (sensor == "DSP") {
+            Debug.Log("É Desempenho");
             IsAfetivo = false;
             IsDesempenho = true;
             IsHibrido = false;
