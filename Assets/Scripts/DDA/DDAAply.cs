@@ -84,7 +84,6 @@ public class DDAAply : MonoBehaviour {
             }
         }
         else if (IsAfetivo) {
-            Debug.Log("is afetivos");
             CalculaExcitacao();
             if (excitacao == PlayerState.LOW) {
                 if (zona == PlayerState.LOW) {
@@ -133,24 +132,24 @@ public class DDAAply : MonoBehaviour {
         if (IsDesempenho) {
             if (desempenho == PlayerState.LOW) {
                 if(zona == PlayerState.LOW) {
-                    asteroidSpeed += -0.25f;
+                    asteroidSpeed += -0.5f;
                 }
                 else if(zona == PlayerState.NORMAL) {
-                    asteroidSpeed += -0.375f;
+                    asteroidSpeed += -0.75f;
                 }
                 else { //(zona == PlayerState.HIGH) 
-                    asteroidSpeed += -0.5f;
+                    asteroidSpeed += -1f;
                 }
             }
             else if (desempenho == PlayerState.NORMAL) {
                 if (zona == PlayerState.LOW) {
-                    asteroidSpeed += -0.125f;
-                }
-                else if (zona == PlayerState.NORMAL) {
                     asteroidSpeed += -0.25f;
                 }
+                else if (zona == PlayerState.NORMAL) {
+                    asteroidSpeed += -0.5f;
+                }
                 else { //(zona == PlayerState.HIGH) 
-                    asteroidSpeed += -0.375f;
+                    asteroidSpeed += -0.75f;
                 }
             }
             else { //(desempenho == PlayerState.HIGH) 
@@ -158,34 +157,35 @@ public class DDAAply : MonoBehaviour {
                     asteroidSpeed += 0f;
                 }
                 else if (zona == PlayerState.NORMAL) {
-                    asteroidSpeed += -0.125f;
-                }
-                else { //(zona == PlayerState.HIGH) 
                     asteroidSpeed += -0.25f;
-                }
-            }
-        }
-        else if (IsAfetivo) {
-            if (excitacao == PlayerState.HIGH) {
-                if (zona == PlayerState.LOW) {
-                    asteroidSpeed += -0.25f;
-                }
-                else if (zona == PlayerState.NORMAL) {
-                    asteroidSpeed += -0.375f;
                 }
                 else { //(zona == PlayerState.HIGH) 
                     asteroidSpeed += -0.5f;
                 }
             }
-            else if (excitacao == PlayerState.NORMAL) {
+        }
+        else if (IsAfetivo) {
+            CalculaExcitacao();
+            if (excitacao == PlayerState.HIGH) {
                 if (zona == PlayerState.LOW) {
-                    asteroidSpeed += -0.125f;
+                    asteroidSpeed += -0.5f;
                 }
                 else if (zona == PlayerState.NORMAL) {
-                    asteroidSpeed += -0.25f;
+                    asteroidSpeed += -0.75f;
                 }
                 else { //(zona == PlayerState.HIGH) 
-                    asteroidSpeed += -0.375f;
+                    asteroidSpeed += -1f;
+                }
+            }
+            else if (excitacao == PlayerState.NORMAL) {
+                if (zona == PlayerState.LOW) {
+                    asteroidSpeed += -0.25f;
+                }
+                else if (zona == PlayerState.NORMAL) {
+                    asteroidSpeed += -0.5f;
+                }
+                else { //(zona == PlayerState.HIGH) 
+                    asteroidSpeed += -0.75f;
                 }
             }
             else { //(excitacao == PlayerState.LOW) 
@@ -193,15 +193,15 @@ public class DDAAply : MonoBehaviour {
                     asteroidSpeed += 0f;
                 }
                 else if (zona == PlayerState.NORMAL) {
-                    asteroidSpeed += -0.125f;
+                    asteroidSpeed += -0.25f;
                 }
                 else { //(zona == PlayerState.HIGH) 
-                    asteroidSpeed += -0.25f;
+                    asteroidSpeed += -0.5f;
                 }
             }
         }
         else {
-            Debug.Log("O jogo não está sendo balanceado");
+            Debug.Log("O jogo não está sendo balanceado...");
         }
     }
 
@@ -228,7 +228,8 @@ public class DDAAply : MonoBehaviour {
     }
 
     public void CalculaExcitacao() {
-
+        EDAStart.instance.callGetReadBigger(); //le os sinais e os salva em EDAStart.instance.sinais
+        //printar aqui os sinais
     }
 
     public void CalculaZona() {

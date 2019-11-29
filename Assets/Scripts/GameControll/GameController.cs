@@ -18,8 +18,12 @@ public class GameController : MonoBehaviour{
         TextEnable.Init();
         player = GameObject.FindGameObjectWithTag("Player");
         shipCollisionStatus = player.GetComponent<ShipCollision>();
-        DataCenter.instance.SetTempoInicial(); //grava o tempo inicial do nível
-	}
+        if(DataCenter.instance.numberOfLevelDeaths == 0) {
+            DataCenter.instance.SetTempoInicial(); //grava o tempo inicial do nível
+            Debug.Log("setou tempo inicial");
+            //printar aqui os sinais
+        }
+    }
 
 
     void Update () {

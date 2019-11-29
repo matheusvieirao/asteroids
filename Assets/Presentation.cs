@@ -32,7 +32,7 @@ public class Presentation : MonoBehaviour
             }
         }
         if (Input.GetKeyDown(KeyCode.Return)) {
-            BotaoJogar();
+            //BotaoJogar(); por enquanto não implementar isso pq não clicar no botão jogar, não chama o SensorChooser.SaveSensor
         }
 
         // para deixar as caixas vermelhas se clicar submit mas não estiver escrito nada 
