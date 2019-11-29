@@ -213,7 +213,7 @@ public class DDAAply : MonoBehaviour {
         double limiarMortesBaixoDesempenho = 0.11379691 * Mathf.Exp(0.49376684f * asteroidSpeed); //se tiver mais mortes que isso, é baixo desempenho
         double limiarDuracaoBaixoDesempenho = 35.66058598 * Mathf.Exp(0.15140602f * asteroidSpeed); //se durar mais tempo que isso, é baixo desempenho
         
-        Debug.Log("v" + asteroidSpeed);
+        Debug.Log("CalculaDesempenho. velocidade: " + asteroidSpeed);
 
         if (mortes < limiarMortesAltoDesempenho && duracao < limiarDuracaoAltoDesempenho) {
             desempenho = PlayerState.HIGH;
@@ -227,9 +227,8 @@ public class DDAAply : MonoBehaviour {
     }
 
     public void CalculaExcitacao() {
-        EDAStart.instance.callGetReadBigger(); //le os sinais e os salva em EDAStart.instance.sinais
         Debug.Log("Calculando Excitacao: ");
-        EDAStart.instance.PrintSinais();
+        EDAStart.instance.callGetReadBigger(true); //le os sinais e os salva em EDAStart.instance.sinais
     }
 
     public void CalculaZona() {

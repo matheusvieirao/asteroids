@@ -9,7 +9,7 @@ public class EDASignal
     public int id;
     public double value;
     public double time;
-    public int read;
+    public int read; //não estamos usando. estava no codigo antigo
 
     public EDASignal(int id, double time, double value, int read) {
         this.id = id;

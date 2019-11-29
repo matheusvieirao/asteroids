@@ -11,13 +11,17 @@ public class EDAStart : MonoBehaviour
     public GameObject prefab;
     public EDASignals sinais; //onde ficam os sinais lidos.
     
-    private readonly double tempo_inicial_bd = 1570572504.2719;
-    private double tempo_inicial_jogo;
-    private TimerController timer;
+    //private readonly double tempo_inicial_bd = 1570572504.2719;
+    //private double tempo_inicial_jogo;
+    //private TimerController timer;
     private int ultimo_id_lido;
-    private EDAProcessor edaProcessor;
-    private double ultimo_tempo_eda_lido; //usado para gerar os graficos
-    EDATempoTonicoDTO objETT; //usado para guardar os dados dos graficos
+    //private EDAProcessor edaProcessor; //Essa classe contem parte do programa do marcos usado para calcular nivel tonico
+    //private double ultimo_tempo_eda_lido; //usado para gerar os graficos
+    //EDATempoTonicoDTO objETT; //usado para guardar os dados dos graficos
+    List<PicoEDA> picos = new List<PicoEDA>();
+
+    //private double edaUltimoValor;
+    //private double edaPenultimoValor;
 
     void Awake() {
         if (instance == null) {
@@ -32,12 +36,12 @@ public class EDAStart : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         ultimo_id_lido = 0;
-        tempo_inicial_jogo = System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds;
+        //tempo_inicial_jogo = System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds;
         //tempo_inicial_jogo = System.DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //também é uma opção mas tem menos precisão
-        timer = new TimerController();
-        timer.Reset();
+        //timer = new TimerController();
+        //timer.Reset();
 
-        GetReadFromJsonFiles(25.0f);
+        //GetReadFromJsonFiles(25.0f);
 
     }
 
@@ -53,34 +57,130 @@ public class EDAStart : MonoBehaviour
 
 
 
-    public void callGetReadBigger() {
-        StartCoroutine(GetReadBigger());
+    public void callGetReadBigger(bool calcularExcitacao) {
+        StartCoroutine(GetReadBigger(calcularExcitacao));
     }
 
     // lê todos os números maiores que id
     //vou usar essa. o id vou salvar antes.
-    IEnumerator GetReadBigger() {
+    //se calcularExcitacao for true, calcula a excitacao. Se for false, apenas le os dados (usado para descartar os dados do questionario)
+    IEnumerator GetReadBigger(bool calcularExcitacao) {
         Debug.Log("Entrou no GetReadBigger com id: " + ultimo_id_lido);
         using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/android_connect/read_bigger.php" + "?id=" + ultimo_id_lido)) {
             www.SetRequestHeader("Content-Type", "application/json");
             yield return www.SendWebRequest();
 
             if ((www.isNetworkError || www.isHttpError)) {
-                Debug.Log(www.error);
                 Debug.Log("Erro de conecção");
+                Debug.Log(www.error);
             }
             else {
                 string jsonString = www.downloadHandler.text;
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
                 sinais = JsonUtility.FromJson<EDASignals>(jsonString);
-                ultimo_id_lido = sinais.eda[sinais.eda.Count - 1].id;
+                if (sinais.eda.Count > 0) {
+                    ultimo_id_lido = sinais.eda[sinais.eda.Count - 1].id;
+                }
                 Debug.Log(sinais.eda.Count + " sinais lidos");
+                if (calcularExcitacao) {
+                    CalculaPicos(); //pontos máximos e minimos relativos
+                    Debug.Log(picos.Count + " picos achados");
+                    if(picos.Count>10)
+                    CaclulaExcitacao();
+                }
             }
         }
     }
 
-    public void PrintSinais() {
-        Debug.Log(sinais.eda.Count);
+    private void CalculaPicos() {
+        bool estava_subindo = false;
+        bool estava_descendo = false;
+        double tamanho = 0;
+        double dif;
+        int ignorar = 10; //numero de valores a se ignorar. o valor inicial pode ter mais relação com o questionario do que com o jogo em si. 6 foi encontrado por testes como um bom número
+
+        //ordenar aqui eda por id?
+        for(int i = 0; i < sinais.eda.Count; i++) {
+            //descarta os 20 primeiros sinais
+            if (i == ignorar) {
+                dif = sinais.eda[ignorar].value - sinais.eda[ignorar-1].value;
+                if (dif >= 0) {
+                    estava_subindo = true;
+                    tamanho = dif;
+                }
+                else {
+                    estava_descendo = true;
+                    tamanho = -dif;
+                }
+            }
+            else if (i > ignorar) {
+                dif = sinais.eda[i].value - sinais.eda[i - 1].value;
+                //se subindo agora
+                if (dif > 0) {
+                    //se já estava subindo
+                    if (estava_subindo) {
+                        tamanho += dif;
+                    }
+                    //começou a subir só agora. encontrou um pico negativo em i-1
+                    else if (estava_descendo) {
+                        //add pico
+                        picos.Add(new PicoEDA(sinais.eda[i-1],tamanho));
+                        tamanho = dif;
+                        estava_descendo = false;
+                        estava_subindo = true;
+                    }
+                    else {
+                        Debug.Log("Um erro está acontecendo ao calcular o EDA. (nao está detectando subida nem descida) (1)");
+                    }
+                }
+                //se descendo agora
+                else {
+                    //se já estava descendo
+                    if (estava_descendo) {
+                        tamanho -= dif;
+                    }
+                    //comçou a descer só agora. encontrou um pico positivo em i-1
+                    else if (estava_subindo) {
+                        //add pico;
+                        picos.Add(new PicoEDA(sinais.eda[i - 1], tamanho));
+                        tamanho = -dif;
+                        estava_subindo = false;
+                        estava_descendo = true;
+                    }
+                    else {
+                        Debug.Log("Um erro está acontecendo ao calcular o EDA. (nao está detectando subida nem descida) (2)");
+                    }
+                }
+            }
+        }
+    }
+
+    private void CaclulaExcitacao() {
+        double edaInicialMedia = (picos[0].value + picos[1].value + picos[2].value + picos[3].value + picos[4].value + picos[5].value + picos[6].value + picos[7].value) /8;
+        int s = picos.Count;
+        double edaFinalMedia = (picos[s-1].value + picos[s-2].value + picos[s-3].value + picos[s-4].value + picos[s-5].value + picos[s-6].value + picos[s-7].value + picos[s-8].value)/8;
+        picos.Sort((x, y) => x.size.CompareTo(y.size)); //ordena a lista pra encontrar o ruido
+        double ruido = picos[(int)(picos.Count / 2)].size; //o ruido é considerado a amplitude mediana entre dois picos
+
+        int escala = 2; //quantas vezes uma mudança tem que ter em relação ao ruido para se considerar se o jogador se excitou ou não
+
+        Debug.Log("edaInicialMedia: " + edaInicialMedia);
+        Debug.Log("edaFinalMedia: " + edaFinalMedia);
+        Debug.Log("ruido: " + ruido);
+        //subiu
+        if (edaFinalMedia - edaInicialMedia > escala * ruido) {
+            Debug.Log("Excitação: HIGH");
+            DDAAply.instance.excitacao = State.PlayerState.HIGH;
+        }
+        //desceu
+        else if(edaFinalMedia - edaInicialMedia < -1 * escala * ruido) {
+            Debug.Log("Excitação: LOW");
+            DDAAply.instance.excitacao = State.PlayerState.LOW;
+        }
+        else {
+            Debug.Log("Excitação: NORMAL");
+            DDAAply.instance.excitacao = State.PlayerState.NORMAL;
+        }
     }
 
 
@@ -97,9 +197,7 @@ public class EDAStart : MonoBehaviour
 
 
 
-
-
-
+    /*
     // le todos os arquivos StreamingAssets/input_eda_tempo/EDA_tempo_<numero>.json e faz uma simulação em que:
     // - se le os dados em um intervalo de tempo determinado por tempo_buffer 
     // - calcula um nivel tonico e um nivel fasico para esse internvalo, 
@@ -198,6 +296,6 @@ public class EDAStart : MonoBehaviour
                 ultimo_id_lido = sinais.eda[sinais.eda.Count - 1].id;
             }
         }
-    }
+    }*/
 
 }
