@@ -120,15 +120,20 @@ public class UIPerguntas2 : MonoBehaviour
 
         Update();
 
-        if (respostaDificuldade != null && respostaTedio != null && respostaFrustracao != null && respostaDiversao != null)
-        {
-            DataCenter.instance.AddToOutputPerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
-            DataCenter.instance.AddLevelToJson();
-            if(DataCenter.instance.GetCurrentLevel() == 10) {
-                gameObject.GetComponent<ProximaCena>().nextScene = "Fim do Jogo";
+        if (respostaDificuldade != null && respostaTedio != null && respostaFrustracao != null && respostaDiversao != null)  {
+            if (!EDAStart.instance.calculandoExcitacao) {
+                DataCenter.instance.AddPerguntasToDataFile(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+                DataCenter.instance.AddLevelToJson();
+                if (DataCenter.instance.GetCurrentLevel() == 10) {
+                    gameObject.GetComponent<ProximaCena>().nextScene = "Fim do Jogo";
+                }
+                DataCenter.instance.AddLevel();
+                gameObject.GetComponent<ProximaCena>().passLevel();
             }
-            DataCenter.instance.AddLevel();
-            gameObject.GetComponent<ProximaCena>().passLevel();
+            else {
+                Debug.Log("A excitação ainda não foi calculada..."); //precisa dela pra salvar no output e pra gerar o próximo nível
+                //todo: printar na tela essa info
+            }
         }
         
     }
@@ -137,7 +142,7 @@ public class UIPerguntas2 : MonoBehaviour
         if (SceneManager.GetActiveScene().name.Equals("Perguntas2")) {
             jaClicouSubmit = true;
             Update();
-            DataCenter.instance.AddToOutputPerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+            DataCenter.instance.AddPerguntasToDataFile(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
             DataCenter.instance.AddLevelToJson();
             DataCenter.instance.Write();
         }

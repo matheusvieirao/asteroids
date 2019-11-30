@@ -78,15 +78,15 @@ public class DataCenter : MonoBehaviour {
         df.addMorte(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
 	}
 
-	public void AddToOutputLevel(bool venceu) {
+	public void AddLevelInfoToDataFile() {
         int AsteroidCount = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetAsteroidCount();
         float minSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMinSpeed();
         float maxSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMaxSpeed();
-        df.AddToOutputFileLevel (AsteroidCount, minSpeed, maxSpeed, venceu);
+        df.AddLevelInfoToDataFileLevel (AsteroidCount, minSpeed, maxSpeed);
     }
 
-    public void AddToOutputPerguntas(string respostaDificuldade, string respostaTedio, string respostaFrustracao, string respostaDiversao, string respostaInputText) {
-        df.AddToOutputFilePerguntas(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+    public void AddPerguntasToDataFile(string respostaDificuldade, string respostaTedio, string respostaFrustracao, string respostaDiversao, string respostaInputText) {
+        df.AddPerguntasToDataFileLevel(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
     }
 
     public void Write() {
@@ -107,6 +107,10 @@ public class DataCenter : MonoBehaviour {
     public void SetTempoFinal() {
         finalLevelTime = System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds;
         df.SetTempoFinal(finalLevelTime);
+    }
+
+    public void SetVenceu(bool venceu) {
+        df.SetVenceu(venceu);
     }
 
     public int GetCurrentLevel() {

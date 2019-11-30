@@ -15,7 +15,7 @@ public class DataFile {
     public List<double> botaoFlagEmpatica = new List<double>();
 
     public List<DataFileLevel> level;
-    private DataFileLevel level_aux;
+    private DataFileLevel level_aux; //não imprime no json por ser private
 
     public DataFile(){
         System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para imprimir separar os floats com '.' e nao ','
@@ -43,6 +43,10 @@ public class DataFile {
         }
     }
 
+    public void SetVenceu(bool venceu) {
+        level_aux.venceu = venceu;
+    }
+
     public void addApertouUp(double tempo) { level_aux.apertouUp.Add(tempo); }
     public void addApertouDown(double tempo) { level_aux.apertouDown.Add(tempo); }
     public void addApertouLeft(double tempo) { level_aux.apertouLeft.Add(tempo); }
@@ -56,7 +60,7 @@ public class DataFile {
 
 
 // tempo inicial e tempo final já foram povoados. mortes, tiros, e teclas (up, down...) também.
-    public void AddToOutputFileLevel(int asteroidsCount, float minSpeed, float maxSpeed, bool venceu) {
+    public void AddLevelInfoToDataFileLevel(int asteroidsCount, float minSpeed, float maxSpeed) {
         CalculaPercentuais();
 
         level_aux.numeroDeAsteroids = asteroidsCount;
@@ -64,12 +68,25 @@ public class DataFile {
         level_aux.velocidadeMaximaDosAsteroids = maxSpeed;
         level_aux.tempoDuracao = (level_aux.tempoFinal - level_aux.tempoInicial);
         level_aux.tempoPorVida = (float) level_aux.tempoDuracao / (level_aux.mortes.Count() + 1);
-        level_aux.venceu = venceu;
         level_aux.totalDeMortes = level_aux.mortes.Count();
         level_aux.totalDeTiros = level_aux.tiros.Count();
+    }
+
+    public void AddPerguntasToDataFileLevel(string dificuldade, string tedio, string frustracao, string diversao, string opiniao) {
+        level_aux.dificuldade = dificuldade;
+        level_aux.tedio = tedio;
+        level_aux.frustracao = frustracao;
+        level_aux.diversao = diversao;
+        level_aux.opiniao = opiniao;
+    }
+
+    public void AddLevelToJson() {
         level_aux.desempenho = DDAAply.instance.getStringPlayerState(DDAAply.instance.desempenho);
         level_aux.excitacao = DDAAply.instance.getStringPlayerState(DDAAply.instance.excitacao);
         level_aux.zona = DDAAply.instance.getStringPlayerState(DDAAply.instance.zona);
+        level.Add(level_aux);
+        level_aux = null;
+        level_aux = new DataFileLevel();
     }
 
     private void CalculaPercentuais() {
@@ -82,9 +99,9 @@ public class DataFile {
     private void CalculaPercentual(List<double> apertouX, List<double> soltouX, string modo) {
         int i = 0;
         double ticksApertando = 0;
-        
+
         for (int j = 0; j < soltouX.Count(); j++) {
-            if(i<apertouX.Count()) {
+            if (i < apertouX.Count()) {
                 ticksApertando += soltouX[j] - apertouX[i];
                 i++;
             }
@@ -110,20 +127,6 @@ public class DataFile {
             level_aux.percentualRight = (float)((float)ticksApertando) / ((float)(level_aux.tempoFinal - level_aux.tempoInicial));
         }
 
-    }
-
-    public void AddToOutputFilePerguntas(string dificuldade, string tedio, string frustracao, string diversao, string opiniao) {
-        level_aux.dificuldade = dificuldade;
-        level_aux.tedio = tedio;
-        level_aux.frustracao = frustracao;
-        level_aux.diversao = diversao;
-        level_aux.opiniao = opiniao;
-    }
-
-    public void AddLevelToJson() {
-        level.Add(level_aux);
-        level_aux = null;
-        level_aux = new DataFileLevel();
     }
 
 }

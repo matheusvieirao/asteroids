@@ -2,7 +2,7 @@
 {
 	public enum PlayerState
 	{
-		LOW,NORMAL,HIGH
+		LOW,NORMAL,HIGH,NULL
 	}
 }
 

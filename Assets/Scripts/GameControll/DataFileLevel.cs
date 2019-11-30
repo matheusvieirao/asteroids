@@ -15,8 +15,8 @@ public class DataFileLevel
     public double tempoDuracao; //em segundos
     public float tempoPorVida;
 
-    public string desempenho;
-    public string excitacao;
+    public string desempenho; //esse é o desempenho desde nivel que será usado para ajudar a dificuldade do próximo nível
+    public string excitacao; //esse é a excitação desde nivel que será usado para ajudar a dificuldade do próximo nível
     public string zona;
 
     public bool venceu;

@@ -20,6 +20,7 @@ public class EDAStart : MonoBehaviour
     //EDATempoTonicoDTO objETT; //usado para guardar os dados dos graficos
     List<PicoEDA> picos = new List<PicoEDA>();
 
+    public bool calculandoExcitacao = false; //é o importante o default ser false pra nao travar em UIPerguntas2 quando for por desempenho.
     //private double edaUltimoValor;
     //private double edaPenultimoValor;
 
@@ -57,7 +58,8 @@ public class EDAStart : MonoBehaviour
 
 
 
-    public void callGetReadBigger(bool calcularExcitacao) {
+    public void LerEDACalculaExcitacao(bool calcularExcitacao) {
+        calculandoExcitacao = true;
         StartCoroutine(GetReadBigger(calcularExcitacao));
     }
 
@@ -65,7 +67,7 @@ public class EDAStart : MonoBehaviour
     //vou usar essa. o id vou salvar antes.
     //se calcularExcitacao for true, calcula a excitacao. Se for false, apenas le os dados (usado para descartar os dados do questionario)
     IEnumerator GetReadBigger(bool calcularExcitacao) {
-        Debug.Log("Entrou no GetReadBigger com id: " + ultimo_id_lido);
+        Debug.Log("Entrou no GetReadBigger com id==" + ultimo_id_lido);
         using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/android_connect/read_bigger.php" + "?id=" + ultimo_id_lido)) {
             www.SetRequestHeader("Content-Type", "application/json");
             yield return www.SendWebRequest();
@@ -85,11 +87,18 @@ public class EDAStart : MonoBehaviour
                 if (calcularExcitacao) {
                     CalculaPicos(); //pontos máximos e minimos relativos
                     Debug.Log(picos.Count + " picos achados");
-                    if(picos.Count>10)
-                    CaclulaExcitacao();
+                    if(picos.Count > 1) {
+                        CaclulaExcitacao();
+                    }
+                    else {
+                        Debug.Log("Excitação: NULL");
+                        DDAAply.instance.excitacao = State.PlayerState.NULL;
+                    }
                 }
+                DDAAply.instance.AjustaExcitacao();
             }
         }
+        calculandoExcitacao = false;
     }
 
     private void CalculaPicos() {
@@ -99,56 +108,63 @@ public class EDAStart : MonoBehaviour
         double dif;
         int ignorar = 10; //numero de valores a se ignorar. o valor inicial pode ter mais relação com o questionario do que com o jogo em si. 6 foi encontrado por testes como um bom número
 
-        //ordenar aqui eda por id?
-        for(int i = 0; i < sinais.eda.Count; i++) {
-            //descarta os 20 primeiros sinais
-            if (i == ignorar) {
-                dif = sinais.eda[ignorar].value - sinais.eda[ignorar-1].value;
-                if (dif >= 0) {
-                    estava_subindo = true;
-                    tamanho = dif;
-                }
-                else {
-                    estava_descendo = true;
-                    tamanho = -dif;
-                }
-            }
-            else if (i > ignorar) {
-                dif = sinais.eda[i].value - sinais.eda[i - 1].value;
-                //se subindo agora
-                if (dif > 0) {
-                    //se já estava subindo
-                    if (estava_subindo) {
-                        tamanho += dif;
-                    }
-                    //começou a subir só agora. encontrou um pico negativo em i-1
-                    else if (estava_descendo) {
-                        //add pico
-                        picos.Add(new PicoEDA(sinais.eda[i-1],tamanho));
-                        tamanho = dif;
-                        estava_descendo = false;
+        sinais.eda.Sort((x, y) => x.id.CompareTo(y.id)); //se nao tiver em ordem, ordena os sinais por id
+
+        //se tiver menos sinais do que ignorar+2, nao calcula a excitacao
+        if (sinais.eda.Count < ignorar+2) {
+            picos.Clear();
+        }
+        else {
+            for (int i = 0; i < sinais.eda.Count; i++) {
+                //descarta os 20 primeiros sinais
+                if (i == ignorar) {
+                    dif = sinais.eda[ignorar].value - sinais.eda[ignorar-1].value;
+                    if (dif >= 0) {
                         estava_subindo = true;
+                        tamanho = dif;
                     }
                     else {
-                        Debug.Log("Um erro está acontecendo ao calcular o EDA. (nao está detectando subida nem descida) (1)");
+                        estava_descendo = true;
+                        tamanho = -dif;
                     }
                 }
-                //se descendo agora
-                else {
-                    //se já estava descendo
-                    if (estava_descendo) {
-                        tamanho -= dif;
+                else if (i > ignorar) {
+                    dif = sinais.eda[i].value - sinais.eda[i - 1].value;
+                    //se subindo agora
+                    if (dif > 0) {
+                        //se já estava subindo
+                        if (estava_subindo) {
+                            tamanho += dif;
+                        }
+                        //começou a subir só agora. encontrou um pico negativo em i-1
+                        else if (estava_descendo) {
+                            //add pico
+                            picos.Add(new PicoEDA(sinais.eda[i-1],tamanho));
+                            tamanho = dif;
+                            estava_descendo = false;
+                            estava_subindo = true;
+                        }
+                        else {
+                            Debug.Log("Um erro está acontecendo ao calcular o EDA. (nao está detectando subida nem descida) (1)");
+                        }
                     }
-                    //comçou a descer só agora. encontrou um pico positivo em i-1
-                    else if (estava_subindo) {
-                        //add pico;
-                        picos.Add(new PicoEDA(sinais.eda[i - 1], tamanho));
-                        tamanho = -dif;
-                        estava_subindo = false;
-                        estava_descendo = true;
-                    }
+                    //se descendo agora
                     else {
-                        Debug.Log("Um erro está acontecendo ao calcular o EDA. (nao está detectando subida nem descida) (2)");
+                        //se já estava descendo
+                        if (estava_descendo) {
+                            tamanho -= dif;
+                        }
+                        //comçou a descer só agora. encontrou um pico positivo em i-1
+                        else if (estava_subindo) {
+                            //add pico;
+                            picos.Add(new PicoEDA(sinais.eda[i - 1], tamanho));
+                            tamanho = -dif;
+                            estava_subindo = false;
+                            estava_descendo = true;
+                        }
+                        else {
+                            Debug.Log("Um erro está acontecendo ao calcular o EDA. (nao está detectando subida nem descida) (2)");
+                        }
                     }
                 }
             }

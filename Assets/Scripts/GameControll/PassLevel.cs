@@ -25,8 +25,9 @@ public class PassLevel : MonoBehaviour {
 
 	private void BalanceAndPassLevel(bool venceu) {
         DataCenter.instance.SetTempoFinal();
-        DDAAply.instance.BalanceAtPassLevel();
-        DataCenter.instance.AddToOutputLevel(venceu);
+        DataCenter.instance.SetVenceu(venceu);
+        DataCenter.instance.AddLevelInfoToDataFile();
+        DDAAply.instance.BalanceAtPassLevel(); //salva o desempenho/excitação desde nivel que será usado para ajudar a dificuldade do próximo nível
         DataCenter.instance.resetDeath();
         SceneManager.LoadScene(nextLevel);
     }
@@ -35,7 +36,8 @@ public class PassLevel : MonoBehaviour {
     void OnApplicationQuit() {
         if (SceneManager.GetActiveScene().name.Equals("Level")) {
             DataCenter.instance.SetTempoFinal(); //setamos o tempo final aqui novamente para os casos quando se fecha o jogo no meio de um nível.
-            DataCenter.instance.AddToOutputLevel(false);
+            DataCenter.instance.SetVenceu(false);
+            DataCenter.instance.AddLevelInfoToDataFile();
             DataCenter.instance.AddLevelToJson();
             DataCenter.instance.Write();
         }

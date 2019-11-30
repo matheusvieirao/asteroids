@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour{
         if(DataCenter.instance.numberOfLevelDeaths == 0) {
             DataCenter.instance.SetTempoInicial(); //grava o tempo inicial do nível
             if (DDAAply.instance.IsAfetivo) {
-                EDAStart.instance.callGetReadBigger(false); //Descarta os sinais eda lidos no questionario (calcularExcitacao=false)
+                //EDAStart.instance.LerEDACalculaExcitacao(false); //Descarta os sinais eda lidos no questionario (calcularExcitacao=false)
             }
         }
     }
