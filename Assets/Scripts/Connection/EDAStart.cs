@@ -23,6 +23,7 @@ public class EDAStart : MonoBehaviour
     public bool calculandoExcitacao = false; //é o importante o default ser false pra nao travar em UIPerguntas2 quando for por desempenho.
     //private double edaUltimoValor;
     //private double edaPenultimoValor;
+    double ruido_anterior = 0; //utilizado para salvar os valores dos ruidos anteriores calculados para se usar o maior ruido achado.
 
     void Awake() {
         if (instance == null) {
@@ -85,6 +86,7 @@ public class EDAStart : MonoBehaviour
                 }
                 Debug.Log(sinais.eda.Count + " sinais lidos");
                 if (calcularExcitacao) {
+                    picos.Clear();
                     CalculaPicos(); //pontos máximos e minimos relativos
                     Debug.Log(picos.Count + " picos achados");
                     if(picos.Count > 1) {
@@ -172,11 +174,15 @@ public class EDAStart : MonoBehaviour
     }
 
     private void CaclulaExcitacao() {
-        double edaInicialMedia = (picos[0].value + picos[1].value + picos[2].value + picos[3].value + picos[4].value + picos[5].value + picos[6].value + picos[7].value) /8;
+        double edaInicialMedia = (picos[0].value + picos[1].value + picos[2].value + picos[3].value) /4;
         int s = picos.Count;
-        double edaFinalMedia = (picos[s-1].value + picos[s-2].value + picos[s-3].value + picos[s-4].value + picos[s-5].value + picos[s-6].value + picos[s-7].value + picos[s-8].value)/8;
+        double edaFinalMedia = (picos[s-1].value + picos[s-2].value + picos[s-3].value + picos[s-4].value)/4;
         picos.Sort((x, y) => x.size.CompareTo(y.size)); //ordena a lista pra encontrar o ruido
         double ruido = picos[(int)(picos.Count / 2)].size; //o ruido é considerado a amplitude mediana entre dois picos
+        //usamos o maior ruido calculado como ruido ja que em alguns niveis onde a excitacao nao variar muito, o ruido fiquei mais baixo do que em niveis mais agitados. e queremos detectar os niveis nao agitados como excitacao NORMAL
+        if (ruido_anterior > ruido) {
+            ruido = ruido_anterior;
+        }
 
         int escala = 2; //quantas vezes uma mudança tem que ter em relação ao ruido para se considerar se o jogador se excitou ou não
 

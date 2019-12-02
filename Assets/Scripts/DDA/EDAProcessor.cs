@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
+//NAO USAMOS MAIS. Era usado no código do Marcos para calcular o nível Tônico
 public class EDAProcessor {
 
     //private int sampleRate = 4;

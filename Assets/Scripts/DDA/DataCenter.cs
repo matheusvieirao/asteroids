@@ -91,7 +91,7 @@ public class DataCenter : MonoBehaviour {
 
     public void Write() {
         string jsonstring = JsonUtility.ToJson(df, true);
-        File.WriteAllText("Output "+nomeCompleto+".txt", jsonstring);
+        File.WriteAllText("Output "+nomeCompleto+".json", jsonstring);
     }
 
     public void SetNomeJogador(string nome_str, string sobrenome_str) {

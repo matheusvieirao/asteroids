@@ -25,6 +25,7 @@ TagManager:
   - GreenPill
   - TimeRemaining
   - LevelController
+  - DexExtZon
   layers:
   - Default
   - TransparentFX
