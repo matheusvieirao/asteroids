@@ -84,6 +84,10 @@ public class EDAStart : MonoBehaviour
                 if (sinais.eda.Count > 0) {
                     ultimo_id_lido = sinais.eda[sinais.eda.Count - 1].id;
                 }
+                else {
+                    ultimo_id_lido = 0; //caso dê clear no banco de dados no meio da partida
+                }
+
                 Debug.Log(sinais.eda.Count + " sinais lidos");
                 if (calcularExcitacao) {
                     picos.Clear();
@@ -92,8 +96,12 @@ public class EDAStart : MonoBehaviour
                     if(picos.Count > 1) {
                         CaclulaExcitacao();
                     }
+                    else if(sinais.eda.Count > 0) {
+                        Debug.Log("Warning: Excitação: NORMAL (picos.Count <= 0");
+                        DDAAply.instance.excitacao = State.PlayerState.NORMAL;
+                    }
                     else {
-                        Debug.Log("Excitação: NULL");
+                        Debug.Log("Warning: Excitação: NULL (sinais.eda.Count <= 0");
                         DDAAply.instance.excitacao = State.PlayerState.NULL;
                     }
                 }
@@ -180,9 +188,10 @@ public class EDAStart : MonoBehaviour
         picos.Sort((x, y) => x.size.CompareTo(y.size)); //ordena a lista pra encontrar o ruido
         double ruido = picos[(int)(picos.Count / 2)].size; //o ruido é considerado a amplitude mediana entre dois picos
         //usamos o maior ruido calculado como ruido ja que em alguns niveis onde a excitacao nao variar muito, o ruido fiquei mais baixo do que em niveis mais agitados. e queremos detectar os niveis nao agitados como excitacao NORMAL
-        if (ruido_anterior > ruido) {
-            ruido = ruido_anterior;
-        }
+        //mas dps descartei essa mudança pq nao expliquei ela no tcc e sei la, pode dar algum erro se algum nivel o ruido for mt alto e dps todo mundo for considerado normal pra sempre.
+        //if (ruido_anterior > ruido) {
+            //ruido = ruido_anterior;
+        //}
 
         int escala = 2; //quantas vezes uma mudança tem que ter em relação ao ruido para se considerar se o jogador se excitou ou não
 
@@ -205,7 +214,10 @@ public class EDAStart : MonoBehaviour
         }
     }
 
-
+    //utilizada porque tava dando bug quando se zerava o banco para sincronizar com o jogo e o id nao atualizava
+    public void zerarId() {
+        ultimo_id_lido = 0;
+    }
 
 
 

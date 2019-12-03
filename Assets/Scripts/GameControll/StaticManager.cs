@@ -28,6 +28,8 @@ public class StaticManager : MonoBehaviour {
         if (Input.GetKey(KeyCode.Q)) {
             if(Input.GetKey(KeyCode.W)) {
                 cameraIcone.SetActive(true);
+                EDAStart.instance.LerEDACalculaExcitacao(false); //Descarta os ultimos sinais lidos
+                EDAStart.instance.zerarId();
             }
             else {
                 cameraIcone.SetActive(false);

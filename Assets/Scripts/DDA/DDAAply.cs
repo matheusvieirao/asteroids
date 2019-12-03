@@ -43,7 +43,7 @@ public class DDAAply : MonoBehaviour {
             AjustaDesempenho();
         }
         else if (IsAfetivo) {
-            CalculaExcitacao();
+            EDAStart.instance.LerEDACalculaExcitacao(true); //le os sinais e os salva em EDAStart.instance.sinais
             //O ajuste de excitacao só é chamado dps de calcular o desempenho, e como ele é concorrente, ela é chamada só após a finalização do calculo
         }
         else {
@@ -205,52 +205,77 @@ public class DDAAply : MonoBehaviour {
             }
         }
         else { //desempenho == NULL
-            Debug.Log("É DSP e PlayerState.desempenho==NULL (1)");
-            asteroidSpeed += 1f;
+            if (zona == PlayerState.LOW) {
+                Debug.Log("des- zonaL");
+                asteroidSpeed += 1.5f;
+            }
+            else if (zona == PlayerState.NORMAL) {
+                Debug.Log("des- zonaN");
+                asteroidSpeed += 1;
+            }
+            else { //(zona == PlayerState.HIGH) 
+                Debug.Log("des- zonaH");
+                asteroidSpeed += 0.5f;
+            }
         }
-    }
-
-    public void CalculaExcitacao() {
-        EDAStart.instance.LerEDACalculaExcitacao(true); //le os sinais e os salva em EDAStart.instance.sinais
     }
 
     public void AjustaExcitacao() {
         if (excitacao == PlayerState.LOW) {
             if (zona == PlayerState.LOW) {
+                Debug.Log("extL zonaL");
                 asteroidSpeed += 1f;
             }
             else if (zona == PlayerState.NORMAL) {
+                Debug.Log("extL zonaN");
                 asteroidSpeed += +0.5f;
             }
             else { //(zona == PlayerState.HIGH) 
+                Debug.Log("extL zonaH");
                 asteroidSpeed += 0;
             }
         }
         else if (excitacao == PlayerState.NORMAL) {
             if (zona == PlayerState.LOW) {
+                Debug.Log("extN zonaL");
                 asteroidSpeed += 1.5f;
             }
             else if (zona == PlayerState.NORMAL) {
+                Debug.Log("extN zonaN");
                 asteroidSpeed += 1;
             }
             else { //(zona == PlayerState.HIGH) 
+                Debug.Log("extN zonaH");
                 asteroidSpeed += 0.5f;
             }
         }
         else if (excitacao == PlayerState.HIGH) {
             if (zona == PlayerState.LOW) {
+                Debug.Log("extH zonaL");
                 asteroidSpeed += 2f;
             }
             else if (zona == PlayerState.NORMAL) {
+                Debug.Log("extH zonaN");
                 asteroidSpeed += 1.5f;
             }
             else { //(zona == PlayerState.HIGH)
+                Debug.Log("extH zonaH");
                 asteroidSpeed += 1f;
             }
         }
-        else {
-            Debug.Log("É AFT e PlayerState.excitacao==NULL (1)");
-            asteroidSpeed += 1f;
+        else { //excitacao == NULL
+            if (zona == PlayerState.LOW) {
+                Debug.Log("ext- zonaL");
+                asteroidSpeed += 1.5f;
+            }
+            else if (zona == PlayerState.NORMAL) {
+                Debug.Log("ext- zonaN");
+                asteroidSpeed += 1;
+            }
+            else { //(zona == PlayerState.HIGH) 
+                Debug.Log("ext- zonaH");
+                asteroidSpeed += 0.5f;
+            }
         }
     }
 

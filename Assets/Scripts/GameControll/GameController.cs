@@ -31,14 +31,72 @@ public class GameController : MonoBehaviour{
 		if(HasPressedExitGame())
             Application.Quit();
         if (shipCollisionStatus.isDead) {
-            TextEnable.SetHiperspaceText("Pressione espaço");
+            SetTextDesExtZon();
+            
             if (Input.GetKeyDown(KeyCode.Space)) {
                 RestartLevel ();
             }
         }
     }
 
-	private bool HasPressedExitGame(){
+    private void SetTextDesExtZon() {
+        DDAAply inst = DDAAply.instance;
+        string desempenho, excitacao, zona;
+
+
+        if (inst.desempenho == State.PlayerState.HIGH) {
+            desempenho = "h";
+        }
+        else if (inst.desempenho == State.PlayerState.NORMAL) {
+            desempenho = "n";
+        }
+        else if (inst.desempenho == State.PlayerState.LOW) {
+            desempenho = "l";
+        }
+        else {
+            desempenho = "-";
+        }
+
+        if (inst.excitacao == State.PlayerState.HIGH) {
+            excitacao = "h";
+        }
+        else if (inst.excitacao == State.PlayerState.NORMAL) {
+            excitacao = "n";
+        }
+        else if (inst.excitacao == State.PlayerState.LOW) {
+            excitacao = "l";
+        }
+        else {
+            excitacao = "-";
+        }
+
+        if (inst.zona == State.PlayerState.HIGH) {
+            zona = "h";
+        }
+        else if (inst.zona == State.PlayerState.NORMAL) {
+            zona = "n";
+        }
+        else if (inst.zona == State.PlayerState.LOW) {
+            zona = "l";
+        }
+        else {
+            zona = "-";
+        }
+        
+        if (inst.IsDesempenho) {
+            string s = "d" + desempenho + "z" + zona;
+            TextEnable.SetHiperspaceText(s);
+            TextEnable.SetHiperspaceText("Pressione Espaço");
+        }
+        else if (inst.IsAfetivo) {
+            string s = "e" + excitacao+ "z" + zona;
+            TextEnable.SetHiperspaceText(s);
+        }
+        
+    }
+
+
+    private bool HasPressedExitGame(){
 		if (Input.GetKeyDown (KeyCode.Escape))
 			return true;
 		return false;
