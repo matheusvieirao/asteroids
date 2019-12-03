@@ -5,8 +5,8 @@ public class CreateAsteroids : MonoBehaviour {
 
     private int AsteroidCount = 1000;
 
-    private float minSize = 1.75f;
-    private float maxSize = 2.00f;
+    private readonly float minSize = 1.75f;
+    private readonly float maxSize = 2.00f;
 
     private float minSpeed = 1f;
     private float maxSpeed = 2f;
@@ -24,6 +24,9 @@ public class CreateAsteroids : MonoBehaviour {
         
         AsteroidCount = 1000;
         minSpeed = DDAAply.instance.getAsteroidSpeed();
+        if(minSpeed < 0f) {
+            minSpeed = 0f;
+        }
         maxSpeed = minSpeed + 1f;
         for (int i = 0; i < AsteroidCount; i++) {
 
