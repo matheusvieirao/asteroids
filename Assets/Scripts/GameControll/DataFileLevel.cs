@@ -8,8 +8,9 @@ using UnityEngine;
 public class DataFileLevel
 {
     public int numeroDeAsteroids;
-    public float velocidadeMinimaDosAsteroids;
-    public float velocidadeMaximaDosAsteroids;
+    public float velocidadeMinimaDosAsteroidsInicial; //vel min dos asteroides ao iniciar o nivel
+    public float velocidadeMinimaDosAsteroids; //vel min dos asteroides ao terminar o nivel
+    public float velocidadeMaximaDosAsteroids; //vel max dos asteroides ao terminar o nivel
     public double tempoInicial = 0; //em ticks
     public double tempoFinal; //em ticks
     public double tempoDuracao; //em segundos

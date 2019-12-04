@@ -20,6 +20,7 @@ public class DataCenter : MonoBehaviour {
     public int numberOfLevelDeaths;
     public double initialLevelTime;
     public double finalLevelTime;
+    public float velocidadeMinimaDosAsteroidsInicial;
     DataFile df;
 
     void Start() {
@@ -82,7 +83,7 @@ public class DataCenter : MonoBehaviour {
         int AsteroidCount = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetAsteroidCount();
         float minSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMinSpeed();
         float maxSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMaxSpeed();
-        df.AddLevelInfoToDataFileLevel (AsteroidCount, minSpeed, maxSpeed);
+        df.AddLevelInfoToDataFileLevel (AsteroidCount, minSpeed, maxSpeed, velocidadeMinimaDosAsteroidsInicial);
     }
 
     public void AddPerguntasToDataFile(string respostaDificuldade, string respostaTedio, string respostaFrustracao, string respostaDiversao, string respostaInputText) {

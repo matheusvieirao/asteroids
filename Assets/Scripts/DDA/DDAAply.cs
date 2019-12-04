@@ -39,8 +39,8 @@ public class DDAAply : MonoBehaviour {
 	public void BalanceAtPassLevel(){
         CalculaZona();
         if (IsDesempenho) {
-            CalculaDesempenho();
-            AjustaDesempenho();
+            CalculaDesempenhoPassLevel();
+            AjustaDesempenhoPassLevel();
         }
         else if (IsAfetivo) {
             EDAStart.instance.LerEDACalculaExcitacao(true); //le os sinais e os salva em EDAStart.instance.sinais
@@ -106,7 +106,7 @@ public class DDAAply : MonoBehaviour {
         }
     }
 
-    public void CalculaDesempenho() {
+    public void CalculaDesempenhoPassLevel() {
         float mortes = (float) DataCenter.instance.numberOfLevelDeaths;
         double duracao = DataCenter.instance.GetDuracao();
 
@@ -128,7 +128,7 @@ public class DDAAply : MonoBehaviour {
         }
     }
 
-    private void AjustaDesempenho() {
+    private void AjustaDesempenhoPassLevel() {
 
         float ajuste_zona = 0f;
         if (zona == PlayerState.LOW) {
@@ -166,7 +166,9 @@ public class DDAAply : MonoBehaviour {
 
     }
 
-    public void AjustaExcitacao() {
+    public void AjustaExcitacaoPassLevel() {
+
+        Debug.Log("ENTROOOOOOOOOOOOOU!!!!!!!!!!!(atualizou excitacao)!!!!!!!!");
 
         float ajuste_zona = 0f;
         if (zona == PlayerState.LOW) {

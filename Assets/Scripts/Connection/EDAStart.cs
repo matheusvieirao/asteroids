@@ -95,6 +95,7 @@ public class EDAStart : MonoBehaviour
                     Debug.Log(picos.Count + " picos achados");
                     if(picos.Count > 1) {
                         CaclulaExcitacao();
+                        DDAAply.instance.AjustaExcitacaoPassLevel();
                     }
                     else if(sinais.eda.Count > 0) {
                         Debug.Log("Warning: Excitação: NORMAL (picos.Count <= 0");
@@ -105,7 +106,6 @@ public class EDAStart : MonoBehaviour
                         DDAAply.instance.excitacao = State.PlayerState.NULL;
                     }
                 }
-                DDAAply.instance.AjustaExcitacao();
             }
         }
         calculandoExcitacao = false;

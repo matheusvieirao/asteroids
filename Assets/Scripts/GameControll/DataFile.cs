@@ -60,7 +60,7 @@ public class DataFile {
 
 
 // tempo inicial e tempo final já foram povoados. mortes, tiros, e teclas (up, down...) também.
-    public void AddLevelInfoToDataFileLevel(int asteroidsCount, float minSpeed, float maxSpeed) {
+    public void AddLevelInfoToDataFileLevel(int asteroidsCount, float minSpeed, float maxSpeed, float velMinIni) {
         CalculaPercentuais();
 
         level_aux.numeroDeAsteroids = asteroidsCount;
@@ -70,6 +70,7 @@ public class DataFile {
         level_aux.tempoPorVida = (float) level_aux.tempoDuracao / (level_aux.mortes.Count() + 1);
         level_aux.totalDeMortes = level_aux.mortes.Count();
         level_aux.totalDeTiros = level_aux.tiros.Count();
+        level_aux.velocidadeMinimaDosAsteroidsInicial = velMinIni;
     }
 
     public void AddPerguntasToDataFileLevel(string dificuldade, string tedio, string frustracao, string diversao, string opiniao) {
