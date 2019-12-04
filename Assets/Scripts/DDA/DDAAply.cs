@@ -20,7 +20,7 @@ public class DDAAply : MonoBehaviour {
 	
     public bool IsAfetivo = false;
     public bool IsDesempenho = false;
-    public bool IsHibrido = false;
+    public bool IsZona = false;
 
     void Awake () {
 		if (instance == null) {
@@ -45,6 +45,9 @@ public class DDAAply : MonoBehaviour {
         else if (IsAfetivo) {
             EDAStart.instance.LerEDACalculaExcitacao(true); //le os sinais e os salva em EDAStart.instance.sinais
             //O ajuste de excitacao só é chamado dps de calcular o desempenho, e como ele é concorrente, ela é chamada só após a finalização do calculo
+        }
+        else if (IsZona) {
+            AjustaZonaPassLevel();
         }
         else {
             Debug.Log("O jogo não está sendo balanceado");
@@ -100,6 +103,9 @@ public class DDAAply : MonoBehaviour {
                 ajuste_ext = -0.25f;
             }
             asteroidSpeed += (ajuste_ext + ajuste_zona);
+        }
+        else if (IsZona) {
+            asteroidSpeed += (ajuste_zona - 0.25f);// -0.25f para considerar que é desempenho ou excitacao normal
         }
         else {
             Debug.Log("O jogo não está sendo balanceado...");
@@ -175,6 +181,29 @@ public class DDAAply : MonoBehaviour {
         NGUIDebug.Log((ajuste_des + ajuste_zona) + "35470" + DataCenter.instance.velMinInicial + "0" + asteroidSpeed);
         asteroidSpeed += (ajuste_des + ajuste_zona);
 
+    }
+
+    private void AjustaZonaPassLevel() {
+        NGUIDebug.Clear();
+        float ajuste_zona = 0f;
+        if (zona == PlayerState.LOW) {
+            Debug.Log("zonaL");
+            NGUIDebug.Log("zl");
+            ajuste_zona = 1.5f;
+        }
+        else if (zona == PlayerState.NORMAL) {
+            Debug.Log("zonaN");
+            NGUIDebug.Log("zn");
+            ajuste_zona = 1f;
+        }
+        else { //(zona == PlayerState.HIGH) 
+            Debug.Log("zonaH");
+            NGUIDebug.Log("zh");
+            ajuste_zona = 0.5f;
+        }
+        
+        NGUIDebug.Log((ajuste_zona) + "35470" + DataCenter.instance.velMinInicial + "0" + asteroidSpeed);
+        asteroidSpeed += (ajuste_zona);
     }
 
     public void AjustaExcitacaoPassLevel() {
@@ -253,7 +282,7 @@ public class DDAAply : MonoBehaviour {
         else if (IsAfetivo) {
             return "Afetivo";
         }
-        else if (IsHibrido) {
+        else if (IsZona) {
             return "Hibrido";
         }
         else {
@@ -267,18 +296,18 @@ public class DDAAply : MonoBehaviour {
             Debug.Log("É Afetivo");
             IsAfetivo = true;
             IsDesempenho = false;
-            IsHibrido = false;
+            IsZona = false;
         }
         else if (sensor == "DSP") {
             Debug.Log("É Desempenho");
             IsAfetivo = false;
             IsDesempenho = true;
-            IsHibrido = false;
+            IsZona = false;
         }
-        else if (sensor == "HIB") {
+        else if (sensor == "ZON") {
             IsAfetivo = false;
             IsDesempenho = false;
-            IsHibrido = true;
+            IsZona = true;
         }
     }
 

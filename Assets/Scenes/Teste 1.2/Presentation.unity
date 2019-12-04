@@ -2134,7 +2134,7 @@ MonoBehaviour:
   Options:
   - DSP
   - AFT
-  - HIB
+  - ZON
 --- !u!4 &1394646792
 Transform:
   m_ObjectHideFlags: 0
@@ -2165,6 +2165,7 @@ MonoBehaviour:
   sinais:
     success: 0
     eda: []
+  calculandoExcitacao: 0
 --- !u!1 &1412720542
 GameObject:
   m_ObjectHideFlags: 0

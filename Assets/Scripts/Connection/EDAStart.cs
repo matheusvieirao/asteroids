@@ -90,15 +90,22 @@ public class EDAStart : MonoBehaviour
                     ultimo_id_lido = 0; //caso dê clear no banco de dados no meio da partida
                 }
 
-                Debug.Log(sinais.eda.Count + " sinais lidos");
-                NGUIDebug.Log(sinais.eda.Count + " sinais lidos");
+                NGUIDebug.Clear();
+                if (calcularExcitacao) {
+                    NGUIDebug.Log(sinais.eda.Count + "lid");
+                    Debug.Log(sinais.eda.Count + " sinais lidos");
+                }
+                else {
+                    NGUIDebug.Log(sinais.eda.Count + "desc");
+                    Debug.Log(sinais.eda.Count + " sinais descartados");
+                }
                 if (calcularExcitacao) {
                     picos.Clear();
                     CalculaPicos(); //pontos máximos e minimos relativos
+                    NGUIDebug.Log(picos.Count + "pic");
                     Debug.Log(picos.Count + " picos achados");
                     if(picos.Count > 1) {
                         CaclulaExcitacao();
-                        DDAAply.instance.AjustaExcitacaoPassLevel();
                     }
                     else if(sinais.eda.Count > 0) {
                         Debug.Log("Warning: Excitação: NORMAL (picos.Count <= 0");
@@ -108,6 +115,7 @@ public class EDAStart : MonoBehaviour
                         Debug.Log("Warning: Excitação: NULL (sinais.eda.Count <= 0");
                         DDAAply.instance.excitacao = State.PlayerState.NULL; //null pq nao temos nenhum sinal
                     }
+                    DDAAply.instance.AjustaExcitacaoPassLevel();
                 }
             }
         }
@@ -209,9 +217,6 @@ public class EDAStart : MonoBehaviour
         Debug.Log("edaInicialMedia: " + edaInicialMedia);
         Debug.Log("edaFinalMedia: " + edaFinalMedia);
         Debug.Log("ruido: " + ruido);
-        NGUIDebug.Log("edaInicialMedia: " + edaInicialMedia);
-        NGUIDebug.Log("edaFinalMedia: " + edaFinalMedia);
-        NGUIDebug.Log("ruido: " + ruido);
         //subiu
         if (edaFinalMedia - edaInicialMedia > escala * ruido) {
             Debug.Log("Excitação: HIGH");

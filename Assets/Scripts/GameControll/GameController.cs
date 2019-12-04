@@ -13,8 +13,10 @@ public class GameController : MonoBehaviour{
 	private ShipCollision shipCollisionStatus;
 
 	public string actualScene;
+    bool flagAuxBugFixGambiarra = true;
 
     void Start () {
+        flagAuxBugFixGambiarra = true;
         TextEnable.Init();
         player = GameObject.FindGameObjectWithTag("Player");
         shipCollisionStatus = player.GetComponent<ShipCollision>();
@@ -32,7 +34,8 @@ public class GameController : MonoBehaviour{
 		if(HasPressedExitGame())
             Application.Quit();
         if (shipCollisionStatus.isDead) {
-            SetTextDesExtZon();
+            if(flagAuxBugFixGambiarra)
+                SetTextDesExtZon();
             
             if (Input.GetKeyDown(KeyCode.Space)) {
                 RestartLevel ();
@@ -85,15 +88,26 @@ public class GameController : MonoBehaviour{
         }
         
         if (inst.IsDesempenho) {
-            string s = "d" + desempenho + "z" + zona;
-            TextEnable.SetHiperspaceText(s);
-            TextEnable.SetHiperspaceText("Pressione Espaço");
+            if (DataCenter.instance.numberOfLevelDeaths == 1) {
+                NGUIDebug.Clear(); //o afetivo ja faz o clear antes
+                NGUIDebug.Log("d" + desempenho + "z" + zona);
+            }
         }
         else if (inst.IsAfetivo) {
-            string s = "e" + excitacao+ "z" + zona;
-            TextEnable.SetHiperspaceText(s);
+            if (DataCenter.instance.numberOfLevelDeaths == 1) {
+                NGUIDebug.Log("e" + excitacao + "z" + zona);
+            }
+        }
+        else if (inst.IsZona) {
+            if (DataCenter.instance.numberOfLevelDeaths == 1) {
+                NGUIDebug.Clear(); //o afetivo ja faz o clear antes
+                NGUIDebug.Log("z" + zona);
+            }
         }
         
+        TextEnable.SetHiperspaceText("Pressione Espaço");
+        flagAuxBugFixGambiarra = false;
+
     }
 
 
