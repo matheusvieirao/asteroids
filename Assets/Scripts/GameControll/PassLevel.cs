@@ -19,8 +19,12 @@ public class PassLevel : MonoBehaviour {
     {
         if (ship.hasWon)
             BalanceAndPassLevel(true);
-        if (Input.GetKeyDown(KeyCode.P)) //pula de nivel
-            BalanceAndPassLevel(false);
+        //hack para pular de nivel
+        if (Input.GetKey(KeyCode.P)) {
+            if (Input.GetKeyDown(KeyCode.O)) {
+                BalanceAndPassLevel(false);
+            }
+        }
     }
 
 	private void BalanceAndPassLevel(bool venceu) {

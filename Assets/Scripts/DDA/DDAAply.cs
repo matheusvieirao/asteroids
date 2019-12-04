@@ -130,77 +130,98 @@ public class DDAAply : MonoBehaviour {
 
     private void AjustaDesempenhoPassLevel() {
 
-        float ajuste_zona = 0f;
-        if (zona == PlayerState.LOW) {
-            Debug.Log("zonaL");
-            ajuste_zona = 1f;
-        }
-        else if (zona == PlayerState.NORMAL) {
-            Debug.Log("zonaN");
-            ajuste_zona = 0.5f;
-        }
-        else { //(zona == PlayerState.HIGH) 
-            Debug.Log("zonaH");
-            ajuste_zona = 0f;
-        }
+        NGUIDebug.Clear();
 
         float ajuste_des = 0f;
         if (desempenho == PlayerState.LOW) {
             Debug.Log("desL");
+            NGUIDebug.Log("dl");
             ajuste_des = 0f;
         }
         else if (desempenho == PlayerState.NORMAL) {
             Debug.Log("desN");
+            NGUIDebug.Log("dn");
             ajuste_des = 0.5f;
         }
         else if (desempenho == PlayerState.HIGH) {
             Debug.Log("desH");
+            NGUIDebug.Log("dh");
             ajuste_des = 1f;
         }
         else { //desempenho == NULL
             Debug.Log("Warning: Desempenho == Null (AjustaDesempenho)");
+            NGUIDebug.Log("d-");
             ajuste_des = 0.5f;
         }
 
+        float ajuste_zona = 0f;
+        if (zona == PlayerState.LOW) {
+            Debug.Log("zonaL");
+            NGUIDebug.Log("zl");
+            ajuste_zona = 1f;
+        }
+        else if (zona == PlayerState.NORMAL) {
+            Debug.Log("zonaN");
+            NGUIDebug.Log("zn");
+            ajuste_zona = 0.5f;
+        }
+        else { //(zona == PlayerState.HIGH) 
+            Debug.Log("zonaH");
+            NGUIDebug.Log("zh");
+            ajuste_zona = 0f;
+        }
+
+        Debug.Log("Ajuste pass nivel: " + (ajuste_des + ajuste_zona) + " vel inicial: " + DataCenter.instance.velMinInicial + " vel final: " + asteroidSpeed);
+        NGUIDebug.Log((ajuste_des + ajuste_zona) + "35470" + DataCenter.instance.velMinInicial + "0" + asteroidSpeed);
         asteroidSpeed += (ajuste_des + ajuste_zona);
 
     }
 
     public void AjustaExcitacaoPassLevel() {
 
-        Debug.Log("ENTROOOOOOOOOOOOOU!!!!!!!!!!!(atualizou excitacao)!!!!!!!!");
-
-        float ajuste_zona = 0f;
-        if (zona == PlayerState.LOW) {
-            Debug.Log("zonaL");
-            ajuste_zona = 1f;
-        }
-        else if (zona == PlayerState.NORMAL) {
-            Debug.Log("zonaN");
-            ajuste_zona = 0.5f;
-        }
-        else { //(zona == PlayerState.HIGH) 
-            Debug.Log("zonaH");
-            ajuste_zona = 0f;
-        }
+        NGUIDebug.Clear();
 
         float ajuste_ext = 0f;
         if (excitacao == PlayerState.HIGH) {
             Debug.Log("extH");
+            NGUIDebug.Log("eh");
             ajuste_ext = 0f;
         }
         else if (excitacao == PlayerState.NORMAL) {
             Debug.Log("extN");
+            NGUIDebug.Log("en");
             ajuste_ext = 0.5f;
         }
         else if (excitacao == PlayerState.LOW) {
             Debug.Log("extL");
+            NGUIDebug.Log("el");
             ajuste_ext = 1f;
         }
         else { //excitacao == NULL
             Debug.Log("Warning: excitacao == Null (AjustaExcitacao)");
+            NGUIDebug.Log("e-");
             ajuste_ext = 0.5f;
         }
+
+        float ajuste_zona = 0f;
+        if (zona == PlayerState.LOW) {
+            Debug.Log("zonaL");
+            NGUIDebug.Log("zl");
+            ajuste_zona = 1f;
+        }
+        else if (zona == PlayerState.NORMAL) {
+            Debug.Log("zonaN");
+            NGUIDebug.Log("zn");
+            ajuste_zona = 0.5f;
+        }
+        else { //(zona == PlayerState.HIGH) 
+            Debug.Log("zonaH");
+            NGUIDebug.Log("zh");
+            ajuste_zona = 0f;
+        }
+
+        Debug.Log("Ajuste pass nivel: " + (ajuste_ext + ajuste_zona) + " vel inicial: " + DataCenter.instance.velMinInicial + " vel final: " + asteroidSpeed);
+        NGUIDebug.Log((ajuste_ext+ajuste_zona) + "35470"+DataCenter.instance.velMinInicial+"0"+ asteroidSpeed);
 
         asteroidSpeed += (ajuste_ext + ajuste_zona);
 

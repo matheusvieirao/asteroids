@@ -111,7 +111,20 @@ public class UIPerguntas2 : MonoBehaviour
             {
                 grupoDiversao.transform.Find("Seta").GetComponent<Image>().enabled = false;
             }
-        }    
+        }
+
+        //hack pra pular o questionario
+        if (Input.GetKey(KeyCode.P)){
+            if (Input.GetKeyDown(KeyCode.O)) {
+                DataCenter.instance.AddPerguntasToDataFile(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
+                DataCenter.instance.AddLevelToJson();
+                if (DataCenter.instance.GetCurrentLevel() == 10) {
+                    gameObject.GetComponent<ProximaCena>().nextScene = "Fim do Jogo";
+                }
+                DataCenter.instance.AddLevel();
+                gameObject.GetComponent<ProximaCena>().passLevel();
+            }
+        }
     }
 
     public void SubmitAnswer()

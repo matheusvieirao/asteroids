@@ -74,10 +74,12 @@ public class EDAStart : MonoBehaviour
             yield return www.SendWebRequest();
 
             if ((www.isNetworkError || www.isHttpError)) {
+                NGUIDebug.Log("Erro de conecção");
                 Debug.Log("Erro de conecção");
                 Debug.Log(www.error);
             }
             else {
+
                 string jsonString = www.downloadHandler.text;
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
                 sinais = JsonUtility.FromJson<EDASignals>(jsonString);
@@ -89,6 +91,7 @@ public class EDAStart : MonoBehaviour
                 }
 
                 Debug.Log(sinais.eda.Count + " sinais lidos");
+                NGUIDebug.Log(sinais.eda.Count + " sinais lidos");
                 if (calcularExcitacao) {
                     picos.Clear();
                     CalculaPicos(); //pontos máximos e minimos relativos
@@ -99,11 +102,11 @@ public class EDAStart : MonoBehaviour
                     }
                     else if(sinais.eda.Count > 0) {
                         Debug.Log("Warning: Excitação: NORMAL (picos.Count <= 0");
-                        DDAAply.instance.excitacao = State.PlayerState.NORMAL;
+                        DDAAply.instance.excitacao = State.PlayerState.NORMAL; //normal pq temos poucos sinais, entao pouca variacao
                     }
                     else {
                         Debug.Log("Warning: Excitação: NULL (sinais.eda.Count <= 0");
-                        DDAAply.instance.excitacao = State.PlayerState.NULL;
+                        DDAAply.instance.excitacao = State.PlayerState.NULL; //null pq nao temos nenhum sinal
                     }
                 }
             }
@@ -182,9 +185,17 @@ public class EDAStart : MonoBehaviour
     }
 
     private void CaclulaExcitacao() {
-        double edaInicialMedia = (picos[0].value + picos[1].value + picos[2].value + picos[3].value) /4;
+        double edaInicialMedia;
+        double edaFinalMedia;
         int s = picos.Count;
-        double edaFinalMedia = (picos[s-1].value + picos[s-2].value + picos[s-3].value + picos[s-4].value)/4;
+        if (s > 3) {
+            edaInicialMedia = (picos[0].value + picos[1].value + picos[2].value + picos[3].value) /4;
+            edaFinalMedia = (picos[s-1].value + picos[s-2].value + picos[s-3].value + picos[s-4].value)/4;
+        }
+        else {
+            edaInicialMedia = picos[0].value;
+            edaFinalMedia = picos[s - 1].value;
+        }
         picos.Sort((x, y) => x.size.CompareTo(y.size)); //ordena a lista pra encontrar o ruido
         double ruido = picos[(int)(picos.Count / 2)].size; //o ruido é considerado a amplitude mediana entre dois picos
         //usamos o maior ruido calculado como ruido ja que em alguns niveis onde a excitacao nao variar muito, o ruido fiquei mais baixo do que em niveis mais agitados. e queremos detectar os niveis nao agitados como excitacao NORMAL
@@ -198,6 +209,9 @@ public class EDAStart : MonoBehaviour
         Debug.Log("edaInicialMedia: " + edaInicialMedia);
         Debug.Log("edaFinalMedia: " + edaFinalMedia);
         Debug.Log("ruido: " + ruido);
+        NGUIDebug.Log("edaInicialMedia: " + edaInicialMedia);
+        NGUIDebug.Log("edaFinalMedia: " + edaFinalMedia);
+        NGUIDebug.Log("ruido: " + ruido);
         //subiu
         if (edaFinalMedia - edaInicialMedia > escala * ruido) {
             Debug.Log("Excitação: HIGH");

@@ -28,7 +28,6 @@ public class CreateAsteroids : MonoBehaviour {
             minSpeed = 0f;
         }
         maxSpeed = minSpeed + 1f;
-        DataCenter.instance.velocidadeMinimaDosAsteroidsInicial = minSpeed;
         for (int i = 0; i < AsteroidCount; i++) {
 
             GameObject asteroid = (GameObject)Instantiate(asteroidPrefab, StartPosition(), Quaternion.Euler(0, 0, 0));

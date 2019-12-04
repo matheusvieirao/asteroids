@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour{
         player = GameObject.FindGameObjectWithTag("Player");
         shipCollisionStatus = player.GetComponent<ShipCollision>();
         if(DataCenter.instance.numberOfLevelDeaths == 0) {
+            DataCenter.instance.velMinInicial = DDAAply.instance.asteroidSpeed; //grava a velocidade inicial do nivel
             DataCenter.instance.SetTempoInicial(); //grava o tempo inicial do nível
             if (DDAAply.instance.IsAfetivo) {
                 EDAStart.instance.LerEDACalculaExcitacao(false); //Descarta os sinais eda lidos no questionario (calcularExcitacao=false)
